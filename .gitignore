@@ -1,0 +1,10 @@
+wp-config.php
+error_log
+
+plugins/woocommerce/*
+plugins/wp-mvc/*
+
+themes/twentyseventeen/*
+
+uploads/*
+upgrade/*

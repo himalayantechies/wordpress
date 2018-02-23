@@ -1,0 +1,46 @@
+
+.file-upload {
+	position: relative;
+	display:block;	
+	width:150px;
+	height:150px;
+	border-radius: 3px;
+	background-color:rgba(0,0,0,0.3);
+	font-size: 14px;
+	color:white;
+	text-align: center; 
+	line-height: 150px;
+
+}
+
+.file-upload input {
+	opacity: 0;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	display: block;
+	cursor: pointer;
+}
+
+.file-preview img{
+	width:100%;
+	height: auto;
+}
+
+.file-preview .ibenic_file_preview {
+	position: absolute;
+	width:100%;
+	height:100%;
+	overflow: hidden;
+}
+
+.ibenic_file_delete {
+	position: absolute;
+	width: 100%;
+	top:98%;
+	left:0;
+	padding:0.5em;
+	text-align: center;
+	color:white;
+	background-color:red;
+}
