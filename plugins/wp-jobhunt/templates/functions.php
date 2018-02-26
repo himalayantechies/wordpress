@@ -2395,11 +2395,12 @@ if ( ! function_exists('cs_get_img_url') ) {
         $ret_name = '';
         $cs_img_sizes = array(
             'cs_media_1' => '-870x489',
-            'cs_media_2' => '-270x203',
+            'cs_media_2' => '-240x203',
             'cs_media_3' => '-236x168',
             'cs_media_4' => '-200x200',
             'cs_media_5' => '-180x135',
             'cs_media_6' => '-150x113',
+			'cs_media_8' => '-270x203',
         );
         if ( $return_sizes == true ) {
             return $cs_img_sizes;
@@ -2410,7 +2411,7 @@ if ( ! function_exists('cs_get_img_url') ) {
         }
         $cs_upload_dir = wp_upload_dir();
         $cs_upload_sub_dir = '';
-        if ( (strpos($img_name, $cs_img_sizes['cs_media_1']) !== false) || (strpos($img_name, $cs_img_sizes['cs_media_2']) !== false) || (strpos($img_name, $cs_img_sizes['cs_media_3']) !== false) || (strpos($img_name, $cs_img_sizes['cs_media_4']) !== false) || (strpos($img_name, $cs_img_sizes['cs_media_5']) !== false) || (strpos($img_name, $cs_img_sizes['cs_media_6']) !== false) ) {
+        if ( (strpos($img_name, $cs_img_sizes['cs_media_1']) !== false) || (strpos($img_name, $cs_img_sizes['cs_media_2']) !== false) || (strpos($img_name, $cs_img_sizes['cs_media_3']) !== false) || (strpos($img_name, $cs_img_sizes['cs_media_4']) !== false) || (strpos($img_name, $cs_img_sizes['cs_media_5']) !== false) || (strpos($img_name, $cs_img_sizes['cs_media_6']) !== false) || (strpos($img_name, $cs_img_sizes['cs_media_8']) !== false) ) {
             if ( strpos($img_name, $cs_img_sizes['cs_media_1']) !== false ) {
                 $img_ext = substr($img_name, ( strpos($img_name, $cs_img_sizes['cs_media_1']) + strlen($cs_img_sizes['cs_media_1'])), strlen($img_name));
                 $ret_name = substr($img_name, 0, strpos($img_name, $cs_img_sizes['cs_media_1']));
@@ -2429,6 +2430,9 @@ if ( ! function_exists('cs_get_img_url') ) {
             } elseif ( strpos($img_name, $cs_img_sizes['cs_media_6']) !== false ) {
                 $img_ext = substr($img_name, ( strpos($img_name, $cs_img_sizes['cs_media_6']) + strlen($cs_img_sizes['cs_media_6'])), strlen($img_name));
                 $ret_name = substr($img_name, 0, strpos($img_name, $cs_img_sizes['cs_media_6']));
+            } elseif ( strpos($img_name, $cs_img_sizes['cs_media_8']) !== false ) {
+                $img_ext = substr($img_name, ( strpos($img_name, $cs_img_sizes['cs_media_8']) + strlen($cs_img_sizes['cs_media_8'])), strlen($img_name));
+                $ret_name = substr($img_name, 0, strpos($img_name, $cs_img_sizes['cs_media_8']));
             }
             $cs_upload_dir = isset($cs_upload_dir['url']) ? $cs_upload_dir['url'] . '/' : '';
             $cs_upload_dir = $cs_upload_dir . $cs_upload_sub_dir;
@@ -2462,13 +2466,14 @@ if ( ! function_exists('cs_get_orignal_image_nam') ) {
         $ret_name = '';
         $cs_img_sizes = array(
             'cs_media_1' => '-870x489',
-            'cs_media_2' => '-270x203',
+            'cs_media_2' => '-240x203',
             'cs_media_3' => '-236x168',
             'cs_media_4' => '-200x200',
             'cs_media_5' => '-180x135',
             'cs_media_6' => '-150x113',
+			'cs_media_8' => '-270x203',
         );
-        if ( (strpos($img_name, $cs_img_sizes['cs_media_1']) !== false) || (strpos($img_name, $cs_img_sizes['cs_media_2']) !== false) || (strpos($img_name, $cs_img_sizes['cs_media_3']) !== false) || (strpos($img_name, $cs_img_sizes['cs_media_4']) !== false) || (strpos($img_name, $cs_img_sizes['cs_media_5']) !== false) || (strpos($img_name, $cs_img_sizes['cs_media_6']) !== false) ) {
+        if ( (strpos($img_name, $cs_img_sizes['cs_media_1']) !== false) || (strpos($img_name, $cs_img_sizes['cs_media_2']) !== false) || (strpos($img_name, $cs_img_sizes['cs_media_3']) !== false) || (strpos($img_name, $cs_img_sizes['cs_media_4']) !== false) || (strpos($img_name, $cs_img_sizes['cs_media_5']) !== false) || (strpos($img_name, $cs_img_sizes['cs_media_6']) !== false) || (strpos($img_name, $cs_img_sizes['cs_media_8']) !== false) ) {
             if ( strpos($img_name, $cs_img_sizes['cs_media_1']) !== false ) {
                 $img_ext = substr($img_name, ( strpos($img_name, $cs_img_sizes['cs_media_1']) + strlen($cs_img_sizes['cs_media_1'])), strlen($img_name));
                 $ret_name = substr($img_name, 0, strpos($img_name, $cs_img_sizes['cs_media_1']));
@@ -2487,6 +2492,9 @@ if ( ! function_exists('cs_get_orignal_image_nam') ) {
             } elseif ( strpos($img_name, $cs_img_sizes['cs_media_6']) !== false ) {
                 $img_ext = substr($img_name, ( strpos($img_name, $cs_img_sizes['cs_media_6']) + strlen($cs_img_sizes['cs_media_6'])), strlen($img_name));
                 $ret_name = substr($img_name, 0, strpos($img_name, $cs_img_sizes['cs_media_6']));
+            } elseif ( strpos($img_name, $cs_img_sizes['cs_media_8']) !== false ) {
+                $img_ext = substr($img_name, ( strpos($img_name, $cs_img_sizes['cs_media_8']) + strlen($cs_img_sizes['cs_media_8'])), strlen($img_name));
+                $ret_name = substr($img_name, 0, strpos($img_name, $cs_img_sizes['cs_media_8']));
             }
             $cs_upload_dir = isset($cs_upload_dir['url']) ? $cs_upload_dir['url'] . '/' : '';
             if ( $ret_name != '' ) {
@@ -2515,11 +2523,12 @@ if ( ! function_exists('cs_get_image_url') ) {
         $ret_name = '';
         $cs_img_sizes = array(
             'cs_media_1' => '-870x489',
-            'cs_media_2' => '-270x203',
+            'cs_media_2' => '-240x203',
             'cs_media_3' => '-236x168',
             'cs_media_4' => '-200x200',
             'cs_media_5' => '-180x135',
             'cs_media_6' => '-150x113',
+			'cs_media_8' => '-270x203',
         );
         if ( $return_sizes == true ) {
             return $cs_img_sizes;
@@ -2527,7 +2536,7 @@ if ( ! function_exists('cs_get_image_url') ) {
         add_filter('upload_dir', 'cs_user_images_custom_directory');
         $cs_upload_dir = wp_upload_dir();
         $cs_upload_sub_dir = '';
-        if ( (strpos($img_name, $cs_img_sizes['cs_media_1']) !== false) || (strpos($img_name, $cs_img_sizes['cs_media_2']) !== false) || (strpos($img_name, $cs_img_sizes['cs_media_3']) !== false) || (strpos($img_name, $cs_img_sizes['cs_media_4']) !== false) || (strpos($img_name, $cs_img_sizes['cs_media_5']) !== false) || (strpos($img_name, $cs_img_sizes['cs_media_6']) !== false) ) {
+        if ( (strpos($img_name, $cs_img_sizes['cs_media_1']) !== false) || (strpos($img_name, $cs_img_sizes['cs_media_2']) !== false) || (strpos($img_name, $cs_img_sizes['cs_media_3']) !== false) || (strpos($img_name, $cs_img_sizes['cs_media_4']) !== false) || (strpos($img_name, $cs_img_sizes['cs_media_5']) !== false) || (strpos($img_name, $cs_img_sizes['cs_media_6']) !== false) || (strpos($img_name, $cs_img_sizes['cs_media_8']) !== false) ) {
             if ( strpos($img_name, $cs_img_sizes['cs_media_1']) !== false ) {
                 $img_ext = substr($img_name, ( strpos($img_name, $cs_img_sizes['cs_media_1']) + strlen($cs_img_sizes['cs_media_1'])), strlen($img_name));
                 $ret_name = substr($img_name, 0, strpos($img_name, $cs_img_sizes['cs_media_1']));
@@ -2546,6 +2555,9 @@ if ( ! function_exists('cs_get_image_url') ) {
             } elseif ( strpos($img_name, $cs_img_sizes['cs_media_6']) !== false ) {
                 $img_ext = substr($img_name, ( strpos($img_name, $cs_img_sizes['cs_media_6']) + strlen($cs_img_sizes['cs_media_6'])), strlen($img_name));
                 $ret_name = substr($img_name, 0, strpos($img_name, $cs_img_sizes['cs_media_6']));
+            } elseif ( strpos($img_name, $cs_img_sizes['cs_media_8']) !== false ) {
+                $img_ext = substr($img_name, ( strpos($img_name, $cs_img_sizes['cs_media_8']) + strlen($cs_img_sizes['cs_media_8'])), strlen($img_name));
+                $ret_name = substr($img_name, 0, strpos($img_name, $cs_img_sizes['cs_media_8']));
             }
             $cs_upload_dir = isset($cs_upload_dir['url']) ? $cs_upload_dir['url'] . '/' : '';
             $cs_upload_dir = $cs_upload_dir . $cs_upload_sub_dir;
@@ -3515,7 +3527,7 @@ add_image_size('cs_media_1', 870, 489, true);
 
 /* Thumb size On Related Blogs On Detail, blogs on listing, Candidate Detail Portfolio */
 
-add_image_size('cs_media_2', 270, 203, true);
+add_image_size('cs_media_2', 240, 203, true);
 
 /* Thumb size On Blogs On slider, blogs on listing, Candidate Detail Portfolio */
 
@@ -3532,6 +3544,8 @@ add_image_size('cs_media_5', 180, 135, true);
 add_image_size('cs_media_6', 150, 113, true);
 
 add_image_size('cs_media_7', 120, 90, true);
+
+add_image_size('cs_media_8', 270, 203, true);
 
 
 
