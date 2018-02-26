@@ -123,12 +123,6 @@ $count_post = $found_posts;
                     ?>
                     <li class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                         <div class="jobs-content">
-						 <?php if ( $cs_jobs_thumb_url <> '' ) { ?>
-                                <div class="cs-media">
-                                    <figure><a href="<?php echo esc_url(get_permalink($cs_job_id)); ?>"><img alt="images" src="<?php echo esc_url($cs_jobs_thumb_url); ?>"></a></figure>
-				     <?php } if ( isset($cs_job_featured) and $cs_job_featured == 'yes' || $cs_job_featured == 'on' ) { ?>
-                                            <span title="" data-placement="top" data-toggle="tooltip" class="feature-post" data-original-title="<?php esc_html_e('Featured', 'jobhunt') ?>"><i class=" icon-star-o"></i></span><?php } ?>
-                                </div>
                             <div class="cs-text">
                                 <div class="cs-post-title"><h3><a href="<?php echo esc_url(get_permalink($cs_job_id)); ?>"> <?php echo esc_html(get_the_title($cs_job_id)); ?></a></h3></div>
                                 <?php if ( $cs_jobs_address <> '' || $cs_job_posted <> '' ) { ?>
@@ -145,7 +139,12 @@ $count_post = $found_posts;
                                 <?php } ?>
                                 <?php echo force_balance_tags($job_type_values) ?>
                             </div>
-                           
+                            <?php if ( $cs_jobs_thumb_url <> '' ) { ?>
+                                <div class="cs-media">
+                                    <figure><a href="<?php echo esc_url(get_permalink($cs_job_id)); ?>"><img alt="images" src="<?php echo esc_url($cs_jobs_thumb_url); ?>"></a></figure>
+				     <?php } if ( isset($cs_job_featured) and $cs_job_featured == 'yes' || $cs_job_featured == 'on' ) { ?>
+                                            <span title="" data-placement="top" data-toggle="tooltip" class="feature-post" data-original-title="<?php esc_html_e('Featured', 'jobhunt') ?>"><i class=" icon-star-o"></i></span><?php } ?>
+                                </div>
                            
                         </div>
                     </li>

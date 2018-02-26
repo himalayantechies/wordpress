@@ -1,4 +1,4 @@
-/*----- Typography and Reset CSS ----------*/
+﻿/*----- Typography and Reset CSS ----------*/
 * { margin: 0px; outline: none; padding: 0px; }
 html { font-size: inherit; }
 body.wp-jobhunt { background: #fff; color: #555; font-size: 14px; letter-spacing: normal; line-height: 22px; min-width: 320px; overflow-x: hidden; word-spacing: 0px; }
@@ -811,7 +811,7 @@ ul li.icon_with_bg { margin: 0 0 10px; }
 .wp-jobhunt .cs-section-title h2 { color: #424242; font: 700 20px/28px "Raleway", sans-serif; letter-spacing: 1px; margin: 0px; text-transform: capitalize; }
 .wp-jobhunt .jobs-listing { display: block; margin: 0 0 0; padding: 0px; }
 .wp-jobhunt .jobs-listing.fancy li { margin: 0 -4px 30px 0; padding: 0 15px; }
-.wp-jobhunt .jobs-listing li { display: inline-block; /*float: none;*/ list-style: none; margin-left: 0; margin-right: -4px; padding: 0px 15px; position: relative; vertical-align: top; }
+.wp-jobhunt .jobs-listing li { display: inline-block; float: none; list-style: none; margin-left: 0; margin-right: -4px; padding: 0px 15px; position: relative; vertical-align: top; }
 .wp-jobhunt .jobs-listing.grid li .jobs-content { background-color: #fff; border: 1px solid #f2f2f2 !important; margin-bottom: 30px; padding: 0; position: relative; }
 .wp-jobhunt .jobs-listing.grid li { padding: 0 15px; }
 .wp-jobhunt .jobs-listing.grid li:first-child .jobs-content { margin-top: 0; }
@@ -3360,13 +3360,13 @@ section#skills { margin-bottom: 50px; }
 /*Top Featured End*/
 /* Joblist Fancy Start */
 .wp-jobhunt .custom-styling-list .jobs-listing.joblist-fancy { border: 1px solid #e2e2e2; display: inline-block; width: 100%; border-radius: 3px; margin: 0 0 15px 0; }
-.wp-jobhunt .custom-styling-list .jobs-listing.joblist-fancy > li { line-height: normal; display: block; border: 1px solid #e2e2e2; padding: 10px 18px 10px 22px; }
+.wp-jobhunt .custom-styling-list .jobs-listing.joblist-fancy > li { line-height: normal; display: block; border-bottom: 1px solid #e2e2e2; padding: 10px 18px 10px 22px; }
 .wp-jobhunt .custom-styling-list .jobs-listing.joblist-fancy > li:last-child { border: 0; }
 .wp-jobhunt .custom-styling-list .jobs-listing.joblist-fancy li:after { clear: both; content: ''; display: block; }
 .wp-jobhunt .custom-styling-list .jobs-listing.joblist-fancy .cs-media { position: relative; display: inline-block; width: 62px; margin: 0 30px 0 0; vertical-align: middle; float: none; }
 .wp-jobhunt .custom-styling-list .jobs-listing.joblist-fancy .cs-media .feature-post {position: absolute;top: -2px;left: -2px;color: #fff;width: 20px;height: 20px;text-align: center;line-height: 20px;border-radius: 100%;}
 .wp-jobhunt .custom-styling-list .jobs-listing.joblist-fancy .cs-text { display: inline-block; vertical-align: middle; min-width: 320px; padding: 9px 0; width: 55%; }
-.wp-jobhunt .col-lg-12 .col-lg-12 .jobs-listing.joblist-fancy .cs-text { padding: 9px 0; width: 50%; height:80px; }
+.wp-jobhunt .col-lg-12 .col-lg-12 .jobs-listing.joblist-fancy .cs-text { padding: 9px 0; width: 50%; }
 .wp-jobhunt .custom-styling-list .jobs-listing.joblist-fancy .cs-post-title { margin: 0 0 5px; }
 .wp-jobhunt .custom-styling-list .jobs-listing.joblist-fancy .cs-post-title h5 { color: #58585a; text-transform: capitalize; margin: 0 !important; }
 .wp-jobhunt .custom-styling-list .jobs-listing.joblist-fancy .cs-post-title h5 a { text-decoration: none; display: block; outline: none; border: 0; color: #58585a; text-transform: capitalize; letter-spacing: 0px; font: 400 14px/20px "Varela Round", sans-serif!important; }
@@ -3379,9 +3379,9 @@ section#skills { margin-bottom: 50px; }
 .wp-jobhunt .custom-styling-list .jobs-listing.joblist-fancy .post-options li span { text-decoration: none; outline: none; border: 0; font-size: 12px; text-transform: capitalize; }
 .wp-jobhunt .custom-styling-list .jobs-listing.joblist-fancy .cs-location { color: #58585a; margin: 0 50px 0 0; vertical-align: middle; }
 .wp-jobhunt .custom-styling-list .jobs-listing.joblist-fancy .cs-location i { font-size: 16px; vertical-align: middle; color: #96a2b2; margin: 0; }
-.wp-jobhunt .custom-styling-list .jobs-listing.joblist-fancy .jobs-type { margin: 0 31px 0 0; display: none;/*inline-block;*/ }
+.wp-jobhunt .custom-styling-list .jobs-listing.joblist-fancy .jobs-type { margin: 0 31px 0 0; display: inline-block; }
 .wp-jobhunt .custom-styling-list .jobs-listing.joblist-fancy .jobs-type a { color: #424242; font: 400 14px/20px "Varela Round", sans-serif; text-transform: unset; }
-.wp-jobhunt .custom-styling-list .jobs-listing.joblist-fancy .jobtype-btn { display:none!important; border: 1px solid; border-radius: 2px; font-size: 12px; letter-spacing: 1px; margin: -18px 0 0 !important; outline: none; padding: 8px 14px; right: 25px; text-decoration: none; text-transform: capitalize; }
+.wp-jobhunt .custom-styling-list .jobs-listing.joblist-fancy .jobtype-btn { border: 1px solid; border-radius: 2px; font-size: 12px; letter-spacing: 1px; margin: -18px 0 0 !important; outline: none; padding: 8px 14px; right: 25px; text-decoration: none; text-transform: capitalize; }
 .wp-jobhunt .custom-styling-list .jobs-listing-holder { margin: 0 0 50px; }
 .wp-jobhunt .custom-styling-list .jobs-listing.joblist-fancy li .jobs-content { background: none; border-top: 0; }
 /* Joblist Fancy End */

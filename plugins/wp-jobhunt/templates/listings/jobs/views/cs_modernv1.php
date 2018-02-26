@@ -128,7 +128,7 @@ $count_post = $found_posts;
                             }
                             $cs_jobs_address = apply_filters( 'jobhunt_job_address_frontend', $cs_jobs_address, $cs_job_id);
                             ?>
-                            <li class="col-lg-3 col-md-3 col-xs-12 col-xs-12"> 
+                            <li class="col-lg-12 col-md-12 col-xs-12 col-xs-12"> 
                                 <div class="jobs-content">
                                     <div class="cs-media">
                                         <?php if ( $cs_jobs_thumb_url <> '' ) { ?>
