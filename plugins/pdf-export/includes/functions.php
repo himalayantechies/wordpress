@@ -19,7 +19,16 @@ function button_action() {
 		if (! empty ( $_POST ['company'] )) 	 $port = $_POST ['company'];
 		if (! empty ( $_POST ['specialities'] )) $speciality = $_POST ['specialities'];
 	}
+	
+	/* only download when logged in -- #17457
 	if (is_user_logged_in () && !empty ($_POST) && ( $_POST ['action'] == 'Download' || $_POST ['action'] == 'Download All' ) ){
+		export_pdf ( $country, $port, $company, $speciality );
+
+	} elseif (!empty ($_POST) && ($_POST ['action'] == 'Download' || $_POST ['action'] == 'Save' || $_POST ['action'] == 'Download All') && !is_user_logged_in ()) {
+		auth_redirect ();
+	}
+	*/
+	if (!empty ($_POST) && ( $_POST ['action'] == 'Download' || $_POST ['action'] == 'Download All' ) ){
 		export_pdf ( $country, $port, $company, $speciality );
 
 	} elseif (!empty ($_POST) && ($_POST ['action'] == 'Download' || $_POST ['action'] == 'Save' || $_POST ['action'] == 'Download All') && !is_user_logged_in ()) {
