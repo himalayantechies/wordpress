@@ -1,0 +1,61 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-02-03 10:12+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: \n"
+"Language: \n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco https://localise.biz/"
+
+#: jobhunt-apply-with-facebook.php:66
+msgid ""
+"<em><b>Job Hunt Apply With Facebook</b></em> needs the <b>Application ID</b> "
+"& <b>Secret Key</b>. Please provide in Jobhunt plugin settings->API Settings."
+msgstr ""
+
+#: jobhunt-apply-with-facebook.php:90
+msgid "Apply with Facebook"
+msgstr ""
+
+#: jobhunt-apply-with-facebook.php:100
+msgid "Yes"
+msgstr ""
+
+#: jobhunt-apply-with-facebook.php:100
+msgid "No"
+msgstr ""
+
+#: jobhunt-apply-with-facebook.php:103 jobhunt-apply-with-facebook.php:112
+#: jobhunt-apply-with-facebook.php:118 jobhunt-apply-with-facebook.php:128
+msgid "Apply With Facebook"
+msgstr ""
+
+#: jobhunt-apply-with-facebook.php:120
+msgid ""
+"If this switch is set ON User can apply using facebook. If it will be OFF, "
+"User will not be able to apply using facebook."
+msgstr ""
+
+#. Name of the plugin
+msgid "JobHunt Apply With Facebook"
+msgstr ""
+
+#. Description of the plugin
+msgid "Job Hunt Apply With Facebook Add on"
+msgstr ""
+
+#. URI of the plugin
+#. Author URI of the plugin
+msgid "http://themeforest.net/user/Chimpstudio/"
+msgstr ""
+
+#. Author of the plugin
+msgid "ChimpStudio"
+msgstr ""

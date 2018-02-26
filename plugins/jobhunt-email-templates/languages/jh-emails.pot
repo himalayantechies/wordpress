@@ -1,0 +1,206 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-02-03 10:59+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: \n"
+"Language: \n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco - https://localise.biz/"
+
+#: includes/class-templates-post-type.php:71
+msgid "Help"
+msgstr ""
+
+#: includes/class-templates-post-type.php:140
+msgctxt "post type general name"
+msgid "Email Templates"
+msgstr ""
+
+#: includes/class-templates-post-type.php:141
+msgctxt "post type singular name"
+msgid "Email Templates"
+msgstr ""
+
+#: includes/class-templates-post-type.php:142
+msgctxt "admin menu"
+msgid "Email Templates"
+msgstr ""
+
+#: includes/class-templates-post-type.php:143
+msgctxt "add new on admin bar"
+msgid "Email Templates"
+msgstr ""
+
+#: includes/class-templates-post-type.php:144
+msgctxt "book"
+msgid "Add New"
+msgstr ""
+
+#: includes/class-templates-post-type.php:145
+msgid "Add New Email Template"
+msgstr ""
+
+#: includes/class-templates-post-type.php:146
+msgid "New Email Template"
+msgstr ""
+
+#: includes/class-templates-post-type.php:147
+msgid "Edit Email Template"
+msgstr ""
+
+#: includes/class-templates-post-type.php:148
+msgid "View Email Template"
+msgstr ""
+
+#: includes/class-templates-post-type.php:149
+msgid "Search Email Templates"
+msgstr ""
+
+#: includes/class-templates-post-type.php:150
+msgid "Parent Job Emails:"
+msgstr ""
+
+#: includes/class-templates-post-type.php:151
+msgid "No Email Template found."
+msgstr ""
+
+#: includes/class-templates-post-type.php:152
+msgid "No Email Templates found in Trash."
+msgstr ""
+
+#: includes/class-templates-post-type.php:157
+msgid "This allows user to manage job email templates."
+msgstr ""
+
+#: includes/class-templates-post-type.php:182
+msgctxt "Email Template Group"
+msgid "Email Template Groups"
+msgstr ""
+
+#: includes/class-templates-post-type.php:183
+msgctxt "Email Template Group"
+msgid "Email Template Group"
+msgstr ""
+
+#: includes/class-templates-post-type.php:184
+msgid "Search Email Template Groups"
+msgstr ""
+
+#: includes/class-templates-post-type.php:185
+msgid "All Email Template Group"
+msgstr ""
+
+#: includes/class-templates-post-type.php:186
+msgid "Parent Email Template Group"
+msgstr ""
+
+#: includes/class-templates-post-type.php:187
+msgid "Parent Email Template Group:"
+msgstr ""
+
+#: includes/class-templates-post-type.php:188
+msgid "Edit Email Template Group"
+msgstr ""
+
+#: includes/class-templates-post-type.php:189
+msgid "Update Email Template Group"
+msgstr ""
+
+#: includes/class-templates-post-type.php:190
+msgid "Add New Email Template Group"
+msgstr ""
+
+#: includes/class-templates-post-type.php:191
+msgid "New Email Template Group Name"
+msgstr ""
+
+#: includes/class-templates-post-type.php:192
+msgid "Email Template Group"
+msgstr ""
+
+#: includes/class-templates-post-type.php:213
+#: includes/class-templates-post-type.php:327
+msgid "Template Variables"
+msgstr ""
+
+#: includes/class-templates-post-type.php:214
+msgid "Email Template Options"
+msgstr ""
+
+#: includes/class-templates-post-type.php:237
+msgid "Email Template Type"
+msgstr ""
+
+#: includes/class-templates-post-type.php:253
+msgid "Subject"
+msgstr ""
+
+#: includes/class-templates-post-type.php:256
+msgid "You can configure sender email from plugin settings under SMTP settings"
+msgstr ""
+
+#: includes/class-templates-post-type.php:256
+msgid "From"
+msgstr ""
+
+#: includes/class-templates-post-type.php:260
+msgid "Recipients"
+msgstr ""
+
+#: includes/class-templates-post-type.php:328
+msgid "Click variables to add them in Template"
+msgstr ""
+
+#: includes/class-templates-post-type.php:373
+msgid "Restore Default Template"
+msgstr ""
+
+#: includes/class-templates-post-type.php:376
+msgid "Enable/Disable Email Notification:"
+msgstr ""
+
+#: includes/class-templates-post-type.php:380
+msgid "Email Type:"
+msgstr ""
+
+#: includes/class-templates-post-type.php:381
+msgid "Plain Text"
+msgstr ""
+
+#: includes/class-templates-post-type.php:382
+msgid "HTML"
+msgstr ""
+
+#: includes/class-jobhunt-email-templates.php:71
+msgid ""
+"<em><b>JobHunt Email Templates</b></em> needs the <b>JobHunt</b> plugin. "
+"Please install and activate it."
+msgstr ""
+
+#: includes/class-templates-functions.php:191
+msgid "here is an email template"
+msgstr ""
+
+#. Name of the plugin
+msgid "JobHunt Email Templates"
+msgstr ""
+
+#. Description of the plugin
+msgid "JobHunt Email Templates Add on"
+msgstr ""
+
+#. URI of the plugin
+#. Author URI of the plugin
+msgid "http://themeforest.net/user/Chimpstudio/"
+msgstr ""
+
+#. Author of the plugin
+msgid "ChimpStudio"
+msgstr ""

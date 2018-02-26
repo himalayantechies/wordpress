@@ -1,0 +1,104 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-02-03 10:12+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: \n"
+"Language: \n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco https://localise.biz/"
+
+#: jobhunt-application-deadline.php:96
+msgid ""
+"<em><b>Job Hunt Application Deadline</b></em> needs the <b>Job Hunt</b> "
+"plugin. Please install and activate it."
+msgstr ""
+
+#: jobhunt-application-deadline.php:121
+msgid "Yes"
+msgstr ""
+
+#: jobhunt-application-deadline.php:121
+msgid "No"
+msgstr ""
+
+#: jobhunt-application-deadline.php:124 jobhunt-application-deadline.php:133
+#: jobhunt-application-deadline.php:159
+msgid "Application Deadline"
+msgstr ""
+
+#: jobhunt-application-deadline.php:139
+msgid "Disable Expired Jobs"
+msgstr ""
+
+#: jobhunt-application-deadline.php:141
+msgid ""
+"Manage expired jobs option here. If this switch is set ON, expired jobs will "
+"not be display on jobs listing pages. If it will be OFF, expired jobs will "
+"display on jobs listing pages."
+msgstr ""
+
+#: jobhunt-application-deadline.php:149
+msgid "Sort by Application Deadline"
+msgstr ""
+
+#: jobhunt-application-deadline.php:151
+msgid ""
+"Manage sort by application deadline date option here. If this switch is set "
+"ON, application deadline date option will display in sort by dropdown on "
+"jobs listing pages. If it will be OFF, application deadline date option will "
+"not be display in sort by dropdown on jobs listing pages."
+msgstr ""
+
+#: jobhunt-application-deadline.php:174
+msgid "Application Deadline Date:"
+msgstr ""
+
+#: jobhunt-application-deadline.php:176
+msgid ""
+"Application deadline date. The listing will automatically end after this "
+"date."
+msgstr ""
+
+#: jobhunt-application-deadline.php:183 jobhunt-application-deadline.php:209
+msgid "d-m-Y"
+msgstr ""
+
+#: jobhunt-application-deadline.php:203 jobhunt-application-deadline.php:282
+msgid "Application Deadline Date"
+msgstr ""
+
+#: jobhunt-application-deadline.php:297
+msgid "You can't apply this job due to application deadline."
+msgstr ""
+
+#: jobhunt-application-deadline.php:313
+msgid "Apply Before: "
+msgstr ""
+
+#: jobhunt-application-deadline.php:337
+msgid "Deadline Date"
+msgstr ""
+
+#. Name of the plugin
+msgid "JobHunt Application Deadline"
+msgstr ""
+
+#. Description of the plugin
+msgid "Job Hunt Application Deadline Add on"
+msgstr ""
+
+#. URI of the plugin
+#. Author URI of the plugin
+msgid "http://themeforest.net/user/Chimpstudio/"
+msgstr ""
+
+#. Author of the plugin
+msgid "ChimpStudio"
+msgstr ""
