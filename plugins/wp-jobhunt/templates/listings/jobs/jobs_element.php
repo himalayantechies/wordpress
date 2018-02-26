@@ -281,7 +281,8 @@ if ( ! function_exists('jobcareer_pb_jobs') ) {
                                 'classes' => 'dropdown chosen-select',
                                 'options' => array(
                                     'all' => esc_html__('All', 'jobhunt'),
-                                    'featured' => esc_html__('Featured Only', 'jobhunt'),
+                                    'featured' => esc_html__('Featured', 'jobhunt'),
+                                	'hot' => esc_html__('Hot Jobs', 'jobhunt'),
                                 ),
                                 'return' => true,
                             ),
