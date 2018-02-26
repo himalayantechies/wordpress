@@ -272,7 +272,7 @@ if ( ! function_exists('jobcareer_pb_jobs') ) {
                         $cs_opt_array = array(
                             'name' => esc_html__('Result Type', 'jobhunt'),
                             'desc' => '',
-                            'hint_text' => esc_html__("Choose result type for view only featured or all", "jobhunt"),
+                            'hint_text' => esc_html__("Choose result type for view featured or hot jobs or all", "jobhunt"),
                             'echo' => true,
                             'field_params' => array(
                                 'std' => $cs_job_result_type,

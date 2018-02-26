@@ -132,6 +132,12 @@ if (!function_exists('cs_jobs_listing')) {
 		'value' => 'yes',
 		'compare' => '=',
 	    );
+	} elseif ($a['cs_job_result_type'] == 'hot') {
+		$filter_arr[] = array(
+				'key' => 'cs_job_featured',
+				'value' => 'hot',
+				'compare' => '=',
+		);
 	}
 
 	$posted = '';
