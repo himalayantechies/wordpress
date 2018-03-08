@@ -891,6 +891,7 @@ if ( ! function_exists('cs_user_login_shortcode') ) {
                         }
 
                         $output .= '<div class="checks-holder">';
+                        $output .= '<div class="cs-separator"><span>By signing up you agree to our <a href="/terms-and-policies/" target="_blank">terms and policies</a>.</span></div>';
                         ob_start();
                         $output .= do_action('register_form');
 
@@ -1032,6 +1033,7 @@ if ( ! function_exists('cs_user_login_shortcode') ) {
                         $output .= do_action('register_form');
                         $output .= ob_get_clean();
                         $output .= '<div class="checks-holder">';
+                        $output .= '<div class="cs-separator"><span>By signing up you agree to our <a href="/terms-and-policies/" target="_blank">terms and policies</a>.</span></div>';
                         $cs_rand_id_value = rand(65454, 799845187);
                         $cs_rand_id_values = rand(65454, 799845187);
                         $output .= '<label>';
