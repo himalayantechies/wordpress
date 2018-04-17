@@ -273,7 +273,7 @@ if ( ! function_exists('jobcareer_pb_jobs') ) {
                         $cs_opt_array = array(
                             'name' => esc_html__('Result Type', 'jobhunt'),
                             'desc' => '',
-                            'hint_text' => esc_html__("Choose result type for view only featured or all", "jobhunt"),
+                            'hint_text' => esc_html__("Choose result type for view only featured or hot jobs or all", "jobhunt"),
                             'echo' => true,
                             'field_params' => array(
                                 'std' => $cs_job_result_type,
@@ -282,7 +282,8 @@ if ( ! function_exists('jobcareer_pb_jobs') ) {
                                 'classes' => 'dropdown chosen-select',
                                 'options' => array(
                                     'all' => esc_html__('All', 'jobhunt'),
-                                    'featured' => esc_html__('Featured Only', 'jobhunt'),
+                                    'featured' => esc_html__('Featured', 'jobhunt'),
+                                	'hot' => esc_html__('Hot Jobs', 'jobhunt'),
                                 ),
                                 'return' => true,
                             ),
