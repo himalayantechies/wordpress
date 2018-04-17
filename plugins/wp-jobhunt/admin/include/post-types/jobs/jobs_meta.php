@@ -172,9 +172,9 @@ if ( ! function_exists('cs_job_options') ) {
 
         $cs_html_fields->cs_text_field($cs_opt_array);
 		
-        if ( $cs_job_featured == 'yes' || $cs_job_featured == 'on' || $cs_job_featured == 'hot' ) {
+        if ( $cs_job_featured == 'yes' || $cs_job_featured == 'on' ) {
             $cs_opt_array = array(
-                'name' => esc_html__('Job Type', 'jobhunt'),
+                'name' => esc_html__('Featured ', 'jobhunt'),
                 'desc' => '',
                 'hint_text' => '',
                 'echo' => true,
@@ -182,14 +182,14 @@ if ( ! function_exists('cs_job_options') ) {
                     'std' => 'yes',
                     'id' => 'job_featured',
                     'classes' => 'chosen-select-no-single',
-                	'options' => array( 'yes' => esc_html__('Featured', 'jobhunt'), 'hot' => esc_html__('Hot Job', 'jobhunt'), 'no' => esc_html__('No', 'jobhunt') ),
+                    'options' => array( 'yes' => esc_html__('Yes', 'jobhunt'), 'no' => esc_html__('No', 'jobhunt') ),
                     'return' => true,
                 ),
             );
             $cs_html_fields->cs_select_field($cs_opt_array);
         } else {
             $cs_opt_array = array(
-                'name' => esc_html__('Job Type', 'jobhunt'),
+                'name' => esc_html__('Featured', 'jobhunt'),
                 'desc' => '',
                 'hint_text' => '',
                 'echo' => true,
@@ -197,7 +197,7 @@ if ( ! function_exists('cs_job_options') ) {
                     'std' => 'no',
                     'id' => 'job_featured',
                     'classes' => 'chosen-select-no-single',
-                	'options' => array( 'yes' => esc_html__('Featured', 'jobhunt'), 'hot' => esc_html__('Hot Job', 'jobhunt'), 'no' => esc_html__('No', 'jobhunt') ),
+                    'options' => array( 'no' => esc_html__('No', 'jobhunt'), 'yes' => esc_html__('Yes', 'jobhunt') ),
                     'return' => true,
                 ),
             );

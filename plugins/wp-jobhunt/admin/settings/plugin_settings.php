@@ -295,7 +295,7 @@ if ( ! class_exists('cs_plugin_options') ) {
             
             
             $cs_opt_array = array(
-                'name' => esc_html__('Package Type', 'jobhunt'),
+                'name' => esc_html__('Package Featured', 'jobhunt'),
                 'desc' => '',
                 'hint_text' => '',
                 'echo' => false,
@@ -304,9 +304,8 @@ if ( ! class_exists('cs_plugin_options') ) {
                     'cust_id' => 'package_feature',
                     'cust_name' => 'package_feature',
                     'options' => array(
-                        'no' => esc_html__('None', 'jobhunt'),
-                        'yes' => esc_html__('Featured', 'jobhunt'),
-                    	'hot' => esc_html__('Hot Job', 'jobhunt'),
+                        'no' => esc_html__('No', 'jobhunt'),
+                        'yes' => esc_html__('Yes', 'jobhunt'),
                     ),
                     'return' => true,
                     'classes' => 'chosen-select-no-single'

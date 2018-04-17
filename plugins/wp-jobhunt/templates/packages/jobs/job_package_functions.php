@@ -82,7 +82,7 @@ if ( ! function_exists('cs_job_package_shortcode') ) {
                     $package_desc = isset($package['package_description']) ? $package['package_description'] : '';
                     $cs_package_type = isset($package['package_type']) ? $package['package_type'] : '';
                     if ( $job_package_style == 'simple' ) {
-                    	$pkg_feat_class = ($package_feature == 'yes' || $package_feature == 'hot') ? ' active' : '';
+                        $pkg_feat_class = $package_feature == 'yes' ? ' active' : '';
                         $cs_html .= '<li class="col-lg-' . $grid_columns . ' col-md-' . $grid_columns . ' col-sm-6 col-xs-12 " >';
                         $cs_html .= '<div style="background-color:#fff;" class="pricetable-holder ' . CS_FUNCTIONS()->cs_special_chars($pkg_feat_class) . '">';
                         $cs_html .= '<h2 class="cs-bgcolor" style="color:#fff; padding:55px 20px;">' . CS_FUNCTIONS()->cs_special_chars($package_title) . '</h2>';
@@ -129,8 +129,8 @@ if ( ! function_exists('cs_job_package_shortcode') ) {
                         $cs_html .= '</div>';
                         $cs_html .= ' </li>';
                     } else if ( $job_package_style == 'classic' || $job_package_style == 'advance' ) {
-                    	$pkg_feat_class = ($package_feature == 'yes' || $package_feature == 'hot') ? ' active' : '';
-                        $pkg_feat_color = ($package_feature == 'yes' || $package_feature == 'hot') ? ' class="cs-color"' : '';
+                        $pkg_feat_class = $package_feature == 'yes' ? ' active' : '';
+                        $pkg_feat_color = $package_feature == 'yes' ? ' class="cs-color"' : '';
                         $main_class = 'modren';
                         if ( $job_package_style == 'advance' ) {
                             $main_class = 'advance';
@@ -162,9 +162,9 @@ if ( ! function_exists('cs_job_package_shortcode') ) {
                         }
                         $cs_html .= '</div></div></div>';
                     } else if ( $job_package_style == 'fancy' ) {
-                    	$pkg_feat_class = ($package_feature == 'yes' || $package_feature == 'hot') ? ' active' : '';
-                    	$pkg_feat_color = ($package_feature == 'yes' || $package_feature == 'hot') ? ' class="cs-color"' : '';
-                    	$pkg_feat_bgcolor = ($package_feature == 'yes' || $package_feature == 'hot') ? '' : ' class="cs-bgcolor"';
+                        $pkg_feat_class = $package_feature == 'yes' ? ' active' : '';
+                        $pkg_feat_color = $package_feature == 'yes' ? ' class="cs-color"' : '';
+                        $pkg_feat_bgcolor = $package_feature == 'yes' ? '' : ' class="cs-bgcolor"';
                         $cs_html .= '<div class="col-lg-' . $grid_columns . ' col-md-' . $grid_columns . ' col-sm-6 col-xs-12">
 							<div class="pricetable-holder classic cs-border-top-color' . $pkg_feat_class . '">
 								<h2' . $pkg_feat_color . '>' . CS_FUNCTIONS()->cs_special_chars($package_title) . '</h2> 
@@ -190,8 +190,8 @@ if ( ! function_exists('cs_job_package_shortcode') ) {
                         }
                         $cs_html .= '</div></div></div>';
                     } else if ( $job_package_style == 'modern' ) {
-                    	$pkg_feat_class = ($package_feature == 'yes' || $package_feature == 'hot') ? ' active cs-border-top-color' : '';
-                    	$pkg_feat_color = ($package_feature == 'yes' || $package_feature == 'hot') ? ' class="cs-color"' : '';
+                        $pkg_feat_class = $package_feature == 'yes' ? ' active cs-border-top-color' : '';
+                        $pkg_feat_color = $package_feature == 'yes' ? ' class="cs-color"' : '';
                         $cs_html .= '<li class="col-lg-' . $grid_columns . ' col-md-' . $grid_columns . ' col-sm-6 col-xs-12">
 							<div class="pricetable-holder ' . $pkg_feat_class . '">
 								<h2' . $pkg_feat_color . '>' . CS_FUNCTIONS()->cs_special_chars($package_title) . '</h2> 
