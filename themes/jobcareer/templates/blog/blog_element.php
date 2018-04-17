@@ -160,6 +160,7 @@ if ( ! function_exists('jobcareer_pb_blog') ) {
                                     'simple' => esc_html__('Grid Simple', 'jobcareer'),
                                     'grid-modern' => esc_html__('Grid Modern', 'jobcareer'),
                                     'grid-classic' => esc_html__('Grid Classic', 'jobcareer'),
+                                    'grid-fancy' => esc_html__('Grid Fancy', 'jobcareer'),
                                 ),
                                 'return' => true,
                             ),

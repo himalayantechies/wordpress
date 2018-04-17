@@ -282,7 +282,7 @@ if (!function_exists('jobcareer_required_plugins')) {
                     'slug' => 'wp-jobhunt',
                     'source' => trailingslashit(get_template_directory_uri()) . 'backend/theme-components/cs-activation-plugins/wp-jobhunt.zip',
                     'required' => true,
-                    'version' => '2.0',
+                    'version' => '2.1',
                     'force_activation' => false,
                     'force_deactivation' => false,
                     'external_url' => '',
@@ -292,7 +292,7 @@ if (!function_exists('jobcareer_required_plugins')) {
                     'slug' => 'jobhunt-application-deadline',
                     'source' => trailingslashit(get_template_directory_uri()) . 'backend/theme-components/cs-activation-plugins/jobhunt-application-deadline.zip',
                     'required' => true,
-                    'version' => '1.8',
+                    'version' => '1.9',
                     'force_activation' => false,
                     'force_deactivation' => false,
                     'external_url' => '',
@@ -302,7 +302,7 @@ if (!function_exists('jobcareer_required_plugins')) {
                     'slug' => 'jobhunt-indeed-jobs',
                     'source' => trailingslashit(get_template_directory_uri()) . 'backend/theme-components/cs-activation-plugins/jobhunt-indeed-jobs.zip',
                     'required' => true,
-                    'version' => '1.8',
+                    'version' => '1.9',
                     'force_activation' => false,
                     'force_deactivation' => false,
                     'external_url' => '',
@@ -312,7 +312,7 @@ if (!function_exists('jobcareer_required_plugins')) {
                     'slug' => 'jobhunt-notifications',
                     'source' => trailingslashit(get_template_directory_uri()) . 'backend/theme-components/cs-activation-plugins/jobhunt-notifications.zip',
                     'required' => true,
-                    'version' => '1.8',
+                    'version' => '1.9',
                     'force_activation' => false,
                     'force_deactivation' => false,
                     'external_url' => '',
@@ -322,7 +322,7 @@ if (!function_exists('jobcareer_required_plugins')) {
                     'slug' => 'jobhunt-email-templates',
                     'source' => trailingslashit(get_template_directory_uri()) . 'backend/theme-components/cs-activation-plugins/jobhunt-email-templates.zip',
                     'required' => true,
-                    'version' => '1.7',
+                    'version' => '1.8',
                     'force_activation' => false,
                     'force_deactivation' => false,
                     'external_url' => '',
@@ -342,7 +342,7 @@ if (!function_exists('jobcareer_required_plugins')) {
                     'slug' => 'jobhunt-apply-with-facebook',
                     'source' => trailingslashit(get_template_directory_uri()) . 'backend/theme-components/cs-activation-plugins/jobhunt-apply-with-facebook.zip',
                     'required' => true,
-                    'version' => '1.6',
+                    'version' => '1.7',
                     'force_activation' => false,
                     'force_deactivation' => false,
                     'external_url' => '',
@@ -352,7 +352,7 @@ if (!function_exists('jobcareer_required_plugins')) {
                     'slug' => 'cs-framework',
                     'source' => trailingslashit(get_template_directory_uri()) . 'backend/theme-components/cs-activation-plugins/cs-framework.zip',
                     'required' => true,
-                    'version' => '1.8',
+                    'version' => '1.9',
                     'force_activation' => false,
                     'force_deactivation' => false,
                     'external_url' => '',
@@ -438,41 +438,28 @@ if (!function_exists('jobcareer_required_plugins')) {
  * Thumb size On Blogs Detail
  */
 add_image_size('jobcareer_media_1', 870, 489, true);
-
-
 /*
  * Thumb size On Related Blogs On Detail, blogs on listing, Candidate Detail Portfolio
  */
-
 add_image_size('jobcareer_media_2', 270, 203, true);
-
 /*
  * Thumb size On Blogs On slider, blogs on listing, Candidate Detail Portfolio
  */
-
 add_image_size('jobcareer_media_3', 236, 168, true);
-
 add_image_size('jobcareer_media_4', 200, 200, true);
-
 /*
  * Thumb size On BEmployer Listing, Employer Listing View 2,Candidate Detail ,User Resume, company profile
  */
 add_image_size('jobcareer_media_5', 180, 135, true);
-
 /*
  * Thumb size On Candidate ,Candidate , Listing 2, Employer Detail,Related Jobs
  */
-
 add_image_size('jobcareer_media_6', 150, 113, true);
-
 add_image_size('jobcareer_media_7', 120, 90, true);
-
 /*
  * Thumb size On Related Blogs On Detail, blogs on listing, Candidate Detail Portfolio
  */
-
 add_image_size('jobcareer_media_8', 350, 210, true);
-
 // for blog large view
 add_image_size('jobcareer_media_9', 825, 464, true);
 /*
@@ -3003,7 +2990,6 @@ if (!function_exists('jobcareer_comment')) :
             $linkhome = $linkBefore . '<a' . $linkAttr . ' href="%1$s">%2$s</a>' . $linkAfter;
 
             if (is_home() || is_front_page()) {
-
                 if ($showOnHome == "1")
                     echo '<ul class="breadcrumb-nav">' . $before . '<a href="' . esc_url($homeLink) . '">' . $text['home'] . '</a>' . $after . '</ul>';
             } else {

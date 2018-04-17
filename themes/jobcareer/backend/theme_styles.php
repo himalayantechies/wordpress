@@ -136,8 +136,12 @@ if (!function_exists('jobcareer_custom_style_theme_options')) {
 		.wp-jobhunt .company-info .btn-area a:hover,
         .woocommerce ul.products li.product a.added_to_cart,
 		footer#footer.footer-v1 .cs-copyright-area a.cs-color, body footer#footer a.cs-color,
-        ul.spatialism-sec li:hover a, ul.spatialism-sec li:hover a:after
-        
+        ul.spatialism-sec li:hover a, ul.spatialism-sec li:hover a:after,
+        footer#footer .cs-footer.classic-footer .widget ul li a:hover,
+        .cs-footer.classic-footer .widget ul li:hover:before,
+        .wp-jobhunt .cs-candidate-list.cs-tab-resume .ad_to_list,
+        .wp-jobhunt .cs-tab-company .cs-post-type a,
+        .tab-featured .post-title a:hover
         
         {
         <?php if (isset($cs_theme_color) || $cs_theme_color != '') { ?>
@@ -192,7 +196,8 @@ if (!function_exists('jobcareer_custom_style_theme_options')) {
         .wp-jobhunt .custom-styling-list .jobs-listing li .cs-media .feature-post,
         .chosen-container-multi .chosen-drop .result-selected,
         .chosen-container-multi .chosen-drop .result-selected:hover,
-        .wp-jobhunt .jobs-listing li .cs-media .feature-post{
+        .wp-jobhunt .jobs-listing li .cs-media .feature-post, .cs-spatialism-sec-all .button-style.simple .category-btn,
+        .classic-footer .widget .widget-title:before{
         <?php if (isset($cs_theme_color) || $cs_theme_color != '') { ?>
             background-color:<?php echo jobcareer_special_char($cs_theme_color); ?> !important;
         <?php } ?>
@@ -234,7 +239,9 @@ if (!function_exists('jobcareer_custom_style_theme_options')) {
         .wp-jobhunt ul.cs-pricetable.fancy .pricetable-holder.active .price-holder a,
         .woocommerce ul.products li.product a.added_to_cart, header#header.cs-transparent-header.cs-fancy-header .login > a,
 		.footer-v3 .widget ul.social-media li a:hover,
-        .wp-jobhunt .jobs-listing li .cs-media .feature-post
+        .wp-jobhunt .jobs-listing li .cs-media .feature-post,
+        .wp-jobhunt .cs-candidate-list.cs-tab-resume .ad_to_list,
+        .wp-jobhunt .cs-tab-company .cs-post-type a
         {
         <?php if (isset($cs_theme_color) || $cs_theme_color != '') { ?>
             border-color:<?php echo jobcareer_special_char($cs_theme_color); ?> !important;
@@ -1201,7 +1208,7 @@ if (!function_exists('jobcareer_custom_style_theme_options')) {
             color:<?php echo jobcareer_special_char($cs_copyright_text_color); ?> !important;
             }
         <?php }if (isset($cs_link_color) && $cs_link_color != '') { ?>
-            footer#footer a, .footer-nav li a  {
+            footer#footer a, .footer-nav li a, .cs-footer .widget ul li a:before  {
             color:<?php echo jobcareer_special_char($cs_link_color); ?> !important;
             }<?php
         }

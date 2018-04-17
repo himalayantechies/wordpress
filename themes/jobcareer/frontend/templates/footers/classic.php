@@ -72,7 +72,7 @@ if (isset($cs_footer_widget) and $cs_footer_widget == 'on') {
     <div class="container">
         <div class="cs-copyright-area">
             <div class="row">
-                <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 
                     <?php
                     if (function_exists('jobcareer_footer_logo')) {

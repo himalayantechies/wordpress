@@ -2253,3 +2253,5 @@ padding:; font-size: 12px; }
 }
 .audio-video-holder .browse-icon:before{ top:13px;  }
 .audio-video-holder .browse-icon input{ height: 43px; }
+.menu-item-settings .description-wide{ float: none !important; }
+input.code{ margin-bottom: 5px !important; }

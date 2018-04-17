@@ -7003,10 +7003,6 @@ ul.blog-list li .cs-text h5 a {
 .cs-blog .post-option span i, .cs-blog-detail .post-option span i {
 	color: #cfcfcf !important;
 }
-.cs-blog.blog-grid .blog-text h3 a {
-	font-size: 18px !important;
-	text-transform: capitalize !important;
-}
 .blog-large .read-more:hover, .cs-blog-detail .cs-social-media li:hover a i {
 	color: #fff !important;
 }

@@ -354,7 +354,7 @@ if ( ! function_exists('jobcareer_auto_update_plugins') ) {
 	function jobcareer_auto_update_plugins($plugins) {
 		global $cs_plugins_upgraded;
 		if ( ! class_exists('Plugin_Upgrader') ) {
-			include_once( ABSPATH . 'wp-admin/includes/class-wp-upgrader.php' );
+			jobcareer_include_file( ABSPATH . 'wp-admin/includes/class-wp-upgrader.php' );
 		}
 		$active_plugins = get_plugins();
 		$active_plugins_paths = array();

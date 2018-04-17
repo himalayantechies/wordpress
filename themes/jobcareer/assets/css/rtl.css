@@ -798,13 +798,13 @@ ul.specialism_list li::after { clear: both; content: ""; display: block; }
 .rtl #footer .widget_connect ul li { padding-left: 0; padding-right: 53px; }
 .rtl .footer-v1 .widget ul li i, .rtl .footer-v1 .widget ul li a i { margin-left: 0; margin-right: 10px; }
 .rtl #footer .footer-v1 .cs-copyright-area .footer-links a, #footer .footer-v1 .cs-copyright .back-to-top a i { display: inline-block; }
-.rtl #footer .footer-v1 .widget_nav_menu ul li a, .rtl #footer .footer-v1 .widget_categories ul li a { padding-left: 12px; padding-right: 0; }
+.rtl #footer .footer-v1 .widget_nav_menu ul li a, .rtl #footer .footer-v1 .widget_categories ul li a { padding-left: 12px;}
 .rtl #footer .footer-v1 .cs-copyright-area .footer-links a { margin-left: 0; margin-right: 6px; }
 .rtl #footer .footer-v1 .widget-text .contact-info.v2 ul li { padding: 0 53px 0 0px; }
 .rtl #footer .footer-v1 .widget-text .contact-info.v2 ul li span { left: auto; right: 0px; }
 .rtl .cs-copyright-area [class*="col-"] { float: none; display: inline-block; margin: 0 0px 0 -4px !important; vertical-align: top; }
 .rtl #footer .footer-v1 .cs-copyright .back-to-top a { float: left; }
-.rtl #footer .footer-v1 .cs-copyright .back-to-top a i { margin: 0 8px 0 0; }
+
 /* Footer Style End */
 /* Jobcareer Bakery style End */
 /*main-search style*/
@@ -918,3 +918,42 @@ ul.specialism_list li::after { clear: both; content: ""; display: block; }
 .rtl.wp-jobhunt .user-account .alert.alert-success p{text-align: right;}
 .rtl ul.testimonial-home li .question-mark span{line-height: 24px;}
 .rtl.wp-jobhunt .user-account .login label.user:before, .rtl.wp-jobhunt .user-account .login label.password:before{top:10px;}
+
+/* Job strret rtl style start */
+.rtl .navigation li .nav-tooltip{ left:-54px; right: auto; }
+.rtl .navigation li .nav-tooltip::before{ right:5px; left:auto; }
+.rtl.wp-jobhunt .select-dropdown:before{left:8px; right: auto;}
+.rtl.wp-jobhunt .select-dropdown .chosen-container-single .chosen-single span{ right:0px; left: auto; }
+.rtl.wp-jobhunt .section-fullwidth .col-md-12 .main-search .col-md-3{ text-align: right; }
+.rtl .cs-about-info.modern .cs-text{ padding: 20px 30px 25px 100px; }
+.rtl .cs-spatialism-sec-all .spatialism-sec.simple li .img-holder{ margin-left: 15px; margin-right: 0; }
+.rtl .cs-spatialism-sec-all .spatialism-sec.simple li .text-holder span:after{ right:0; left:auto; padding-right: 45px; transform: scale(-1); }
+.rtl .cs-spatialism-sec-all .button-style.simple .category-btn i{ display: inline-block; padding-left: 5px; padding-right: 0; }
+.rtl.wp-jobhunt .jobs-listing.grid li .post-options span i{ margin-right:5px; }
+.rtl .cs-blog.blog-grid.fancy .blog-text .post-comment{ left:30px; right:auto; }
+.rtl .cs-blog.blog-grid.fancy .blog-text .post-option .post-date{ float: left; }
+.rtl .cs-counter.modern .dashboard-list li:after{ right:0; left:auto; }
+.rtl.wp-jobhunt .grid.grid-slider .bottom-area{ direction: rtl; }
+.rtl.wp-jobhunt .jobs-listing.grid .post-options .cs-location{ text-align: left; }
+.rtl #footer .modern-footer .widget.widget-text address span{ display: inline-block; }
+.rtl .cs-footer.modern-footer .cs-copyright .back-to-top{ float: none; }
+.rtl #footer .footer-v1 .cs-copyright .back-to-top a{ float: none; }
+.rtl .cs-blog.blog-grid.fancy .cs-media{ float: right; }
+.rtl .button_style.cs-button .has_icon i{right:-1px; left:auto; margin-left: 8px; margin-right: 0;}
+.rtl .button_style.cs-button .has_icon{ padding-right: 45px;padding-left: 16px; }
+.rtl header .social-media{ float: left; }
+.rtl .contact-detail li{ margin:0 0 0 15px; }
+.rtl .contact-detail li i{ margin:0 0 0 3px; }
+.rtl.wp-jobhunt .main-search.default-fancy .search-btn input[type="submit"]{ border-radius: 5px 0 0 5px; }
+.rtl.wp-jobhunt .default-fancy .search-input input[type="text"]{    border-radius: 0 5px 5px 0;}
+.rtl .cs-counter.classic .dashboard-list li{margin:0 0 0 70px;}
+.rtl .cs-counter.classic .dashboard-list li .cs-text span{margin:0 0 0 5px;}
+.rtl.wp-jobhunt .default-fancy .search-input i, .rtl.wp-jobhunt .default-fancy .select-location I{right: 35px; left: auto;}
+.rtl.wp-jobhunt .default-fancy .search-input input[type="text"], .rtl.wp-jobhunt .main-search.default-fancy .select-location input[type="text"]{ padding: 0 70px 0 35px;}
+.rtl.wp-jobhunt .main-search.default-fancy .select-location input[type="text"]{ border-width:0 1px 0 0; }
+.rtl ul.cs-modern li:before{ right:auto; left:3px; }
+.rtl ul.cs-modern li:after, ul.cs-modern li:before{ right:0; left:auto; }
+.rtl.wp-jobhunt .jobs-tab-list .list-tab-content ul.jobs-listing li .jobs-content .job-option{ text-align: left; }
+.rtl.wp-jobhunt .jobs-tab-list ul.jobs-listing li .jobs-type a, .rtl.wp-jobhunt .jobs-tab-list ul.jobs-listing li .joblist-btn{ margin:0 0 0 3px; }
+.rtl.wp-jobhunt .jobs-tab-list .list-tab-content ul.jobs-listing li .jobs-content .cs-text .post-options span i{ margin:3px 0 0 5px; }
+.rtl ul.testimonial-home.default li .question-mark{ padding-bottom:25px; }

@@ -224,6 +224,8 @@ if ( ! function_exists('jobcareer_element_list') ) {
             'flex_editor' => esc_html__('Flex Editor', 'jobcareer'),
             'job_post' => esc_html__('Job Post', 'jobcareer'),
             'job post' => esc_html__('Job Post', 'jobcareer'),
+            'listing_tab' => esc_html__('JC : Listing Tab', 'jobcareer'),
+            'listing tab' => esc_html__('JC : Listing Tab', 'jobcareer'),
             'flex editor' => esc_html__('Flex Editor', 'jobcareer'),
             'column' => esc_html__('Column', 'jobcareer'),
             'flex_column' => esc_html__('Column', 'jobcareer'),

@@ -172,13 +172,11 @@ if ( ! function_exists('jobcareer_page_bulider') ) {
                 counter++;
                 var newCustomerForm = "action=" + action + '&counter=' + counter;
                 var edit_url = action + counter;
-
                 jQuery.ajax({
                     type: "POST",
                     url: "<?php echo admin_url('admin-ajax.php') ?>",
                     data: newCustomerForm,
                     success: function (data) {
-
                         jQuery("#counter_" + id).append(data);
                         jQuery("#" + action + counter).append('<input type="hidden" name="cs_widget_element_num[]" value="form" />');
                         jQuery('.bg_color').wpColorPicker();
@@ -600,6 +598,16 @@ if ( isset($_POST['page_builder_form']) and $_POST['page_builder_form'] == 1 ) {
                 $cs_shortcode_counter_job_post = 0;
                 $cs_counter_job_post = 0;
 
+
+                $cs_global_counter_listing_tab = 0;
+                $cs_shortcode_counter_listing_tab = 0;
+                $cs_counter_listing_tab = 0;
+
+
+
+
+
+
                 $cs_counter_heading = 0;
                 $cs_global_counter_heading = 0;
                 $cs_shortcode_counter_heading = 0;
@@ -622,8 +630,8 @@ if ( isset($_POST['page_builder_form']) and $_POST['page_builder_form'] == 1 ) {
                 $cs_global_counter_about = 0;
                 $cs_shortcode_counter_about = 0;
                 $counter_about = 0;
-		
-		$cs_global_counter_membership_package = 0;
+
+                $cs_global_counter_membership_package = 0;
                 $cs_counter_membership_package = 0;
                 $cs_shortcode_counter_membership_package = 0;
 
@@ -2018,15 +2026,15 @@ if ( isset($_POST['page_builder_form']) and $_POST['page_builder_form'] == 1 ) {
                                 }
                                 // Membership Package
                                 else if ( $_POST['cs_orderby'][$cs_counter] == "membership_package" ) {
-                                    
+
                                     $shortcode = '';
-                                   // $cs_global_counter_membership_package   =   0;
+                                    // $cs_global_counter_membership_package   =   0;
                                     $membership_package = $column->addChild('membership_package');
                                     $membership_package->addChild('membership_package_element_size', $_POST['membership_package_element_size'][$cs_global_counter_membership_package]);
-                                    
+
                                     $membership_package->addChild('page_element_size', $_POST['membership_package_element_size'][$cs_global_counter_membership_package]);
                                     if ( isset($_POST['cs_widget_element_num'][$cs_counter]) && $_POST['cs_widget_element_num'][$cs_counter] == 'shortcode' ) {
-                                        
+
                                         $shortcode_str = stripslashes($_POST['shortcode']['membership_package'][$cs_shortcode_counter_membership_package]);
                                         $cs_shortcode_counter_membership_package ++;
                                         $membership_package->addChild('cs_shortcode', htmlspecialchars($shortcode_str));
@@ -2038,14 +2046,13 @@ if ( isset($_POST['page_builder_form']) and $_POST['page_builder_form'] == 1 ) {
                                             $shortcode .= ' membership_package_title="' . htmlspecialchars($_POST['membership_package_title'][$cs_counter_membership_package], ENT_QUOTES) . '" ';
                                         }
                                         //($_POST['membership_package_title'][$cs_counter_membership_package]);
-                                         if ( isset($_POST['membership_package_columns'][$cs_counter_membership_package]) && $_POST['membership_package_columns'][$cs_counter_membership_package] != '' ) {
-                                           $shortcode .= ' membership_package_columns="' . htmlspecialchars($_POST['membership_package_columns'][$cs_counter_membership_package], ENT_QUOTES) . '" ';
-                                    }
-                                       //($_POST['membership_package_columns'][$cs_counter_membership_package]);
-                                         if ( isset($_POST['membership_package_style'][$cs_counter_membership_package]) && $_POST['membership_package_style'][$cs_counter_membership_package] != '' ) {
-                                           $shortcode .= ' membership_package_style="' . htmlspecialchars($_POST['membership_package_style'][$cs_counter_membership_package]) . '" ';
-                           
-                                       }
+                                        if ( isset($_POST['membership_package_columns'][$cs_counter_membership_package]) && $_POST['membership_package_columns'][$cs_counter_membership_package] != '' ) {
+                                            $shortcode .= ' membership_package_columns="' . htmlspecialchars($_POST['membership_package_columns'][$cs_counter_membership_package], ENT_QUOTES) . '" ';
+                                        }
+                                        //($_POST['membership_package_columns'][$cs_counter_membership_package]);
+                                        if ( isset($_POST['membership_package_style'][$cs_counter_membership_package]) && $_POST['membership_package_style'][$cs_counter_membership_package] != '' ) {
+                                            $shortcode .= ' membership_package_style="' . htmlspecialchars($_POST['membership_package_style'][$cs_counter_membership_package]) . '" ';
+                                        }
                                         //print_r($_POST['membership_package_style'][$cs_counter_membership_package]);
                                         if ( isset($_POST['cs_membershi_pkg_id'][$cs_counter_membership_package]) && $_POST['cs_membershi_pkg_id'][$cs_counter_membership_package] != '' ) {
                                             $cs_membershi_pkg_id = $_POST['cs_membershi_pkg_id'][$cs_counter_membership_package];
@@ -2054,24 +2061,19 @@ if ( isset($_POST['page_builder_form']) and $_POST['page_builder_form'] == 1 ) {
                                                 if ( is_array($_POST['membership_packages'][$cs_membershi_pkg_id]) ) {
 
                                                     $shortcode .= ' membership_packages="' . implode(',', $_POST['membership_packages'][$cs_membershi_pkg_id]) . '" ';
-                                                  
                                                 }
                                             }
                                         }
-                                        
-                                      
+
+
                                         //exit();
                                         $shortcode .= ']';
                                         $shortcode .='[/cs_membership_package]';
-                                          // $cs_counter_membership_package=1;
+                                        // $cs_counter_membership_package=1;
                                         $membership_package->addChild('cs_shortcode', $shortcode);
                                         $cs_counter_membership_package ++;
-                                       
-                                       
                                     }
                                     $cs_global_counter_membership_package ++;
-                                      
-                                    
                                 }
                                 // Job Specialisms
                                 else if ( $_POST['cs_orderby'][$cs_counter] == "job_specialisms" ) {
@@ -2149,6 +2151,48 @@ if ( isset($_POST['page_builder_form']) and $_POST['page_builder_form'] == 1 ) {
                                         $cs_counter_job_post ++;
                                     }
                                     $cs_global_counter_job_post ++;
+                                } else if ( $_POST['cs_orderby'][$cs_counter] == "listing_tab" ) {
+                                    $shortcode = '';
+                                    $listing_tab = $column->addChild('listing_tab');
+                                    $listing_tab->addChild('listing_tab_element_size', $_POST['listing_tab_element_size'][$cs_global_counter_listing_tab]);
+                                    $listing_tab->addChild('page_element_size', $_POST['listing_tab_element_size'][$cs_global_counter_listing_tab]);
+                                    if ( isset($_POST['cs_widget_element_num'][$cs_counter]) && $_POST['cs_widget_element_num'][$cs_counter] == 'shortcode' ) {
+                                        $shortcode_str = stripslashes($_POST['shortcode']['listing_tab'][$cs_shortcode_counter_listing_tab]);
+                                        $cs_shortcode_counter_listing_tab ++;
+                                        $listing_tab->addChild('cs_shortcode', htmlspecialchars($shortcode_str));
+                                    } else {
+                                        $shortcode .= '[cs_listing_tab ';
+                                        if ( isset($_POST['listing_tab_element_title'][$cs_counter_listing_tab]) && $_POST['listing_tab_element_title'][$cs_counter_listing_tab] != '' ) {
+                                            $shortcode .= ' listing_tab_element_title="' . htmlspecialchars($_POST['listing_tab_element_title'][$cs_counter_listing_tab], ENT_QUOTES) . '" ';
+                                        }
+                                        if ( isset($_POST['listing_tab_element_subtitle'][$cs_counter_listing_tab]) && $_POST['listing_tab_element_subtitle'][$cs_counter_listing_tab] != '' ) {
+                                            $shortcode .= ' listing_tab_element_subtitle="' . htmlspecialchars($_POST['listing_tab_element_subtitle'][$cs_counter_listing_tab], ENT_QUOTES) . '" ';
+                                        }
+                                        if ( isset($_POST['listing_tab_post_per_tab'][$cs_counter_listing_tab]) && $_POST['listing_tab_post_per_tab'][$cs_counter_listing_tab] != '' ) {
+                                            $shortcode .= ' listing_tab_post_per_tab="' . htmlspecialchars($_POST['listing_tab_post_per_tab'][$cs_counter_listing_tab], ENT_QUOTES) . '" ';
+                                        }
+                                        if ( isset($_POST['listing_tab_job_tab_switch'][$cs_counter_listing_tab]) && $_POST['listing_tab_job_tab_switch'][$cs_counter_listing_tab] != '' ) {
+                                            $shortcode .= ' listing_tab_job_tab_switch="' . htmlspecialchars($_POST['listing_tab_job_tab_switch'][$cs_counter_listing_tab], ENT_QUOTES) . '" ';
+                                        }
+                                        if ( isset($_POST['listing_tab_candidate_tab_switch'][$cs_counter_listing_tab]) && $_POST['listing_tab_candidate_tab_switch'][$cs_counter_listing_tab] != '' ) {
+                                            $shortcode .= ' listing_tab_candidate_tab_switch="' . htmlspecialchars($_POST['listing_tab_candidate_tab_switch'][$cs_counter_listing_tab], ENT_QUOTES) . '" ';
+                                        }
+                                        if ( isset($_POST['listing_tab_employer_tab_switch'][$cs_counter_listing_tab]) && $_POST['listing_tab_employer_tab_switch'][$cs_counter_listing_tab] != '' ) {
+                                            $shortcode .= ' listing_tab_employer_tab_switch="' . htmlspecialchars($_POST['listing_tab_employer_tab_switch'][$cs_counter_listing_tab], ENT_QUOTES) . '" ';
+                                        }
+                                        if ( isset($_POST['listing_tab_sidebar_switch'][$cs_counter_listing_tab]) && $_POST['listing_tab_sidebar_switch'][$cs_counter_listing_tab] != '' ) {
+                                            $shortcode .= ' listing_tab_sidebar_switch="' . htmlspecialchars($_POST['listing_tab_sidebar_switch'][$cs_counter_listing_tab], ENT_QUOTES) . '" ';
+                                        }
+                                        if ( isset($_POST['listing_tab_sidebar_select'][$cs_counter_listing_tab]) && $_POST['listing_tab_sidebar_select'][$cs_counter_listing_tab] != '' ) {
+                                            $shortcode .= ' listing_tab_sidebar_select="' . htmlspecialchars($_POST['listing_tab_sidebar_select'][$cs_counter_listing_tab], ENT_QUOTES) . '" ';
+                                        }
+                                        $shortcode .= ']';
+                                        $shortcode .='[/cs_listing_tab]';
+
+                                        $listing_tab->addChild('cs_shortcode', $shortcode);
+                                        $cs_counter_listing_tab ++;
+                                    }
+                                    $cs_global_counter_listing_tab ++;
                                 }
 
                                 // Job Search
@@ -3060,7 +3104,6 @@ if ( isset($_POST['page_builder_form']) and $_POST['page_builder_form'] == 1 ) {
                                     }
                                     $cs_global_counter_video ++;
                                 } else if ( isset($_POST['cs_orderby'][$cs_counter]) && $_POST['cs_orderby'][$cs_counter] == "about" ) {
-
                                     $shortcode = '';
                                     $about = $column->addChild('about');
                                     $about->addChild('page_element_size', htmlspecialchars($_POST['about_element_size'][$cs_global_counter_about]));
@@ -3076,24 +3119,27 @@ if ( isset($_POST['page_builder_form']) and $_POST['page_builder_form'] == 1 ) {
                                         if ( isset($_POST['about_url'][$counter_about]) && $_POST['about_url'][$counter_about] != '' ) {
                                             $shortcode .='about_url="' . htmlspecialchars($_POST['about_url'][$counter_about], ENT_QUOTES) . '" ';
                                         }
-
                                         if ( isset($_POST['button_text'][$counter_about]) && $_POST['button_text'][$counter_about] != '' ) {
                                             $shortcode .='button_text="' . htmlspecialchars($_POST['button_text'][$counter_about]) . '" ';
                                         }
-
-                                        if ( isset($_POST['cs_image_about_url'][$cs_counter_column]) && $_POST['cs_image_about_url'][$cs_counter_column] != '' ) {
-                                            $shortcode .= 'cs_image_about_url="' . htmlspecialchars($_POST['cs_image_about_url'][$cs_counter_column], ENT_QUOTES) . '" ';
+                                        if ( isset($_POST['cs_image_about_url'][$counter_about]) && $_POST['cs_image_about_url'][$counter_about] != '' ) {
+                                            $shortcode .= 'cs_image_about_url="' . htmlspecialchars($_POST['cs_image_about_url'][$counter_about], ENT_QUOTES) . '" ';
                                         }
-
-                                        if ( isset($_POST['cs_text_color'][$cs_counter_column]) && $_POST['cs_text_color'][$cs_counter_column] != '' ) {
-                                            $shortcode .= 'cs_text_color="' . htmlspecialchars($_POST['cs_text_color'][$cs_counter_column], ENT_QUOTES) . '" ';
+                                        if ( isset($_POST['cs_about_info_style'][$counter_about]) && $_POST['cs_about_info_style'][$counter_about] != '' ) {
+                                            $shortcode .= 'cs_about_info_style="' . htmlspecialchars($_POST['cs_about_info_style'][$counter_about], ENT_QUOTES) . '" ';
                                         }
-
-                                        if ( isset($_POST['cs_bg_color'][$cs_counter_column]) && $_POST['cs_bg_color'][$cs_counter_column] != '' ) {
-                                            $shortcode .= 'cs_bg_color="' . htmlspecialchars($_POST['cs_bg_color'][$cs_counter_column], ENT_QUOTES) . '" ';
+                                        if ( isset($_POST['cs_text_color'][$counter_about]) && $_POST['cs_text_color'][$counter_about] != '' ) {
+                                            $shortcode .= 'cs_text_color="' . htmlspecialchars($_POST['cs_text_color'][$counter_about], ENT_QUOTES) . '" ';
                                         }
-
-
+                                        if ( isset($_POST['cs_bg_color'][$counter_about]) && $_POST['cs_bg_color'][$counter_about] != '' ) {
+                                            $shortcode .= 'cs_bg_color="' . htmlspecialchars($_POST['cs_bg_color'][$counter_about], ENT_QUOTES) . '" ';
+                                        }
+                                        if ( isset($_POST['cs_title_color'][$counter_about]) && $_POST['cs_title_color'][$counter_about] != '' ) {
+                                            $shortcode .= 'cs_title_color="' . htmlspecialchars($_POST['cs_title_color'][$counter_about], ENT_QUOTES) . '" ';
+                                        }
+                                        if ( isset($_POST['cs_content_color'][$counter_about]) && $_POST['cs_content_color'][$counter_about] != '' ) {
+                                            $shortcode .= 'cs_content_color="' . htmlspecialchars($_POST['cs_content_color'][$counter_about], ENT_QUOTES) . '" ';
+                                        }
                                         if ( isset($_POST['content_texarea'][$counter_about]) && $_POST['content_texarea'][$counter_about] != '' ) {
                                             $shortcode .='content_texarea="' . htmlspecialchars($_POST['content_texarea'][$counter_about], ENT_QUOTES) . '" ';
                                         }
@@ -3673,14 +3719,14 @@ if ( isset($_POST['page_builder_form']) and $_POST['page_builder_form'] == 1 ) {
                                     }
                                     $cs_global_counter_employer ++;
                                 } else if ( isset($_POST['cs_orderby'][$cs_counter]) && $_POST['cs_orderby'][$cs_counter] == 'jobs' ) {
-									
-									$shortcode = '';
+
+                                    $shortcode = '';
                                     $job = $column->addChild('jobs');
                                     $job->addChild('page_element_size', htmlspecialchars($_POST['jobs_element_size'][$cs_global_counter_job]));
                                     $job->addChild('jobs_element_size', htmlspecialchars($_POST['jobs_element_size'][$cs_global_counter_job]));
                                     if ( isset($_POST['cs_widget_element_num'][$cs_counter]) && $_POST['cs_widget_element_num'][$cs_counter] == 'shortcode' ) {
-										$shortcode_str = stripslashes($_POST['shortcode']['jobs'][$cs_shortcode_counter_job]);
-										$cs_shortcode_counter_job ++;
+                                        $shortcode_str = stripslashes($_POST['shortcode']['jobs'][$cs_shortcode_counter_job]);
+                                        $cs_shortcode_counter_job ++;
                                         $job->addChild('cs_shortcode', htmlspecialchars($shortcode_str));
                                     } else {
                                         $shortcode = '[cs_jobs ';
@@ -3731,13 +3777,13 @@ if ( isset($_POST['page_builder_form']) and $_POST['page_builder_form'] == 1 ) {
                                         if ( isset($_POST['cs_job_show_pagination'][$cs_counter_job]) && $_POST['cs_job_show_pagination'][$cs_counter_job] != '' ) {
                                             $shortcode .= 'cs_job_show_pagination="' . htmlspecialchars($_POST['cs_job_show_pagination'][$cs_counter_job]) . '" ';
                                         }
-										if ( isset($_POST['cs_job_counter'][$cs_counter_job]) && $_POST['cs_job_counter'][$cs_counter_job] != '' ) {
+                                        if ( isset($_POST['cs_job_counter'][$cs_counter_job]) && $_POST['cs_job_counter'][$cs_counter_job] != '' ) {
                                             $shortcode .= 'cs_job_counter="' . htmlspecialchars($_POST['cs_job_counter'][$cs_counter_job]) . '" ';
                                         }
                                         if ( isset($_POST['cs_job_pagination'][$cs_counter_job]) && $_POST['cs_job_pagination'][$cs_counter_job] != '' ) {
                                             $shortcode .= 'cs_job_pagination="' . htmlspecialchars($_POST['cs_job_pagination'][$cs_counter_job]) . '" ';
                                         }
-										$shortcode .= ']';
+                                        $shortcode .= ']';
 
                                         $job->addChild('cs_shortcode', $shortcode);
                                         $cs_counter_job ++;
@@ -3778,7 +3824,7 @@ if ( isset($_POST['page_builder_form']) and $_POST['page_builder_form'] == 1 ) {
                                     }
                                     $cs_global_counter_tweets ++;
                                 }
-                                do_action( 'jobcareer_saving_shortcode_data', $column, $cs_counter);
+                                do_action('jobcareer_saving_shortcode_data', $column, $cs_counter);
                                 //$column = apply_filters( 'jobcareer_saving_shortcode_data', $column, $cs_counter);
                                 //===Loops Short Code End
                                 $cs_counter ++;

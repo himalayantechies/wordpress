@@ -21,7 +21,7 @@ if ( is_shop() ) {
         <?php
         $jobcareer_page_sidebar_right = '';
         $jobcareer_page_sidebar_left = '';
-        $jobcareer_postObject = get_post_meta( $jobcareer_shop_id, 'cs_full_data', true );
+       // $jobcareer_postObject = get_post_meta( $jobcareer_shop_id, 'cs_full_data', true );
         $jobcareer_page_layout = get_post_meta( $jobcareer_shop_id, 'cs_page_layout', true );
         $jobcareer_page_sidebar_right = get_post_meta( $jobcareer_shop_id, 'cs_page_sidebar_right', true );
         $jobcareer_page_sidebar_left = get_post_meta( $jobcareer_shop_id, 'cs_page_sidebar_left', true );

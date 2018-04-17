@@ -141,6 +141,10 @@ if ( ! function_exists('jobcareer_pb_heading') ) {
                                     '6' => esc_html__('h6', 'jobcareer'),
                                     'fancy' => esc_html__('Fancy', 'jobcareer'),
                                     'section_title' => esc_html__('Element Title', 'jobcareer'),
+                                    'zigzag_seperator' => esc_html__('Zigzag', 'jobcareer'),
+                                    'line_seperator' => esc_html__('Line', 'jobcareer'),
+                                    
+                                    
                                 ),
                                 'return' => true,
                             ),

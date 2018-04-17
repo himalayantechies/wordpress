@@ -241,6 +241,16 @@ $height = '203';
                             if (isset($_GET['specialisms'])) {
                                 $qrystr .= "&specialisms=" . $_GET['specialisms'];
                             }
+                            
+                            echo wp_count_posts()->publish;
+                            echo '<br />';
+                            echo get_option('posts_per_page');
+                            echo '<br />';
+                            echo $qrystr;
+                            echo '<br />';
+                            echo  $wp_query->found_posts;
+                            
+                            
                             if ($wp_query->found_posts > get_option('posts_per_page')) {
                                 if (function_exists('jobcareer_pagination')) {
                                     echo jobcareer_pagination(wp_count_posts()->publish, get_option('posts_per_page'), $qrystr, 'Show Pagination', 'page_id_all');

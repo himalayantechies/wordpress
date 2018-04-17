@@ -5,7 +5,7 @@
  * @retrun
  *
  */
-if (!function_exists('jobcareer_pb_about')) {
+if ( ! function_exists('jobcareer_pb_about') ) {
 
     function jobcareer_pb_about($die = 0) {
         global $jobcareer_node, $count_node, $post, $jobcareer_html_fields, $jobcareer_form_fields;
@@ -16,7 +16,7 @@ if (!function_exists('jobcareer_pb_about')) {
         $counter = $_POST['counter'];
         $cs_counter = $_POST['counter'];
         $album_num = 0;
-        if (isset($_POST['action']) && !isset($_POST['shortcode_element_id'])) {
+        if ( isset($_POST['action']) && ! isset($_POST['shortcode_element_id']) ) {
             $POSTID = '';
             $shortcode_element_id = '';
         } else {
@@ -27,23 +27,36 @@ if (!function_exists('jobcareer_pb_about')) {
             $parseObject = new ShortcodeParse();
             $output = $parseObject->cs_shortcodes($output, $shortcode_str, true, $PREFIX);
         }
-        $defaults = array('cs_about_section_title' => '', 'about_url' => '', 'cs_bg_color' => '', 'cs_text_color' => '', 'cs_image_about_url' => '', 'button_text' => '', 'content_texarea', '', 'about_action_textarea' => '');
-        if (isset($output['0']['atts'])) {
+        $defaults = array(
+            'cs_about_section_title' => '',
+            'cs_about_info_style' => '',
+            'about_url' => '',
+            'cs_bg_color' => '',
+            'cs_text_color' => '',
+            'cs_image_about_url' => '',
+            'button_text' => '',
+            'content_texarea', '',
+            'about_action_textarea' => '',
+            'cs_title_color' => '',
+            'cs_content_color' => '',
+            
+        );
+        if ( isset($output['0']['atts']) ) {
             $atts = $output['0']['atts'];
         } else {
             $atts = array();
         }
-        if (isset($output['0']['content'])) {
+        if ( isset($output['0']['content']) ) {
             $atts_content = $output['0']['content'];
         } else {
             $atts_content = array();
         }
-        if (is_array($atts_content)) {
+        if ( is_array($atts_content) ) {
             $album_num = count($atts_content);
         }
         $about_element_size = '25';
-        foreach ($defaults as $key => $values) {
-            if (isset($atts[$key])) {
+        foreach ( $defaults as $key => $values ) {
+            if ( isset($atts[$key]) ) {
                 $$key = $atts[$key];
             } else {
                 $$key = $values;
@@ -51,7 +64,7 @@ if (!function_exists('jobcareer_pb_about')) {
         }
         $name = 'jobcareer_pb_about';
         $coloumn_class = 'column_' . $about_element_size;
-        if (isset($_POST['shortcode_element']) && $_POST['shortcode_element'] == 'shortcode') {
+        if ( isset($_POST['shortcode_element']) && $_POST['shortcode_element'] == 'shortcode' ) {
             $shortcode_element = 'shortcode_element_class';
             $shortcode_view = 'cs-pbwp-shortcode';
             $filter_element = 'ajax-drag';
@@ -72,7 +85,7 @@ if (!function_exists('jobcareer_pb_about')) {
                 <div class="cs-pbwp-content">
                     <div class="cs-wrapp-clone cs-shortcode-wrapp">
                         <?php
-                        if (isset($_POST['shortcode_element']) && $_POST['shortcode_element'] == 'shortcode') {
+                        if ( isset($_POST['shortcode_element']) && $_POST['shortcode_element'] == 'shortcode' ) {
                             jobcareer_shortcode_element_size();
                         }
                         ?>
@@ -121,9 +134,26 @@ if (!function_exists('jobcareer_pb_about')) {
                         );
 
                         $jobcareer_html_fields->cs_text_field($cs_opt_array);
-
+                        
                         $cs_opt_array = array(
-                            'name' => esc_html__('Color', 'jobcareer'),
+                            'name' => esc_html__('Title Color', 'jobcareer'),
+                            'desc' => '',
+                            'hint_text' => esc_html__("Set the title Text color.", 'jobcareer'),
+                            'echo' => true,
+                            'field_params' => array(
+                                'std' => esc_attr($cs_title_color),
+                                'cust_id' => '',
+                                'classes' => 'bg_color',
+                                'cust_name' => 'cs_title_color[]',
+                                'return' => true,
+                            ),
+                        );
+
+                        $jobcareer_html_fields->cs_text_field($cs_opt_array);
+                        
+                        
+                        $cs_opt_array = array(
+                            'name' => esc_html__('Button Text Color', 'jobcareer'),
                             'desc' => '',
                             'hint_text' => esc_html__("Set the button Text color.", 'jobcareer'),
                             'echo' => true,
@@ -139,7 +169,7 @@ if (!function_exists('jobcareer_pb_about')) {
                         $jobcareer_html_fields->cs_text_field($cs_opt_array);
 
                         $cs_opt_array = array(
-                            'name' => esc_html__('BG Color', 'jobcareer'),
+                            'name' => esc_html__('Button Background Color', 'jobcareer'),
                             'desc' => '',
                             'hint_text' => esc_html__("Set the BG color for your about us.", 'jobcareer'),
                             'echo' => true,
@@ -153,8 +183,43 @@ if (!function_exists('jobcareer_pb_about')) {
                         );
 
                         $jobcareer_html_fields->cs_text_field($cs_opt_array);
+                        
+                        $cs_opt_array = array(
+                            'name' => esc_html__('Content Color', 'jobcareer'),
+                            'desc' => '',
+                            'hint_text' => esc_html__("Set the content color.", 'jobcareer'),
+                            'echo' => true,
+                            'field_params' => array(
+                                'std' => esc_attr($cs_content_color),
+                                'cust_id' => '',
+                                'classes' => 'bg_color',
+                                'cust_name' => 'cs_content_color[]',
+                                'return' => true,
+                            ),
+                        );
 
+                        $jobcareer_html_fields->cs_text_field($cs_opt_array);
+                        
 
+                        $cs_opt_array = array(
+                            'name' => esc_html__('Style', 'jobcareer'),
+                            'desc' => '',
+                            'hint_text' => esc_html__("Please select the about info style.", 'jobcareer'),
+                            'echo' => true,
+                            'field_params' => array(
+                                'std' => $cs_about_info_style,
+                                'id' => '',
+                                'cust_name' => 'cs_about_info_style[]',
+                                'classes' => 'dropdown chosen-select',
+                                'options' => array(
+                                    '' => esc_html__('Default', 'jobcareer'),
+                                    'modern' => esc_html__('Modern', 'jobcareer'),
+                                ),
+                                'return' => true,
+                            ),
+                        );
+
+                        $jobcareer_html_fields->cs_select_field($cs_opt_array);
 
 
                         $cs_opt_array = array(
@@ -166,7 +231,7 @@ if (!function_exists('jobcareer_pb_about')) {
                                 'std' => esc_html($content_texarea),
                                 'id' => 'content_texarea',
                                 'cust_name' => 'content_texarea[]',
-								'cs_editor' => true,
+                                'cs_editor' => true,
                                 'return' => true,
                             ),
                         );
@@ -192,10 +257,9 @@ if (!function_exists('jobcareer_pb_about')) {
                             ),
                         );
                         $jobcareer_html_fields->cs_upload_file_field($cs_opt_array);
-                        
                         ?>
                     </div>
-                    <?php if (isset($_POST['shortcode_element']) && $_POST['shortcode_element'] == 'shortcode') { ?>
+                    <?php if ( isset($_POST['shortcode_element']) && $_POST['shortcode_element'] == 'shortcode' ) { ?>
                         <ul class="form-elements insert-bg">
                             <li class="to-field"> <a class="insert-btn cs-main-btn" onclick="javascript:Shortcode_tab_insert_editor('<?php echo esc_js(str_replace('jobcareer_pb_', '', $name)); ?>', '<?php echo esc_js($name . $cs_counter) ?>', '<?php echo esc_js($filter_element); ?>')" ><?php esc_html_e('Insert', 'jobcareer'); ?></a> </li>
                         </ul>
@@ -248,7 +312,7 @@ if (!function_exists('jobcareer_pb_about')) {
             </div>
         </div>
         <?php
-        if ($die <> 1) {
+        if ( $die <> 1 ) {
             die();
         }
     }
