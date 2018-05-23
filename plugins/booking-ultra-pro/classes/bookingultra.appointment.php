@@ -502,7 +502,7 @@ class BookingUltraAppointment
 							
 							if (isset($loop)) 
 							{
-								$display .= '<select class="'.$required_class.' bup-custom-field bup-input" name="'.$meta.'" id="'.$meta.'" title="'.$name.'" data-errormessage-value-missing="'.__(' * This input is required!','bookingup').'">';
+								$display .= '<select class="'.$required_class.' bup-custom-field bup-input" name="'.$meta.'" id="'.$meta.'" title="'.$name.'" data-errormessage-value-missing="'.__(' * This input is required!','bookingup').'" data="Testing">';
 								
 								foreach($loop as $option)
 								{

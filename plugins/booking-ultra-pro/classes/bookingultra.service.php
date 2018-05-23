@@ -74,6 +74,7 @@ class BookingUltraService
 				CREATE TABLE IF NOT EXISTS ' . $wpdb->prefix . 'bup_services(
 				  `service_id` int(11) NOT NULL AUTO_INCREMENT,
 				  `service_title` varchar(300) NOT NULL,
+				  `service_postcode` varchar(50) ,
 				  `service_color` varchar(10) DEFAULT NULL,
 				  `service_font_color` varchar(10) DEFAULT NULL,
 				  `service_duration` int(11) NOT NULL,
@@ -2936,7 +2937,6 @@ class BookingUltraService
 	public function ubp_update_service()
 	{
 		global $wpdb, $bookingultrapro;
-		
 		$service_id = $_POST['service_id'];
 		$service_title = $_POST['service_title'];
 		$service_duration = $_POST['service_duration'];
@@ -2957,10 +2957,10 @@ class BookingUltraService
 		if($service_groups==''){$service_groups=0;}		
 		if($service_padding_before==''){$service_padding_before=0;}
 		if($service_padding_after==''){$service_padding_after=0;}		
-		
+	
+		$service_postcode = $_POST['service_postcode'];	
 		//if($service_color==''){$service_color=0;}
 		//if($service_font_color==''){$service_font_color=0;}
-		
 		
 		if($service_id!='')
 		{			
@@ -2975,8 +2975,9 @@ class BookingUltraService
 			service_color = "'.$service_color.'",
 			service_font_color = "'.$service_font_color.'",
 			service_padding_before = "'.$service_padding_before.'",
-			service_padding_after = "'.$service_padding_after.'"			
-			WHERE service_id="'.(int)$service_id.'" ';
+			service_padding_after = "'.$service_padding_after.'",			
+			service_postcode = "'.$service_postcode.'"
+		    		WHERE service_id="'.(int)$service_id.'" ';
 			$wpdb->query($sql);
 		
 		
@@ -2995,9 +2996,10 @@ class BookingUltraService
 								'service_padding_before'   => $service_padding_before,
 								'service_padding_after'   => $service_padding_after,
 								'service_allow_multiple'   => $service_groups,
+								'service_postcode'   => $service_postcode,
 								'service_pricing_calculation_type'   => $service_calculation);								
 									
-			$wpdb->insert( $wpdb->prefix . 'bup_services', $new_record, array( '%d', '%s', '%s', '%s', '%s', '%s', '%d', '%s', '%s', '%s', '%s' , '%s' , '%s'));
+			$wpdb->insert( $wpdb->prefix . 'bup_services', $new_record, array( '%d', '%s', '%s', '%s', '%s', '%s', '%d', '%s', '%s', '%s', '%s' , '%s' , '%s' , '%s'));
 			
 		}
 		
@@ -3048,7 +3050,10 @@ class BookingUltraService
 						
 			
 			$html .= '<div class="bup-field-separator"><label for="bup-box-title">'.__('Title','bookingup').':</label><input type="text" name="bup-title" id="bup-title" class="ubp-common-textfields" value="'.$service->service_title.'" /></div>';
-			
+		
+			$html .= '<div class="bup-field-separator"><label for="bup-box-postcode">'.__('Post Code','bookingup').':</label><input type="text" name="bup-postcode" id="bup-postcode" class="ubp-common-textfields" value="'.$service->service_postcode.'" /></div>';
+
+	
 			$html .= '<div class="bup-field-separator"><label for="textfield">'.__('Background Color','bookingup').':</label><input name="bup-service-color" type="text" id="bup-service-color" value="'.$service->service_color.'" class="color-picker" data-default-color=""/></div>';
 				
 			$html .= '<div class="bup-field-separator"><label for="textfield">'.__('Font Color','bookingup').':</label><input name="bup-service-font-color" type="text" id="bup-service-font-color" value="'.$service->service_font_color.'" class="color-picker" data-default-color=""/></div>';
@@ -3128,7 +3133,6 @@ class BookingUltraService
 		</select>
 					
 			</div>';
-			
 			
 			
 			}else{

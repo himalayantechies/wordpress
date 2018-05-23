@@ -202,10 +202,10 @@ $show_cart = $bookingultrapro->get_template_label("show_cart",$template_id);
                 
                  <label><?php echo $bookingultrapro->get_template_label("select_provider_label",$template_id);?> </label> 
                                  
-                  <select name="bup-staff" id="bup-staff">                  
+                  <select name="bup-staff" id="bup-staff"> 
                   	<option value="" ><?php _e('Please select provider','bookingup')?></option>
                   </select>        
-               
+ 
                
                 </div>    
        	   <?php } ?>

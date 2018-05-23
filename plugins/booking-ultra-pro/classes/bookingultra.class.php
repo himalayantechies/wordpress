@@ -1509,7 +1509,17 @@ class BookingUltraPro
 					
 					
 					$display .= '</div>';					
-				
+		
+					$display .= '<label class="bup-field-type" for="user_email_2">';
+                                                $display .= '<i class="fa fa-envelope"></i>';
+                                                $display .= '<span>'.__('Re-type your email', 'bookingup').' '.$required_text.'</span></label>';	
+					$display .= '<div class="bup-field-value">';
+
+                                        $display .= '<input type="text" class="'.$required_class.' bup-input " name="user_testField" id="user_testField" value="'.$this->get_post_value('user_testField').'" title="'.__('Re-type your email','bookingup').'"  placeholder="'.__('Re-type your email','bookingup').'" data-errormessage-value-missing="'.__(' * This input is required!','bookingup').'"/>';
+
+
+                                        $display .= '</div>';
+	
 				}
 				
 				
@@ -1697,7 +1707,7 @@ class BookingUltraPro
 							
 							if (isset($loop)) 
 							{
-								$display .= '<select class="'.$required_class.' bup-input" name="'.$meta.'" id="'.$meta.'" title="'.$name.'" data-errormessage-value-missing="'.__(' * This input is required!','bookingup').'">';
+								$display .= '<select  data="Test1" class="'.$required_class.' bup-input" name="'.$meta.'" id="'.$meta.'" title="'.$name.'" data-errormessage-value-missing="'.__(' * This input is required!','bookingup').'">';
 								
 								foreach($loop as $option)
 								{

@@ -1,74 +1,58 @@
 /* Main*/
 .bup-front-cont { 
-
-	padding:10px; 
+    background: -webkit-linear-gradient(top, #008dbe 0%, #0074a4 100%) !important;
+	padding: 15px 15px 5px;
 	margin:0 auto 0 auto; 
 	position:relative;
-	background: #fff; 
 	width:auto; 
 	max-width:800px; 
-	border:1px solid #ececec;
-	z-index:999
-	
+	/*border:1px solid #ececec;*/
+	z-index:999;
+	box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
 }
-
-
-
 .bup-front-cont .bup_errors{ 
-
-
 }
-
-#reg_telephone{ padding-left:52px !important; padding-right:6px !important}
-
+#reg_telephone{
+    padding-left:52px !important; 
+    padding-right:6px !important
+}
 .bup-front-cont .bup_errors p.bup_error{
-	
 	color: #FF0004;
-
-
 }
-
 .bup-shopping-cart-header{
-	
 	text-align:right; font-size:14px; color:#666; padding:5px 0px 5px 0px;
 }
-
-.bup-shopping-cart-header span{ font-weight:bold;
-	
-	
+.bup-shopping-cart-header span{
+    font-weight:bold;
 }
-
-
-
 .bup-front-cont label{ 
-
 	display:inline-block;
 	margin-bottom:5px;
 	width:100%;
-	color:#666;
-
-	
+	color:#fff;
 }
-
-
 .bup-book-info-block1  .bup-front-cont label{ 
 
 	display:inline-block;
 	margin-bottom:5px;
 	width:100%;
 	color:#666;
-
-	
 }
-
+#bup-steps-cont-res p {
+    color: #fff;
+}
 .bup-front-cont p.bup-unavailable-slot{
 	
 	text-align:center;
 	color:#666;
 	font-weight:bold;		
 }
-
-
+.bup-field {
+    color: #fff;
+}
+.xoouserultra-help{
+    color: #fff;
+}
 
 .bup-four-cols-booking { 
 
@@ -77,9 +61,9 @@
 }
 
 .bup-front-cont .bup-button-submit-changes{ 
-
- border: 1px solid  #8A8A8A;
- background: #ddd none repeat scroll 0 0;
+ border: none;
+ background: #82c9e9 none repeat scroll 0 0 !important;
+ box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
  color:#000;
  font-size:12px;
  line-height:32px;
@@ -94,9 +78,9 @@
 
 .bup-front-cont .bup-button-submit-changes:hover{ 
 
-	background: #ddd none repeat scroll 0 0;
-    border: 1px solid #ccc;
-    box-shadow: none;
+	background: #82c9e9 none repeat scroll 0 0 !important;
+    border: none;
+    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
     color: #000;
     height: auto;
     text-shadow: none;
@@ -219,6 +203,7 @@
   padding-left: 25px;
   padding-top: 2px;
   cursor: pointer;
+  display: initial;
 }
 
 /* checkbox aspect */
@@ -280,12 +265,9 @@
 /*-------------end radio styles*/
 
 .bup-front-cont .bup-filter-header { 
-
-	
 	background: #f9f9f9; 
 	/*width:100%;*/
-	padding:15px 10px 20px 10px;
-	
+	padding:15px 20px 20px 20px;
 }
 
 
@@ -320,7 +302,7 @@
 .bup-front-cont .bup-book-info-cont{ margin:0 auto 0 auto; text-align:center; position:relative; width:100%; text-align:left; }
 
 .bup-front-cont .bup-book-info-text { clear:both;  margin:5px 0px 5px 0px }
-.bup-front-cont .bup-book-info-cont .bup-book-info-block1 {display:inline-block; width:32%; vertical-align:top }
+.bup-front-cont .bup-book-info-cont .bup-book-info-block1 {display:inline-block; width:100%; vertical-align:top }
 
 .bup-front-cont .bup-profile-separator{ clear:both; position:relative;
 
@@ -342,15 +324,15 @@
 .bup-front-cont .bup-profile-field-ppd .bup-total-qty{ display:inline-block; width:18%; vertical-align:top; padding:0px 5px 0px 5px; margin-left:0px}
 
 .bup-front-cont .bup-profile-field{ clear:both; position:relative; height:auto; margin:10px 0px 0px 0px; text-align:left}
-.bup-front-cont .bup-profile-field span{ font-size:14px; color:#777}
-.bup-front-cont .bup-field-type{ display:inline-block; width:30%; text-align:left; vertical-align:top}
+.bup-front-cont .bup-profile-field span{ font-size:14px; color:#fff;}
+.bup-front-cont .bup-field-type{ display:inline-block; width:37%; text-align:left; vertical-align:top}
 .bup-front-cont .bup-field-type img{ position:relative !important}
 
 .bup-book-info-block1  label{
 	color:#666;
 }
 
-.bup-front-cont .bup-field-value{ display:inline-block; width:66%; vertical-align:top; text-align:left}
+.bup-front-cont .bup-field-value{ display:inline-block; width:62.5%; vertical-align:top; text-align:left}
 
 .bup-front-cont .bup-field-type i {
 
@@ -402,24 +384,20 @@ strong.bup-cc-strong-t{ font-weight:bold; color: #575757; font-size:14px}
 .bup-front-cont .bup-shopping-cart-footer { text-align:right }
 .bup-front-cont .bup-shopping-cart-footer span.bupbtncartcheckout{ }
 .bup-front-cont .bup-shopping-cart-footer span.bupbtncartclear{}
-
 .bup-shopping-cart-cont table td.bupcarttotal{ text-align:right; font-size:16px; font-weight:bold}
 .bup-shopping-cart-cont table td.bupcartprice{ text-align:right; }
-
 .bup-btn-delete-cart-item i{ font-size:14px}
-
-
-
-
-
-.bup-front-cont .bup-selected-staff-booking-info{ position:relative; height:auto !important; margin:15px 0px 15px 0px ; padding:10px 5px 10px 5px; text-align:left; color:#777 }
+.bup-front-cont .bup-selected-staff-booking-info{ position:relative; height:auto !important; margin:15px 0px 15px 0px ; padding:10px 5px 10px 5px; text-align:left; color:#fff; }
 
 .bup-front-cont .bup-selected-staff-booking-info p{ font-size:16px; text-align:left }
 .bup-front-cont .bup-selected-staff-booking-info strong{ font-weight:bold }
 
 ul.bup-time-slots-available-list{position:relative; height:auto !important; margin:0px ; padding:0px}
 .bup-front-cont h3{ font-size:20px; margin:10px 0px 10px 0px; text-align:center; color:#333}
-.bup-time-slots-available-list li{ border-top: 1px solid #ddd;
+.bup-time-slots-available-list li{ 
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    background: #fff;
+    /*border-top: 1px solid #ddd;*/
     box-sizing: border-box;
     color: #888;
     font-family: "Open Sans",sans-serif;
@@ -430,7 +408,7 @@ ul.bup-time-slots-available-list{position:relative; height:auto !important; marg
 	display:inline-block;
 	width:19%;
 	vertical-align:top;
-	border: 1px solid  #F3F3F3;
+	/*border: 1px solid  #F3F3F3;*/
 	margin:5px 2px 5px 2px;
 	cursor:pointer;
 	padding:0px 0px 4px 0px;
@@ -438,7 +416,10 @@ ul.bup-time-slots-available-list{position:relative; height:auto !important; marg
 	}
 	
 ul.bup-time-slots-available-list li{ transition: all 0.1s ease-out 0s;}	
-ul.bup-time-slots-available-list li:hover{  background: #f9f9f9 none repeat scroll 0 0;}	
+ul.bup-time-slots-available-list li:hover{  
+    background: #f9f9f9 none repeat scroll 0 0;
+    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+}	
 
 ul.bup-time-slots-available-list li div.bup-timeslot-time{ 
 	box-sizing: border-box;	
@@ -451,9 +432,6 @@ ul.bup-time-slots-available-list li div.bup-timeslot-time{
 	float:none;
 	clear:both;
 	text-align:center;
-	
-	
-
 }
 
 ul.bup-time-slots-available-list li div.bup-timeslot-count{ 
@@ -495,10 +473,9 @@ ul.bup-time-slots-available-list li span.bup-button-text{
 	
 /**/
 .bup-button-submit{ 
-
-  
+ background: #82c9e9 none repeat scroll 0 0 !important;
  border: none ;
- background: #E55237 none repeat scroll 0 0;
+ box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
  color:#fff;
  font-size:12px;
  line-height:32px;
@@ -507,14 +484,12 @@ ul.bup-time-slots-available-list li span.bup-button-text{
  text-transform:uppercase;
  text-decoration:none;
  cursor:pointer;	
-
 }
 
 .bup-button-submit:hover, .bup-button-submit:active , .bup-button-submit:focus{ 
-
-	background: #E96C56 none repeat scroll 0 0;
+	background: #82c9e9 none repeat scroll 0 0 !important;
     border: none ;
-    box-shadow: none;
+    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
     color: #F4F4F4;
     height: auto;
     text-shadow: none;
