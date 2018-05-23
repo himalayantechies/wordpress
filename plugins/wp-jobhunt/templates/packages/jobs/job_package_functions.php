@@ -130,7 +130,7 @@ if ( ! function_exists('cs_job_package_shortcode') ) {
                         $cs_html .= ' </li>';
                     } else if ( $job_package_style == 'classic' || $job_package_style == 'advance' ) {
                     	$pkg_feat_class = ($package_feature == 'yes' || $package_feature == 'hot') ? ' active' : '';
-                        $pkg_feat_color = ($package_feature == 'yes' || $package_feature == 'hot') ? ' class="cs-color"' : '';
+                    	$pkg_feat_color = ($package_feature == 'yes' || $package_feature == 'hot') ? ' class="cs-color"' : '';
                         $main_class = 'modren';
                         if ( $job_package_style == 'advance' ) {
                             $main_class = 'advance';

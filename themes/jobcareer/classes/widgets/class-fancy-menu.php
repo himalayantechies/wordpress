@@ -49,10 +49,10 @@ if (!class_exists('jobcareer_fancy_menu')) {
                 'echo' => true,
                 'field_params' => array(
                     'std' => esc_attr($jobcareer_widget_title),
-                    'id' => cs_allow_special_char($this->get_field_id('title')),
+                    'id' => jobcareer_special_char($this->get_field_id('title')),
                     'classes' => '',
-                    'cust_id' => cs_allow_special_char($this->get_field_name('title')),
-                    'cust_name' => cs_allow_special_char($this->get_field_name('title')),
+                    'cust_id' => jobcareer_special_char($this->get_field_name('title')),
+                    'cust_name' => jobcareer_special_char($this->get_field_name('title')),
                     'return' => true,
                     'required' => false
                 ),
@@ -65,8 +65,8 @@ if (!class_exists('jobcareer_fancy_menu')) {
                 'echo' => true,
                 'field_params' => array(
                         'std' => esc_html($jobcareer_menu_name),
-                        'cust_name' => cs_allow_special_char($this->get_field_name('jobcareer_menu_name')),
-                        'cust_id' => cs_allow_special_char($this->get_field_name('jobcareer_menu_name')),
+                        'cust_name' => jobcareer_special_char($this->get_field_name('jobcareer_menu_name')),
+                        'cust_id' => jobcareer_special_char($this->get_field_name('jobcareer_menu_name')),
                         'id' => '',
                         'classes' => 'cs-recentpost-width',
                         'options' => $all_options,
@@ -94,7 +94,7 @@ if (!class_exists('jobcareer_fancy_menu')) {
             $jobcareer_widget_title = empty($instance['title']) ? ' ' : apply_filters('widget_title', $instance['title']);
             $jobcareer_widget_title = htmlspecialchars_decode(stripslashes($jobcareer_widget_title));
             $jobcareer_menu_name = empty($instance['jobcareer_menu_name']) ? ' ' : apply_filters('widget_title', $instance['jobcareer_menu_name']);
-//            echo cs_allow_special_char($before_widget);
+//            echo jobcareer_special_char($before_widget);
             //$jobcareer_menu_class = $jobcareer_sticky_menu == true ? 'shortcode-nav cs-stickynav' : 'shortcode-nav';
             $jobcareer_menu_arg = array(
                 'theme_location' => '',
@@ -119,14 +119,14 @@ if (!class_exists('jobcareer_fancy_menu')) {
             
             if (!empty($jobcareer_widget_title) && $jobcareer_widget_title <> '') {
                     echo '<div class="widget-title">
-                            <h6>'. cs_allow_special_char($jobcareer_widget_title) .'</h6>
+                            <h6>'. jobcareer_special_char($jobcareer_widget_title) .'</h6>
                         </div>';
                 
             }
             wp_nav_menu($jobcareer_menu_arg);
             echo '</div>';
 
-//            echo cs_allow_special_char($after_widget);
+//            echo jobcareer_special_char($after_widget);
         }
     }
 

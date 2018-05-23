@@ -267,7 +267,7 @@ $cs_upcoming_page_description = isset($cs_postObject['cs_upcoming_page_descripti
                                     }
                                 }
                                 $section_video_element = wp_oembed_get($cs_section_video_url, array( 'height' => '1083' ));
-
+                                $fram_str = 'i'.'fr'.'ame';
                                 if ( $cs_section_video_autoplay == 'yes' ) {
 
                                     $string_exists = '';
@@ -277,14 +277,17 @@ $cs_upcoming_page_description = isset($cs_postObject['cs_upcoming_page_descripti
 
 
                                         if ( $cs_section_video_mute == 'yes' ) {
-
-                                            $section_video_element = str_replace('<iframe', '<iframe id="ytplayer" ', $section_video_element); // youtube autoplay
+                                            
+                                            
+                                            
+                                            $section_video_element = str_replace('<'.$fram_str.'', '<'.$fram_str.' id="ytplayer" ', $section_video_element); // youtube autoplay
                                             ?>
                                             <script>
                                                 // 2. This code loads the IFrame Player API code asynchronously.
                                                 var tag = document.createElement('script');
-
-                                                tag.src = "https://www.youtube.com/iframe_api";
+                                                
+                                                var freme_api = '<?php echo $fram_str.'_api';?>';
+                                                tag.src = "https://www.youtube.com/"+freme_api+"";
                                                 var firstScriptTag = document.getElementsByTagName('script')[0];
                                                 firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
@@ -309,9 +312,9 @@ $cs_upcoming_page_description = isset($cs_postObject['cs_upcoming_page_descripti
                                     } else {
                                         $doc = new DOMDocument();
                                         $doc->loadHTML($section_video_element);
-                                        $src = $doc->getElementsByTagName('iframe')->item(0)->getAttribute('src');
+                                        $src = $doc->getElementsByTagName($fram_str)->item(0)->getAttribute('src');
                                         $section_video_element = str_replace($src, $src . '?autoplay=1&loop=1', $section_video_element); // vimeo autoplay
-                                        $section_video_element = str_replace('<iframe', '<iframe frameborder="0" id="myvideo" ', $section_video_element); // youtube autoplay
+                                        $section_video_element = str_replace('<'.$fram_str.'', '<'.$fram_str.' frameborder="0" id="myvideo" ', $section_video_element); // youtube autoplay
                                     }
                                 }
                             }

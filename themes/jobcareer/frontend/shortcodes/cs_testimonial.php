@@ -5,18 +5,18 @@
  * @retrun
  *
  */
-if (!function_exists('jobcareer_testimonials_shortcode')) {
+if ( ! function_exists('jobcareer_testimonials_shortcode') ) {
 
     function jobcareer_testimonials_shortcode($atts, $content = null) {
         global $testimonial_style, $cs_testimonial_class, $column_class, $testimonial_text_color, $testimonial_author_color, $testimonial_comp_color, $section_title, $post, $jobcareer_options;
         $randomid = rand(10000, 99999);
-        $defaults = array('column_size' => '', 'testimonial_style' => '', 'testimonial_text_color' => '', 'testimonial_author_color' => '', 'testimonial_comp_color' => '', 'testimonial_border' => '', 'testimonial_text_color' => '', 'cs_testimonial_text_align' => '', 'cs_testimonial_section_title' => '', 'cs_testimonial_class' => '');
+        $defaults = array( 'column_size' => '', 'testimonial_style' => '', 'testimonial_text_color' => '', 'testimonial_author_color' => '', 'testimonial_comp_color' => '', 'testimonial_border' => '', 'testimonial_text_color' => '', 'cs_testimonial_text_align' => '', 'cs_testimonial_section_title' => '', 'cs_testimonial_class' => '' );
         extract(shortcode_atts($defaults, $atts));
         $column_class = jobcareer_custom_column_class($column_size);
         $html = '';
         $section_title = '';
         $cs_testimonial_section_title = isset($cs_testimonial_section_title) ? $cs_testimonial_section_title : '';
-        if (isset($cs_testimonial_section_title) and $cs_testimonial_section_title <> '') {
+        if ( isset($cs_testimonial_section_title) and $cs_testimonial_section_title <> '' ) {
             $html .= '<div class="cs-element-title">';
             $html .= '<h2>' . $cs_testimonial_section_title . '</h2>';
             $html .= '</div>';
@@ -24,19 +24,22 @@ if (!function_exists('jobcareer_testimonials_shortcode')) {
         jobcareer_enqueue_slick_script();
         jobcareer_jquery_easing_js();
 
-
         $cs_border_class = '';
-        if ($testimonial_border == 'yes') {
+        if ( $testimonial_border == 'yes' ) {
             $cs_border_class = ' has-border';
         }
-
-
+        
+        if ( isset($testimonial_style) and $testimonial_style == 'default-slider' ){
+            $cs_border_class = '';
+        }
+        
+        
         $has_bg_class = '';
-        if ($testimonial_style == 'fancy') {
+        if ( $testimonial_style == 'fancy' ) {
             $has_bg_class = ' has-bg';
         }
 
-        if (isset($testimonial_style) and $testimonial_style == 'classic') {
+        if ( isset($testimonial_style) and $testimonial_style == 'classic' ) {
             //  Start script for Testimonial slider view
             ?>
             <script type='text/javascript'>
@@ -58,13 +61,37 @@ if (!function_exists('jobcareer_testimonials_shortcode')) {
             $html .= '' . do_shortcode($content) . '';
             $html .= '</ul>';
             $html .= '</section>';
-        } elseif (isset($testimonial_style) and ( $testimonial_style == 'advance-slider' || $testimonial_style == 'fancy' )) {
+        } elseif ( isset($testimonial_style) and $testimonial_style == 'default-slider' ) {
+            //  Start script for Testimonial slider view
+            ?>
+            <script type='text/javascript'>
+                jQuery(document).ready(function () {
+                    "use strict";
+                    jQuery('.testimonial-home.default.slider<?php echo absint($randomid) ?>').slick({
+                        infinite: true,
+						arrows:false,
+						dots: true,
+                        speed: 500,
+                        autoplay: true,
+                        autoplaySpeed: 2000,
+                        fade: true,
+                        cssEase: 'linear',
+                    });
+                });
+            </script>
+            <?php
+            $html .= '<section class="testimonial-inner">';
+            $html .= '<ul class="testimonial-home default slider' . $randomid . $cs_border_class . '">';
+            $html .= '' . do_shortcode($content) . '';
+            $html .= '</ul>';
+            $html .= '</section>';
+        } elseif ( isset($testimonial_style) and ( $testimonial_style == 'advance-slider' || $testimonial_style == 'fancy' ) ) {
             $html .= '<div class="testimonial-advance' . $has_bg_class . '">'
                     . '<ul class="testimonials-slider-thumb">'
                     . do_shortcode($content)
                     . '</ul>'
                     . '</div>';
-        } elseif (isset($testimonial_style) and $testimonial_style == 'simple') {
+        } elseif ( isset($testimonial_style) and $testimonial_style == 'simple' ) {
             //  Start script for Testimonial slider view
             ?>
             <script type='text/javascript'>
@@ -82,23 +109,23 @@ if (!function_exists('jobcareer_testimonials_shortcode')) {
             </script>
             <?php
             $html .= '<div class="testimonial-inner">'
-                    . '<ul class="testimonial-home modern" id="testimonial-modern-'.absint($randomid).'">'
+                    . '<ul class="testimonial-home modern" id="testimonial-modern-' . absint($randomid) . '">'
                     . do_shortcode($content)
                     . '</ul>'
                     . '</div>';
-        } elseif (isset($testimonial_style) and $testimonial_style == 'box') {
+        } elseif ( isset($testimonial_style) and $testimonial_style == 'box' ) {
             $html .= '<div class="row">';
             $html .= do_shortcode($content);
             $html .= '</div>';
         }
-        if ($column_class == '') {
+        if ( $column_class == '' ) {
             return $html;
         } else {
             return '<div class="' . $column_class . '"> ' . $html . '</div>';
         }
     }
 
-    if (function_exists('cs_short_code')) {
+    if ( function_exists('cs_short_code') ) {
         cs_short_code(CS_SC_TESTIMONIALS, 'jobcareer_testimonials_shortcode');
     }
 }
@@ -108,17 +135,17 @@ if (!function_exists('jobcareer_testimonials_shortcode')) {
  * @retrun
  *
  */
-if (!function_exists('jobcareer_testimonial_item')) {
+if ( ! function_exists('jobcareer_testimonial_item') ) {
 
     function jobcareer_testimonial_item($atts, $content = null) {
         global $testimonial_style, $cs_testimonial_class, $column_class, $testimonial_text_color, $testimonial_text_color, $testimonial_author_color, $testimonial_comp_color, $post;
-        $defaults = array('testimonial_facebook' => '', 'testimonial_twitter' => '', 'testimonial_google' => '', 'testimonial_author' => '', 'testimonial_img_user' => '', 'cs_testimonial_text_align' => '', 'testimonial_company' => '');
+        $defaults = array( 'testimonial_facebook' => '', 'testimonial_twitter' => '', 'testimonial_google' => '', 'testimonial_author' => '', 'testimonial_img_user' => '', 'cs_testimonial_text_align' => '', 'testimonial_company' => '' );
         extract(shortcode_atts($defaults, $atts));
         $figure = '';
         $html = '';
         $testimonial_img_user = isset($testimonial_img_user) ? $testimonial_img_user : '';
         $testimonial_user_image = '';
-        if ($testimonial_img_user != '') {
+        if ( $testimonial_img_user != '' ) {
             $testimonial_user_image = '<img alt="#" src="' . esc_url($testimonial_img_user) . '">';
         }
 
@@ -126,16 +153,16 @@ if (!function_exists('jobcareer_testimonial_item')) {
         $cs_test_text_color = '';
         $cs_test_author_color = '';
         $cs_test_comp_color = '';
-        if ($testimonial_text_color != '') {
+        if ( $testimonial_text_color != '' ) {
             $cs_test_text_color = ' style="color:' . $testimonial_text_color . ' !important;"';
         }
-        if ($testimonial_author_color != '') {
+        if ( $testimonial_author_color != '' ) {
             $cs_test_author_color = ' style="color:' . $testimonial_author_color . ' !important;"';
         }
-        if ($testimonial_comp_color != '') {
+        if ( $testimonial_comp_color != '' ) {
             $cs_test_comp_color = ' style="color:' . $testimonial_comp_color . ' !important;"';
         }
-        if (isset($testimonial_style) and $testimonial_style == 'simple') {
+        if ( isset($testimonial_style) and $testimonial_style == 'simple' ) {
 
             $html .= '<li>';
             $html .= '<div class="question-mark">';
@@ -156,7 +183,7 @@ if (!function_exists('jobcareer_testimonial_item')) {
             $html .= '</li>';
             ?>
             <?php
-        } elseif (isset($testimonial_style) and $testimonial_style == 'advance-slider') {
+        } elseif ( isset($testimonial_style) and $testimonial_style == 'advance-slider' ) {
             $html .= '
             <li>
                 <a href="#" class="pos1">
@@ -172,7 +199,7 @@ if (!function_exists('jobcareer_testimonial_item')) {
                     </div>
                 </div>
             </li>';
-        } elseif (isset($testimonial_style) and $testimonial_style == 'fancy') {
+        } elseif ( isset($testimonial_style) and $testimonial_style == 'fancy' ) {
             $attachment_id = jobcareer_get_attachment_id_from_url($testimonial_img_user);
             $thumb_img = wp_get_attachment_image_src($attachment_id, 'jobcareer_media_4');
             $thumb_img = isset($thumb_img[0]) ? $thumb_img[0] : '';
@@ -182,20 +209,20 @@ if (!function_exists('jobcareer_testimonial_item')) {
             $html .= ' <div class="question-mark">';
             $html .= '<span' . $cs_test_text_color . '>' . do_shortcode($content) . '</span>';
 
-            if (isset($testimonial_user_image) && $testimonial_user_image != '') {
+            if ( isset($testimonial_user_image) && $testimonial_user_image != '' ) {
                 $html .= '<div class="cs-media">
                             <figure> <img src="' . esc_url($thumb_img) . '" alt=""  /> </figure>
                         </div>';
             }
             $html .= '<div class="cs-text">';
             $html .= '<ul class="social-media">';
-            if (isset($testimonial_facebook) && $testimonial_facebook != '') {
+            if ( isset($testimonial_facebook) && $testimonial_facebook != '' ) {
                 $html .= '<li> <a href="' . esc_url($testimonial_facebook) . '" data-original-title="facebook"><i class="icon-facebook7"></i></a> </li>';
             }
-            if (isset($testimonial_twitter) && $testimonial_twitter != '') {
+            if ( isset($testimonial_twitter) && $testimonial_twitter != '' ) {
                 $html .= '<li> <a href="' . esc_url($testimonial_twitter) . '" data-original-title="twitter"><i class="icon-twitter6"></i></a> </li>';
             }
-            if (isset($testimonial_google) && $testimonial_google != '') {
+            if ( isset($testimonial_google) && $testimonial_google != '' ) {
                 $html .= '<li> <a href="' . esc_url($testimonial_google) . '" data-original-title="icon-google-plus"><i class="icon-google-plus"></i></a> </li>';
             }
             $html .= '</ul>';
@@ -206,7 +233,7 @@ if (!function_exists('jobcareer_testimonial_item')) {
             $html .= '</div>'; //cs-text
             $html .= '</div>'; // question-mark
             $html .= '</li>';
-        } elseif (isset($testimonial_style) and $testimonial_style == 'box') {
+        } elseif ( isset($testimonial_style) and $testimonial_style == 'box' ) {
             $html = '
             <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
                 <div class="testimonial-inner">
@@ -224,6 +251,17 @@ if (!function_exists('jobcareer_testimonial_item')) {
                     </div>
                 </div>
             </div>';
+        } elseif ( isset($testimonial_style) and $testimonial_style == 'default-slider' ) {
+
+            $html = '';
+            $html .= '<li>';
+            $html .= '<div class="question-mark">';
+            $html .= '<figure><img src="' . esc_url($testimonial_img_user) . '" alt="" class="img-circle" /></figure>';
+            $html .= '<h4' . $cs_test_author_color . '>' . $testimonial_author . '</h4>';
+            $html .= '<span' . $cs_test_comp_color . '>' . $testimonial_company . '</span>';
+            $html .= '<p' . $cs_test_text_color . '>' . do_shortcode($content) . '</p>';
+            $html .= '</div>';
+            $html .= '</li>';
         } else {
 
             $html = '';
@@ -238,7 +276,7 @@ if (!function_exists('jobcareer_testimonial_item')) {
         return $html;
     }
 
-    if (function_exists('cs_short_code')) {
+    if ( function_exists('cs_short_code') ) {
         cs_short_code(CS_SC_TESTIMONIALSITEM, 'jobcareer_testimonial_item');
     }
 }

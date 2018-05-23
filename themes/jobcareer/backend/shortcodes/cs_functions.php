@@ -1395,6 +1395,12 @@ if ( ! function_exists('jobcareer_shortcode_names') ) {
                 'icon' => 'icon-home',
                 'categories' => 'loops misc',
             );
+            $shortcode_array['listing_tab'] = array(
+                'title' => esc_html__('JC : Listing Tab', 'jobcareer'),
+                'name' => 'listing_tab',
+                'icon' => 'icon-table',
+                'categories' => 'loops misc',
+            );
             $shortcode_array['register'] = array(
                 'title' => esc_html__('JC: Register', 'jobcareer'),
                 'name' => 'register',

@@ -3,7 +3,7 @@
  * Include the parent class
  */
 if ( ! class_exists( 'Theme_Upgrader' ) )
-	include_once( ABSPATH . 'wp-admin/includes/class-wp-upgrader.php' );
+	jobcareer_include_file( ABSPATH . 'wp-admin/includes/class-wp-upgrader.php' );
 
 /**
  * Extends the WordPress Theme_Upgrader class.

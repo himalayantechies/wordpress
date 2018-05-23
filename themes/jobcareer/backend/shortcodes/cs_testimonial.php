@@ -160,6 +160,8 @@ if ( ! function_exists('jobcareer_pb_testimonials') ) {
                                             'simple' => esc_html__('Modern', 'jobcareer'),
                                             'box' => esc_html__('Box', 'jobcareer'),
                                             'fancy' => esc_html__('Fancy', 'jobcareer'),
+                                            'default-slider' => esc_html__('Default Slider', 'jobcareer'),
+                                            
                                         ),
                                         'return' => true,
                                     ),

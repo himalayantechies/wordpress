@@ -12,7 +12,7 @@ if (isset($jobcareer_options['cs_excerpt_length']) && $jobcareer_options['cs_exc
     $default_excerpt_length = '20';
 }
 $cs_uniq = rand(11111111, 99999999);
-$cs_postObject = get_post_meta($post->ID, 'cs_full_data', true);
+//$cs_postObject = get_post_meta($post->ID, 'cs_full_data', true);
 $cs_gallery_ids = get_post_meta($post->ID, 'cs_post_list_gallery', true);
 $cs_gallery_slider_ids = get_post_meta($post->ID, 'cs_post_detail_gallery', true);
 $cs_gallery = explode(',', $cs_gallery_ids);
@@ -270,7 +270,7 @@ if ($rightSidebarFlag == true || $leftSidebarFlag == true) {
                                                 <?php
                                                 while ($query->have_posts()) : $query->the_post();
                                                     $thumbnail = jobcareer_get_post_img_src($post->ID, $width, $height);
-                                                    $cs_postObject = get_post_meta($post->ID, "cs_full_data", true);
+                                                    //$cs_postObject = get_post_meta($post->ID, "cs_full_data", true);
                                                     $cs_gallery = get_post_meta($post->ID, 'cs_post_list_gallery', true);
                                                     $cs_gallery = explode(',', $cs_gallery);
                                                     $cs_thumb_view = get_post_meta($post->ID, 'cs_thumb_view', true);

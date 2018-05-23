@@ -25,7 +25,7 @@ $post_count = $query->post_count;
             <?php
             while ($query->have_posts()) : $query->the_post();
                 $thumbnail = jobcareer_get_post_img_src($post->ID, $width, $height);
-                $cs_postObject = get_post_meta($post->ID, "cs_full_data", true);
+               // $cs_postObject = get_post_meta($post->ID, "cs_full_data", true);
                 $cs_gallery = get_post_meta($post->ID, 'cs_post_list_gallery', true);
                 $cs_gallery = explode(',', $cs_gallery);
                 $cs_thumb_view = get_post_meta($post->ID, 'cs_detail_view', true);

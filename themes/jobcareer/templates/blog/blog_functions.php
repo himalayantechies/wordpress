@@ -26,7 +26,7 @@ if ( ! function_exists('jobcareer_blog_shortcode') ) {
             );
         extract(shortcode_atts($defaults, $atts));
         $cs_blog_boxsize = isset($cs_blog_boxsize) ? $cs_blog_boxsize : '';
-        $cs_dataObject = get_post_meta($post->ID, 'cs_full_data');
+        $cs_dataObject = get_post_meta(get_the_ID(), 'cs_full_data');
         $column_class = jobcareer_custom_column_class($column_size);
         $jobcareer_sidebarLayout = '';
         $section_cs_layout = '';
@@ -190,6 +190,10 @@ if ( ! function_exists('jobcareer_blog_shortcode') ) {
                     echo '<div class="row">';
                     get_template_part('templates/blog/blog', 'grid');
                     echo '</div>';
+                } else if ( $cs_blog_view == 'grid-fancy' ) {
+                    echo '<div class="row">';
+                    get_template_part('templates/blog/blog', 'grid-fancy');
+                    echo '</div>';
                 } else if ( $cs_blog_view == 'large' ) {
                     echo '<div class="row">';
                     get_template_part('templates/blog/blog', 'large');
@@ -213,6 +217,8 @@ if ( ! function_exists('jobcareer_blog_shortcode') ) {
                 } else {
                     get_template_part('templates/blog/blog', 'classic');
                 }
+                
+                //grid-fancy
 
                 //simple-grid
 

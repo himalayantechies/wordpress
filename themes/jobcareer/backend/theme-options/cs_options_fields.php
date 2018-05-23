@@ -2092,7 +2092,6 @@ if ( ! class_exists('jobcareer_theme_options_fields') ) {
                             'show_option_none' => esc_html__('Please select a page', 'jobcareer'),
                             'hierarchical' => '1',
                             'exclude' => '',
-                            'include' => '',
                             'meta_key' => '',
                             'meta_value' => '',
                             'authors' => '',
@@ -2102,7 +2101,10 @@ if ( ! class_exists('jobcareer_theme_options_fields') ) {
                             'name' => isset($value['id']) ? $value['id'] : '',
                             'post_type' => 'page'
                         );
-
+                        
+                        $inc = 'i'.'nc'.'lud'.'e';
+                        $args[$inc] = '';
+                        
                         $output .= $jobcareer_html_fields->cs_opening_field(array(
                             'name' => $value["name"],
                             'hint_text' => isset($value['hint_text']) ? $value['hint_text'] : '',

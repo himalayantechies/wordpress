@@ -304,7 +304,7 @@ if ( ! class_exists('cs_plugin_options') ) {
                     'cust_id' => 'package_feature',
                     'cust_name' => 'package_feature',
                     'options' => array(
-                        'no' => esc_html__('None', 'jobhunt'),
+                        'no' => esc_html__('No', 'jobhunt'),
                         'yes' => esc_html__('Featured', 'jobhunt'),
                     	'hot' => esc_html__('Hot Job', 'jobhunt'),
                     ),

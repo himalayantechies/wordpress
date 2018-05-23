@@ -9,91 +9,91 @@
 /*
  * THEME_ENVATO_ID contains theme unique id at envator
  */
-if (!defined('THEME_ENVATO_ID')) {
+if ( ! defined('THEME_ENVATO_ID') ) {
     define('THEME_ENVATO_ID', '14221636');
 }
 
 /*
  * THEME_NAME contains the name of the current theme
  */
-if (!defined('THEME_NAME')) {
+if ( ! defined('THEME_NAME') ) {
     define('THEME_NAME', 'jobcareer');
 }
 
 /*
  * THEME_TEXT_DOMAIN contains the text domain name used for this theme
  */
-if (!defined('THEME_TEXT_DOMAIN')) {
+if ( ! defined('THEME_TEXT_DOMAIN') ) {
     define('THEME_TEXT_DOMAIN', 'jobcareer');
 }
 
 /*
  * THEME_OPTIONS_PAGE_SLUG contains theme optinos main page slug
  */
-if (!defined('THEME_OPTIONS_PAGE_SLUG')) {
+if ( ! defined('THEME_OPTIONS_PAGE_SLUG') ) {
     define('THEME_OPTIONS_PAGE_SLUG', 'jobcareer_theme_options_constructor');
 }
 
 /*
  * CS_JOB_HUNT_STABLE_VERSION contains job hunt stable version compitble with this theme version
  */
-if (!defined('CS_JOB_HUNT_STABLE_VERSION')) {
+if ( ! defined('CS_JOB_HUNT_STABLE_VERSION') ) {
     define('CS_JOB_HUNT_STABLE_VERSION', '2.0');
 }
 
 /*
  * CS_FRAMEWORK_STABLE_VERSION contains cs framework stable version compitble with this theme version
  */
-if (!defined('CS_FRAMEWORK_STABLE_VERSION')) {
+if ( ! defined('CS_FRAMEWORK_STABLE_VERSION') ) {
     define('CS_FRAMEWORK_STABLE_VERSION', '1.8');
 }
 
 /*
  * CS_BASE contains the root server path of the framework that is loaded
  */
-if (!defined('CS_BASE')) {
+if ( ! defined('CS_BASE') ) {
     define('CS_BASE', get_template_directory() . '/');
 }
 
 /*
  * CS_HOME_BASE contains the root server path of the framework that is loaded
  */
-if (!defined('CS_HOME_BASE')) {
+if ( ! defined('CS_HOME_BASE') ) {
     define('CS_HOME_BASE', get_home_url());
 }
 
 /*
  * CS_BASE_URL contains the http url of the framework that is loaded
  */
-if (!defined('CS_BASE_URL')) {
+if ( ! defined('CS_BASE_URL') ) {
     define('CS_BASE_URL', get_template_directory_uri() . '/');
 }
 
 /*
  * DEFAULT_DEMO_DATA_NAME contains the default demo data name used by CS importer
  */
-if (!defined('DEFAULT_DEMO_DATA_NAME')) {
+if ( ! defined('DEFAULT_DEMO_DATA_NAME') ) {
     define('DEFAULT_DEMO_DATA_NAME', 'jobcareer');
 }
 
 /*
  * DEFAULT_DEMO_DATA_URL contains the default demo data url used by CS importer
  */
-if (!defined('DEFAULT_DEMO_DATA_URL')) {
+if ( ! defined('DEFAULT_DEMO_DATA_URL') ) {
     define('DEFAULT_DEMO_DATA_URL', 'http://jobcareer.chimpgroup.com/wp-content/uploads/');
 }
 
 /*
  * DEMO_DATA_HOME_URL contains the demo data url used by CS importer
  */
-if (!defined('DEMO_DATA_HOME_URL')) {
+if ( ! defined('DEMO_DATA_HOME_URL') ) {
     define('DEMO_DATA_HOME_URL', 'http://jobcareer.chimpgroup.com/{{{demo_data_name}}}');
 }
 
 /*
  * DEMO_DATA_URL contains the demo data url used by CS importer
  */
-if (!defined('DEMO_DATA_URL')) {
+if ( ! defined('DEMO_DATA_URL') ) {
     //define( 'DEMO_DATA_URL', 'http://jobcareer.chimpgroup.com/wp-content/uploads/{{{demo_data_name}}}' );
     define('DEMO_DATA_URL', 'http://jobcareer.chimpgroup.com/{{{demo_data_name}}}/wp-content/uploads/');
 }
@@ -101,25 +101,25 @@ if (!defined('DEMO_DATA_URL')) {
 /*
  * REMOTE_API_URL contains the api url used for envator purchase key verification
  */
-if (!defined('REMOTE_API_URL')) {
+if ( ! defined('REMOTE_API_URL') ) {
     define('REMOTE_API_URL', 'http://chimpgroup.com/wp-demo/webservice/');
 }
 
 /*
  * ATTACHMENTS_REPLACE_URL contains the URL to be replaced in WP content XML attachments
  */
-if (!defined('ATTACHMENTS_REPLACE_URL')) {
+if ( ! defined('ATTACHMENTS_REPLACE_URL') ) {
     define('ATTACHMENTS_REPLACE_URL', 'http://jobcareer.chimpgroup.com/wp-content/uploads/');
 }
 
 /*
  * Theme Backup Directory Path
  */
-if (!defined('AUTO_UPGRADE_BACKUP_DIR')) {
+if ( ! defined('AUTO_UPGRADE_BACKUP_DIR') ) {
     define('AUTO_UPGRADE_BACKUP_DIR', WP_CONTENT_DIR . '/' . THEME_NAME . '-backups/');
 }
 
-if (!function_exists('get_demo_data_structure')) {
+if ( ! function_exists('get_demo_data_structure') ) {
 
     /**
      * Return Demo datas available
@@ -173,13 +173,28 @@ if (!function_exists('get_demo_data_structure')) {
                 'name' => esc_html__('RTL Job Career', 'jobcareer'),
                 'image_url' => 'http://chimpgroup.com/wp-demo/webservice/demo_images/jobcareer/rtl.jpg',
             ),
+            'jobstreet' => array(
+                'slug' => 'jobstreet',
+                'name' => esc_html__('Job Street', 'jobcareer'),
+                'image_url' => 'http://chimpgroup.com/wp-demo/webservice/demo_images/jobcareer/jobstreet.jpg',
+            ),
+            'careerbuilder' => array(
+                'slug' => 'careerbuilder',
+                'name' => esc_html__('Career Builder', 'jobcareer'),
+                'image_url' => 'http://chimpgroup.com/wp-demo/webservice/demo_images/jobcareer/careerbuilder.jpg',
+            ),
+            'hindi' => array(
+                'slug' => 'hindi',
+                'name' => esc_html__('Hindi', 'jobcareer'),
+                'image_url' => 'http://chimpgroup.com/wp-demo/webservice/demo_images/jobcareer/hindi.jpg',
+            ),
         );
         return $demo_data_structure;
     }
 
 }
 
-if (!function_exists('get_server_requirements')) {
+if ( ! function_exists('get_server_requirements') ) {
 
     /**
      * Return server requirements for importer
@@ -268,7 +283,7 @@ if (!function_exists('get_server_requirements')) {
 
 }
 
-if (!function_exists('get_plugin_requirements')) {
+if ( ! function_exists('get_plugin_requirements') ) {
 
     /**
      * Return plugin requirements for importer
@@ -284,10 +299,10 @@ if (!function_exists('get_plugin_requirements')) {
         // Check if there is a need to prompt user to install theme.
         $is_cs_framework = class_exists('cs_framework');
         $have_new_version_cs_framework = false;
-        if ($is_cs_framework) {
+        if ( $is_cs_framework ) {
             $current_version_cs_framework = cs_framework::get_plugin_version();
             $new_version_cs_framework = $compatible_plugin_versions['cs_framework'];
-            if (version_compare($current_version_cs_framework, $new_version_cs_framework) < 0) {
+            if ( version_compare($current_version_cs_framework, $new_version_cs_framework) < 0 ) {
                 $is_cs_framework = false;
                 $have_new_version_cs_framework = true;
             }
@@ -295,10 +310,10 @@ if (!function_exists('get_plugin_requirements')) {
         // Check if there is a need to prompt user to install theme.
         $is_wp_jobhunt = class_exists('wp_jobhunt');
         $have_new_version_wp_jobhunt = false;
-        if ($is_wp_jobhunt) {
+        if ( $is_wp_jobhunt ) {
             $current_version_wp_jobhunt = wp_jobhunt::get_plugin_version();
             $new_version_wp_jobhunt = $compatible_plugin_versions['job_hunt'];
-            if (version_compare($current_version_wp_jobhunt, $new_version_wp_jobhunt) < 0) {
+            if ( version_compare($current_version_wp_jobhunt, $new_version_wp_jobhunt) < 0 ) {
                 $is_wp_jobhunt = false;
                 $have_new_version_wp_jobhunt = true;
             }
@@ -306,14 +321,14 @@ if (!function_exists('get_plugin_requirements')) {
         // Check if there is a need to prompt user to install theme.
         $is_rev_slider = class_exists('RevSlider');
         $have_new_version_rev_slider = false;
-        if ($is_rev_slider) {
+        if ( $is_rev_slider ) {
             $current_version_rev_slider = RevSliderGlobals::SLIDER_REVISION;
             $new_version_rev_slider = get_option('revslider-latest-version', RevSliderGlobals::SLIDER_REVISION);
-            if (empty($new_version_rev_slider)) {
+            if ( empty($new_version_rev_slider) ) {
                 $new_version_rev_slider = '5.2.5';
             }
 
-            if (version_compare($current_version_rev_slider, $new_version_rev_slider) < 0) {
+            if ( version_compare($current_version_rev_slider, $new_version_rev_slider) < 0 ) {
                 $is_rev_slider = false;
                 $have_new_version_rev_slider = true;
             }
@@ -346,7 +361,7 @@ if (!function_exists('get_plugin_requirements')) {
 
 }
 
-if (!function_exists('get_mandaory_plugins')) {
+if ( ! function_exists('get_mandaory_plugins') ) {
 
     /**
      * Give a list of the plugins pluings need to be updated (used Auto Theme Upgrader)
@@ -375,16 +390,16 @@ if (!function_exists('get_mandaory_plugins')) {
                 'force_deactivation' => true,
                 'external_url' => '',
             ),
-//			array(
-//				'name' => esc_html__('JobHunt Application Deadline', 'jobcareer'),
-//				'slug' => 'jobhunt-application-deadline',
-//				'source' => trailingslashit(get_template_directory_uri()) . 'backend/theme-components/cs-activation-plugins/jobhunt-application-deadline.zip',
-//				'required' => true,
-//				'version' => '',
-//				'force_activation' => true,
-//				'force_deactivation' => true,
-//				'external_url' => '',
-//			),
+            array(
+                'name' => esc_html__('JobHunt Application Deadline', 'jobcareer'),
+                'slug' => 'jobhunt-application-deadline',
+                'source' => trailingslashit(get_template_directory_uri()) . 'backend/theme-components/cs-activation-plugins/jobhunt-application-deadline.zip',
+                'required' => true,
+                'version' => '',
+                'force_activation' => true,
+                'force_deactivation' => true,
+                'external_url' => '',
+            ),
             array(
                 'name' => esc_html__('JobHunt Email Template', 'jobcareer'),
                 'slug' => 'jobhunt-email-templates',

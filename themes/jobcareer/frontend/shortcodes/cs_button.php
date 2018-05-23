@@ -61,7 +61,7 @@ if (!function_exists('jobcareer_button_shortcode')) {
 
         $html .= '<div class="button_style cs-button">';
 
-        $html .= '<a href="' . esc_url($button_link) . '" class="btn-post ' . sanitize_html_class($button_type_class) . '  ' . $button_size . ' bg-color ' . $cs_button_class . '  ' . $has_icon . ' button-icon-' . $button_icon_position . '" style="' . $border . '  background-color: ' . $button_bg_color . '; color:' . $button_color . ';" target="' . $button_target . '">';
+        $html .= '<a href="' . esc_url($button_link) . '" class="btn-post ' . sanitize_html_class($button_type_class) . '  ' . $button_size . ' bg-color ' . $cs_button_class . '  ' . $has_icon . ' button-icon-' . $button_icon_position . '" style="' . $border . '  background-color: ' . $button_bg_color . '; color:' . $button_color . ' !important;" target="' . $button_target . '">';
         if (isset($button_icon) && $button_icon <> '') {
             $html .= '<i class="' . $button_icon . '"></i>';
         }

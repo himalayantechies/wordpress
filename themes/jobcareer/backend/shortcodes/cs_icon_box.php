@@ -153,6 +153,8 @@ if (!function_exists('jobcareer_pb_icon_box')) {
                                         'options' => array(
                                             'cs-box' => esc_html__('Box', 'jobcareer'),
                                             'simple' => esc_html__('Simple', 'jobcareer'),
+                                            'modern' => esc_html__('Modern', 'jobcareer'),
+                                            
                                         ),
                                         'return' => true,
                                     ),

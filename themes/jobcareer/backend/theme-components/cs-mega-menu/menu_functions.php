@@ -18,7 +18,7 @@ class cs_mega_custom_menu {
         // save menu custom fields
         add_action('wp_update_nav_menu_item', array($this, 'cs_mega_update_custom_nav_fields'), 10, 3);
         // edit menu walker
-        //add_filter('wp_edit_nav_menu_walker', array($this, 'cs_mega_edit_walker'), 10, 2);
+        add_filter('wp_edit_nav_menu_walker', array($this, 'cs_mega_edit_walker'), 10, 2);
     }
 
 // end constructor	
