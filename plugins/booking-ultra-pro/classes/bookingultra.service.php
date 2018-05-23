@@ -2978,6 +2978,8 @@ class BookingUltraService
 			service_padding_after = "'.$service_padding_after.'",			
 			service_postcode = "'.$service_postcode.'"
 		    		WHERE service_id="'.(int)$service_id.'" ';
+		    print_r($sql);
+		    exit;
 			$wpdb->query($sql);
 		
 		
