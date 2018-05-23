@@ -1,0 +1,33 @@
+.fc-day-grid-event, .fc-time-grid-event {
+    cursor: pointer;
+}
+
+.full_calendar_wrapper{
+    margin-top:5px;
+}
+
+.fc-ltr .fc-time-grid .fc-event-container {
+    margin: 0 !important;
+}
+.fc-time-grid-event .fc-time, .fc-time-grid-event.fc-short .fc-title {
+    font-size: 12px !important;
+    padding: 3px 5px 0 !important;
+}
+.fc-time-grid-event.fc-short .fc-title {
+    display: block !important;
+    padding-top: 5px !important;
+}
+
+.fc-time-grid-event .fc-title {
+    padding: 5px 5px 0 !important;
+}
+
+.fc-widget-header table th {
+    padding: 10px;
+}
+
+.icon-rt-bp {
+    position:absolute;
+	right:2px;
+	top:2px;
+}
