@@ -1835,6 +1835,8 @@ jQuery(document).ready(function($) {
 				var service_groups =  jQuery("#bup-groups" ).val();
 				var service_calculation =  jQuery("#bup-groups-calculation" ).val();
 				
+				var service_postcode =  jQuery("#bup-postcode" ).val();
+
 				if(service_title==''){alert(bup_admin_v98.msg_service_input_title); return;}
 				if(service_price==''){alert(bup_admin_v98.msg_service_input_price); return;}
 				
@@ -1853,7 +1855,8 @@ jQuery(document).ready(function($) {
 							"service_padding_before": service_padding_before,
 							"service_padding_after": service_padding_after,
 							"service_groups": service_groups,
-							"service_calculation": service_calculation
+							"service_calculation": service_calculation,
+							"service_postcode": service_postcode
 														
 							 },
 							
