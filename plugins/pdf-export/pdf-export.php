@@ -1,7 +1,7 @@
 <?php
 /*
  * Plugin Name: ISSA PDF
- * Version: 1.0.0
+ * Version: 1.0.1
  * Plugin URI: 
  * Description: Create PDF documents of the Search Results of ISSA Supplier Register
  * Author: 
@@ -10,7 +10,6 @@
  * Tested up to: 4.8
  *
  * Text Domain: issapdf
- * Domain Path: /languages/
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit;
