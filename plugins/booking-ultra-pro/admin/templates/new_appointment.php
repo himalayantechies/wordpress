@@ -5,7 +5,7 @@ global $bookingultrapro;
 
     <div class="bup-adm-frm-blocks" >               
                    
-        <div class="field-header"><?php _e('Select Service','bookingup')?></div>                   
+        <div class="field-header"><?php _e('Select Venue','bookingup')?></div>                   
         <?php echo $bookingultrapro->service->get_categories_drop_down_public();?>                            
                
     </div>

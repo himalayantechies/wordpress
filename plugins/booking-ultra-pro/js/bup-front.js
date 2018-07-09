@@ -161,9 +161,10 @@ if(typeof $ == 'undefined'){
 		
 	//this loads step 2	
 	jQuery(document).on("click", "#bup-btn-next-step1", function(e) {
-			
+			alert("Hello world of the turning the spinner");
 						
 			var b_category=   jQuery("#bup-category").val();
+			console.log("yes");
 			var b_date=   jQuery("#bup-start-date").val();
 			var b_staff=   jQuery("#bup-staff").val();
 			var b_location=   jQuery("#bup-filter-id").val();
@@ -281,7 +282,64 @@ if(typeof $ == 'undefined'){
     		e.preventDefault();		 
 				
         });
-		
+
+	 jQuery(document).on("change", "#uultra_multi_radio_Length_0, #uultra_multi_radio_Length_1, #uultra_multi_radio_Length_2, #uultra_multi_radio_Length_3", function(e) {
+
+			jQuery("#spinnerTotalAmount").css("display","block");
+                        var b_qty=   jQuery("#bup-purchased-qty").val();
+                        var service_id=   jQuery("#service_id").val();
+                        var staff_id=   jQuery("#staff_id").val();
+                        var selectedvalue=   jQuery("input[name=Length]:checked", "#bup-registration-form").val();
+			console.log(selectedvalue);
+						switch(selectedvalue){
+							case 'Full Day 10am - 3pm £35':
+							selectedvalue = 35;
+							break;
+							case 'Half Day 10am - 12 noon £20':
+							case 'Half Day 1pm - 3pm £20':
+							selectedvalue = 20;
+							break;
+							case 'Full Week (All 4 Days) £120':
+							selectedvalue = 120;
+							break;
+							default:
+							selectedvalue = 0;							
+						}
+
+                jQuery.ajax({
+                                        type: 'POST',
+                                        url: ajaxurl,
+                                        data: {"action": "bup_update_purchase_day_total",
+                                        "b_qty": b_qty, "service_id": service_id , "staff_id": staff_id , "value": selectedvalue},
+
+                                        success: function(data){
+
+                                                var res = data;
+                                                var res =jQuery.parseJSON(data);
+                                                if(res.response=='OK')
+                                                {
+                                                        jQuery(".bup-total-detail #bup-total-booking-amount").html(res.amount_with_symbol);
+                                                        jQuery("#bup_service_cost").val(res.amount);
+							jQuery("#spinnerTotalAmount").css("display","none");
+
+                                                }
+
+
+
+                                                }
+                                });
+
+
+                e.preventDefault();
+
+        });
+	
+
+	jQuery('#reg_display_name').on('change',function(e)
+	{  
+		alert("hi");
+			console.log('1234');
+	});
 		
 	
 			
@@ -423,9 +481,11 @@ if(typeof $ == 'undefined'){
 			
 			e.preventDefault();			
 			
+			var training_SessionID =  jQuery(this).attr("bup-training-session-id");
 			var date_to_book =  jQuery(this).attr("bup-data-date");
 			var service_and_staff_id =  jQuery(this).attr("bup-data-service-staff");
 			var time_slot =  jQuery(this).attr("bup-data-timeslot");
+			var TrainingSessionPrice =  jQuery(this).attr("bup-training-session-price");
 			var form_id =  jQuery("#bup-custom-form-id").val();
 			var location_id =  jQuery("#bup-filter-id").val();
 			
@@ -452,11 +512,19 @@ if(typeof $ == 'undefined'){
 						jQuery.ajax({
 							type: 'POST',
 							url: ajaxurl,
-							data: {"action": "ubp_book_step_3", "date_to_book": date_to_book, "service_and_staff_id": service_and_staff_id  , "time_slot": time_slot , "form_id": form_id , "location_id": location_id  , "field_legends": field_legends  , 
-							"placeholders": placeholders,
-							"template_id": template_id ,
-							"max_capacity": max_capacity,
-							"max_available": max_available },
+							data: {"action": "ubp_book_step_3", 
+							        "training_Session_ID" : training_SessionID ,
+							        "date_to_book": date_to_book, 
+							        "service_and_staff_id": service_and_staff_id  ,
+							        "time_slot": time_slot ,
+							        "form_id": form_id , "location_id": location_id  ,
+							        "field_legends": field_legends  ,
+							        
+        							"placeholders": placeholders,
+        							"template_id": template_id ,
+        							"max_capacity": max_capacity,
+        							"max_available": max_available,
+        							"TrainingSessionPrice": TrainingSessionPrice},
 							
 							success: function(data){
 								
@@ -505,7 +573,10 @@ if(typeof $ == 'undefined'){
 		jQuery(document).on("click", "#bup-btn-book-app-confirm", function(e) {
 			
 			e.preventDefault();
-			
+		/*	if (! validateEmails()){
+			    return false;
+			}
+			*/
 			$("#bup-registration-form").validationEngine({promptPosition: 'inline'});				
 			var frm_validation  = $("#bup-registration-form").validationEngine('validate');	
 			
@@ -748,6 +819,57 @@ function bup_reload_cart(){
 				});	
 	
 }
+
+jQuery(document).on("change", "#reg_user_email", function(e) {
+    var email_id = jQuery('#reg_user_email').val();
+    var pattern = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
+    if( ! pattern.test(email_id)){
+        console.log(email_id+"line 824");
+       if(jQuery(".invalidemail").length === 0){
+           jQuery("#reg_user_email").next().append("<div class = 'invalidemail'> * Invalid email address.</div>");
+           jQuery(".invalidemail").css({"display":"block", "color":"white", "background-color":"red"});
+           jQuery("#reg_user_email").focus();
+       } else {
+           jQuery(".invalidemail").show();
+           jQuery(".invalidemail").focus();
+       }
+       jQuery("#bup-btn-book-app-confirm").prop('disabled', true);
+       
+    }else{
+        jQuery(".invalidemail").hide();
+        jQuery("#bup-btn-book-app-confirm").prop('disabled', false);
+    }
+        if(jQuery('#reg_user_email_2').val() !== ''){
+            jQuery('#reg_user_email_2').trigger("change");
+        }
+});
+
+jQuery(document).on("change", "#reg_user_email_2", function(e) {
+    var email_id = jQuery('#reg_user_email').val();
+    var confirm_email_id = jQuery('#reg_user_email_2').val();
+    console.log(email_id);
+	console.log(confirm_email_id);
+	var pattern = new RegExp(/^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i);
+    if( ! pattern.test(confirm_email_id)){
+       jQuery(".emailNoMatch").html("* Invalid email address.");
+       jQuery(".emailNoMatch").css("display", "block");
+       jQuery(".emailNoMatch").show();
+       jQuery("#reg_user_email_2").focus();
+       jQuery("#bup-btn-book-app-confirm").prop('disabled', true);
+       
+    }else{
+        if(email_id == confirm_email_id  &&(pattern.test(email_id) && pattern.test(confirm_email_id))){
+           jQuery("#bup-btn-book-app-confirm").prop('disabled', false);
+           jQuery(".emailNoMatch").css("display", "none");
+    	} else {
+    	   jQuery("#bup-btn-book-app-confirm").prop('disabled', true);
+    	   jQuery(".emailNoMatch").html("* Provided confirmation email address doesn't match with the email address above.");
+           jQuery(".emailNoMatch").css("display", "block");
+        }
+    }
+    
+     
+});
 
 
 

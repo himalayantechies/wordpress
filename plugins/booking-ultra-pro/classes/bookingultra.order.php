@@ -154,7 +154,7 @@ class BookingUltraOrder
 		global $wpdb,  $bookingultrapro;
 		
 		extract($orderdata);
-		
+	
 		//update database
 		$query = "INSERT INTO " . $wpdb->prefix ."bup_orders (`order_booking_id`,`order_key`, `order_method_name`, `order_status` ,`order_amount` , `order_qty`, `order_date`) VALUES ('$booking_id','$transaction_key','$method','$status', '$amount', '$quantity',  '".date('Y-m-d')."')";
 		
@@ -187,12 +187,12 @@ class BookingUltraOrder
 		$ends = $day.' '.$time_to.':00';
 		
 		//update database
-		$query = "INSERT INTO " . $wpdb->prefix ."bup_bookings (`booking_user_id`,`booking_service_id`, `booking_staff_id`, `booking_date` ,`booking_time_from` ,`booking_time_to`  , `booking_amount`, `booking_key`, `booking_qty`,  `booking_template_id`,  `booking_cart_id`) VALUES ('$user_id','$service_id','$staff_id','".date('Y-m-d')."','$start', '$ends', '$amount', '$transaction_key',  '$quantity', '$template_id' , '$cart_id')";
+		$query = "INSERT INTO " . $wpdb->prefix ."bup_bookings (`booking_user_id`,`booking_service_id`, `booking_staff_id`, `booking_date` ,`booking_time_from` ,`booking_time_to`  , `booking_amount`, `booking_key`, `booking_qty`,  `booking_template_id`,  `booking_cart_id`) 
+		            VALUES ('$user_id','$service_id','$staff_id','".date('Y-m-d')."','$start', '$ends', '$amount', '$transaction_key',  '$quantity', '$template_id' , '$cart_id')";
 		
-		//echo $query;						
+								
 		$wpdb->query( $query );		
-		
-		return $wpdb->insert_id;				
+		return $wpdb->insert_id;
 						
 	}
 	

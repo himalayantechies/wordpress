@@ -33,6 +33,12 @@ class BookingUltraService
 		
 		add_action( 'wp_ajax_bup_update_purchase_total',  array( &$this, 'update_purchase_total_inline' ));
 		add_action( 'wp_ajax_nopriv_bup_update_purchase_total',  array( &$this, 'update_purchase_total_inline' ));
+
+		add_action( 'wp_ajax_bup_update_purchase_day_total',  array( &$this, 'update_purchase_total_day_inline' ));
+        add_action( 'wp_ajax_nopriv_bup_update_purchase_day_total',  array( &$this, 'update_purchase_total_day_inline' ));
+        
+        add_action( 'wp_ajax_bup_check_email',  array( &$this, 'check_email' ));
+        add_action( 'wp_ajax_nopriv_bup_check_email',  array( &$this, 'check_email' ));
 		
 		add_action( 'wp_ajax_bup_delete_cart_item',  array( &$this, 'delete_cart_item' ));
 		add_action( 'wp_ajax_nopriv_bup_delete_cart_item',  array( &$this, 'delete_cart_item' ));
@@ -75,6 +81,11 @@ class BookingUltraService
 				  `service_id` int(11) NOT NULL AUTO_INCREMENT,
 				  `service_title` varchar(300) NOT NULL,
 				  `service_postcode` varchar(50) ,
+    				  `service_contactname` varchar(50) ,
+				  `service_phonenumber` varchar(50) ,
+				  `service_email` varchar(50) ,
+				  `service_address` varchar(500) ,
+				  `service_directionnotes` varchar(2000) ,
 				  `service_color` varchar(10) DEFAULT NULL,
 				  `service_font_color` varchar(10) DEFAULT NULL,
 				  `service_duration` int(11) NOT NULL,
@@ -358,6 +369,7 @@ class BookingUltraService
 		
 		$response = array();
 		
+		$training_Session_ID = $_POST['training_Session_ID'];
 		$bup_date = $_POST['date_to_book'];
 		$service_and_staff_id = $_POST['service_and_staff_id'];
 		$time_slot = $_POST['time_slot'];
@@ -370,6 +382,8 @@ class BookingUltraService
 		
 		$max_capacity = $_POST['max_capacity'];
 		$max_available = $_POST['max_available'];
+		
+		$TrainingSessionPrice = $_POST['TrainingSessionPrice'];
 				
 		
 		$arr_ser = explode("-", $service_and_staff_id);			
@@ -383,9 +397,12 @@ class BookingUltraService
 		$service = $this->get_one_service($service_id);
 		
 		$service_details = $bookingultrapro->userpanel->get_staff_service_rate( $staff_id, $service_id ); 
-		$amount= $service_details['price'];
+		//$amount= $service_details['price'];
+		$amount=  $_POST['TrainingSessionPrice'];
 		
-		$order_data = array('bup_date' => $bup_date,						 
+		$order_data = array(
+		                 'training_Session_ID' => $training_Session_ID,	
+		                 'bup_date' => $bup_date,						 
 						 'service_id' => $service_id,
 						 'form_id' => $form_id,
 						 'staff_id' => $staff_id ,
@@ -398,12 +415,11 @@ class BookingUltraService
 						 'placeholders' => $placeholders,
 						 'template_id' => $template_id,
 						 'max_capacity' => $max_capacity,
-						 'max_available' => $max_available); 
-		
+						 'max_available' => $max_available,
+						 'TrainingSessionPrice' => $TrainingSessionPrice); 
 		
 		$date_from_l =  $bup_date.' '.$book_from.':00';
 		$html='';
-		
 	
 		$time_format = $this->get_time_format();		
 		
@@ -438,8 +454,7 @@ class BookingUltraService
 			$html .= '<div class="bup-selected-staff-booking-info">'; 		
 			$html .= $content_text;		
 			$html .= '</div>';		
-		
-			$html .= $bookingultrapro->get_registration_form($order_data);
+		    $html .= $bookingultrapro->get_registration_form($order_data);
 			
 		}
 		
@@ -626,8 +641,7 @@ class BookingUltraService
 		{
 			
 			echo $html;
-			//echo " ajax";
-			die();
+		    die();
 			
 		}else{
 			
@@ -795,7 +809,13 @@ class BookingUltraService
 			//This if the first time then we create the cookie
 			$BUP_CART = array();
 			
-			$BUP_CART[] = array('service_id' => $order_data['service_id'], 'staff_id' => $order_data['staff_id'], 'book_date' => $order_data['bup_date'], 'book_from' => $order_data['book_from'] , 'book_to' => $order_data['book_to'] , 'book_qty' =>1); 
+			$BUP_CART[] = array('training_session_id' => $order_data['training_Session_ID'],
+			                    'service_id' => $order_data['service_id'], 
+			                    'staff_id' => $order_data['staff_id'], 
+			                    'book_date' => $order_data['bup_date'], 
+			                    'book_from' => $order_data['book_from'] , 
+			                    'book_to' => $order_data['book_to'] , 
+			                    'book_qty' =>1); 
 				
 			setcookie( "BUP_SHOPPING_CART", json_encode($BUP_CART), time() + (30 * DAY_IN_SECONDS), COOKIEPATH, COOKIE_DOMAIN, is_ssl() );
 			
@@ -810,7 +830,7 @@ class BookingUltraService
 			$CURRENT_CART = stripslashes($CURRENT_CART);
 			$CURRENT_CART = json_decode($CURRENT_CART, true);
 			
-			$CURRENT_CART[] = array('service_id' => $order_data['service_id'], 'staff_id' => $order_data['staff_id'], 'book_date' => $order_data['bup_date'], 'book_from' => $order_data['book_from'] , 'book_to' => $order_data['book_to']  , 'book_qty' =>1); 
+			$CURRENT_CART[] = array('training_session_id' => $order_data['training_Session_ID'],'service_id' => $order_data['service_id'], 'staff_id' => $order_data['staff_id'], 'book_date' => $order_data['bup_date'], 'book_from' => $order_data['book_from'] , 'book_to' => $order_data['book_to']  , 'book_qty' =>1); 
 			//print_r($CURRENT_CART);
 			setcookie( "BUP_SHOPPING_CART", json_encode($CURRENT_CART), time() + (30 * DAY_IN_SECONDS), COOKIEPATH, COOKIE_DOMAIN, is_ssl() );
 			
@@ -898,7 +918,72 @@ class BookingUltraService
 		die();
 	
 	}
+
+    function update_purchase_total_day_inline()
+    {
+
+            global  $bookingultrapro;
+
+            $currency_symbol =  $bookingultrapro->get_option('paid_membership_symbol');
+
+
+            $b_qty = $_POST['b_qty'];
+            $service_id = $_POST['service_id'];
+            $staff_id = $_POST['staff_id'];
+            $value = $_POST['value'];
+
+            if($b_qty==''){$b_qty=1;}
+
+            //$service_details = $bookingultrapro->userpanel->get_staff_service_rate( $staff_id, $service_id );
+            //$service = $bookingultrapro->service->get_one_service($service_id);
+
+            if($service->service_pricing_calculation_type==1 || $service->service_pricing_calculation_type=='')
+            {
+                    //common calculation
+                    $amount= $value * $b_qty;
+		$amount = '£' . $amount . '.00';
+
+            }
+
+
+
+            $response = array('response' => 'OK', 'amount' => $amount, 'amount_with_symbol' => $currency_symbol.$amount);
+            echo json_encode($response) ;
+
+            die();
+
+    }
 	
+	
+	function check_email()
+    {
+
+            global  $bookingultrapro;
+
+            $service_id = $_POST['service_id'];
+            $email_id = $_POST['email_id'];
+            $confirm_email_id = $_POST['confirm_email_id'];
+
+            if($email_id !== $confirm_email_id)
+            {
+				$responsedata = 'NO';
+				$html ='<p>'.__("Email you have provided does not match.",'bookingup').'</p>';
+            }
+			else
+			{
+				$responsedata = 'OK';
+				$html ='';
+			}
+
+
+
+            $response = array('response' => $responsedata, 'content' => $html);
+            echo json_encode($response) ;
+
+            die();
+
+    }
+    
 	function calculate_with_all_quantity($service_id, $b_qty, $sum_all=true )
 	{
 		
@@ -1045,7 +1130,7 @@ class BookingUltraService
 		if($bookingultrapro->userpanel->staff_offer_service( $staff_id, $b_category ))
 		{
 			$html .= '<div class="bup-selected-staff-booking-info">'; 
-			$html .= '<p>'. __('Below you can find a list of available time slots for ','bookingup').'<strong>'.$service->service_title.'</strong> '.__('by ','bookingup').'<strong>'.$staff_member->display_name.'</strong>.'.'<p>';	
+			$html .= '<p>'. __('Below you can find a list of available time slots for ','bookingup').'<strong>'.$service->service_title.'<p>';	
 			$html .= '</div>';
 			
 			$available_previous =true;
@@ -1348,10 +1433,10 @@ class BookingUltraService
 		}
 		
 		//Does the user offer this service?				
-		if($bookingultrapro->userpanel->staff_offer_service( $staff_id, $b_category ))
-		{
+		//if($bookingultrapro->userpanel->staff_offer_service( $staff_id, $b_category ))
+		//{
 			$html .= '<div class="bup-selected-staff-booking-info">'; 
-			$html .= '<p>'. __('Below you can find a list of available time slots for ','bookingup').'<strong>'.$service->service_title.'</strong> '.__('by ','bookingup').'<strong>'.$staff_member->display_name.'</strong>.'.'<p>';	
+			$html .= '<p>'. __('Below you can find a list of available time slots for ','bookingup').'<strong>'.$service->service_title.'<p>';	
 			$html .= '</div>';
 			
 		
@@ -1384,10 +1469,10 @@ class BookingUltraService
 					 $slot_previous = array();
 					 $available_previous =  true;
 					 
-					// print_r($time_slots );
-					 
+					
 					 foreach($time_slots as $slot)
 					 {
+					     
 						 $cdiv_range++;	
 						 
 						  $day_time_slot = date('Y-m-d', strtotime($date_from)).' '.$slot['from'].':00';
@@ -1420,22 +1505,8 @@ class BookingUltraService
 						 
 						 
 						 $is_slot_outside_working_hours = false;
-						if($this->is_booking_outside_working_hours($staff_hourly, $time_to, $date_from ) && $allow_bookings_outside_b_hours=='no')
-						{
-							$is_slot_outside_working_hours = true;							
-						}
+						 $available_slot =true;	
 						
-								
-					  
-				
-						if($staff_time_slots['available']==0 || $is_in_break || $staff_time_slots['busy']==true || $is_in_holiday || $is_passed )
-						   {							
-								$available_slot =false;
-									
-							}else{								
-									
-								$available_slot =true;	
-							}
 								
 							
 							//padding before?
@@ -1469,7 +1540,7 @@ class BookingUltraService
 						 if(!$is_slot_outside_working_hours) 
 						 {
 						 
-						
+					
 						 $html .= '<li id="bup-time-slot-hour-range-'.$cdiv.'-'.$cdiv_range.'">';					
 						 $html .= '<div class="bup-timeslot-time"><i class="fa fa-clock-o"></i>'.$time_to_display.'</div>';
 						 $html .= '<div class="bup-timeslot-count"><span class="spots-available">'.$staff_time_slots['label'].'</span></div>';
@@ -1541,14 +1612,14 @@ class BookingUltraService
 				 
 			 }  //end while
 			 
-		}else{
+		//}else{
 			
 			
 			$html .='<p>'.__("This Provider doesn't offer this service.",'bookingup').'</p>';
 			
 			
 		
-		}  //end if
+		//}  //end if
 		 		
 		
 		echo $html ;		
@@ -1615,7 +1686,9 @@ class BookingUltraService
 	{
 		
 		global  $bookingultrapro;
+		global $wpdb;
 		
+	
 		$business_hours = get_option('bup_business_hours');
 		$time_format = $this->get_time_format();
 		
@@ -1632,8 +1705,8 @@ class BookingUltraService
 		$response = array();
 		
 		$time_slots = array();		
-		$b_category = $_POST['b_category'];
-		$b_date = $_POST['b_date'];		
+		$b_category = $_POST['b_category'];//Venue selected
+		$b_date = $_POST['b_date'];	//Date selected	
 		$b_staff = $_POST['b_staff'];
 		$b_location = $_POST['b_location'];
 		$template_id = $_POST['template_id'];
@@ -1692,13 +1765,7 @@ class BookingUltraService
 			die();		
 		}
 		
-		if($staff_id=='')
-		{		
-			$html .='<p>'.__("Please select a provider.",'bookingup').'</p>';
-			$response = array('response' => 'NOOK', 'content' => $html);		
-			echo json_encode($response);			
-			die();		
-		}
+	
 		
 		//parse content		
 		$content_text = $bookingultrapro->get_template_label("step2_texts",$template_id);		
@@ -1706,8 +1773,6 @@ class BookingUltraService
 		
 		//minimized layout		
 		$selected_layout = $bookingultrapro->get_template_label("layout_selected",$template_id);
-		
-		//echo "template : ".$selected_template;
 		
 		$class_day_divisor = '';
 		$class_ul_divisor = '';
@@ -1730,9 +1795,8 @@ class BookingUltraService
 		
 		$wp_date_format = get_option( 'date_format' );
 		
-		//Does the user offer this service?				
-		if($bookingultrapro->userpanel->staff_offer_service( $staff_id, $b_category ))
-		{
+		//Does the user offer this service?	-- We dont need to check this			
+		
 			$html .= '<div class="bup-selected-staff-booking-info">'; 
 			
 			$html .= $content_text;		
@@ -1741,307 +1805,79 @@ class BookingUltraService
 			
 			
 		    $available_previous = true;
-			while (strtotime($date_from) < strtotime($end_date)) 
-			{
-				 $cdiv++;
-				 
-				 $day_num_of_week = date('N', strtotime($date_from));	
-				 
-				  if(isset($items_schedule[$day_num_of_week]))
-				  {			 
-					 			  
-					  $html .= '<div class="bup-time-slots-divisor '.$class_day_divisor.'" id="bup-time-sl-div-'.$cdiv.'">';	
-					  
-					  if($selected_layout==2) //minified		
-					  {					  
-					  
-					  	  $html .= '<h3 class="'.$class_h3.'">'.date($wp_date_format, strtotime($date_from)).'</h3>';					  
-					  }else{
-						  
-						  $html .= '<h3>'.$bookingultrapro->commmonmethods->formatDate($date_from).'</h3>';
-						  
-					  }
-					    
-					  $html .= '<ul class="bup-time-slots-available-list '.$class_ul_divisor.'">';	
-					  
-					  //get available slots for this date				 
-					  $time_slots = $this->get_time_slot_public_for_staff($day_num_of_week,  $staff_id, $b_category, $time_format);
-					 
-					 //check if staff member is in holiday this day					   
-					  $is_in_holiday = $this->is_in_holiday($staff_id, $date_from);	
-					  
-					  //staff hourly						 
-					  $staff_hourly = $this->get_hourly_for_staf($staff_id, $day_num_of_week);	
-				 
-					 $cdiv_range = 0 ;
-					 
-					 $at_least_one_available=false;
-					 
-					 foreach($time_slots as $slot)
-					 {
-						 $cdiv_range++;						 
-						 
-						 $day_time_slot = date('Y-m-d', strtotime($date_from)).' '.$slot['from'].':00'; 
-						 $current_time_slot = $slot['from'].':00';
-						 $increased_minutes = date('H:i:s', strtotime( $current_time_slot ) +$slot_length_minutes);
-						 
-						 $to_slot_limit = $date_from.' '. $slot['to'].':00';						
-						 $day_time_slot_to = $to_slot_limit;
-						 
-						 $staff_time_slots = array();					 
-						 $staff_time_slots = $this->get_time_slots_availability_for_day($staff_id, $b_category, $day_time_slot, $day_time_slot_to);	
-					  
-					     //check if staff member is on break time for this day.						
-					      $is_in_break = $this->is_in_break($staff_id, $day_num_of_week, $slot['from'] , $slot['to']);
-					   
-					     //check if staff member is working on special schedule.						
-					     $is_in_special_schedule = $this->is_in_special_schedule($staff_id, $date_from, $slot['from'] , $slot['to']);
-					   
-					   if($staff_time_slots['available']==0 || $is_in_break || $staff_time_slots['busy']==true || $is_in_holiday || $is_in_special_schedule )
-					   {							
-							$available_slot =false;							
-								
-						}else{												
-								
-							$available_slot =true;							
-						}
-							
-						$time_from = $slot['from'];
-						$time_to = $slot['to'];
-						$time_to_overlap = $slot['to_overlap'];
-						
-						$time_from_display = $slot['from_display'];
-						$time_to_display = $slot['to_display'];
-						
-						//padding before?
-						if($service->service_padding_before!='' && $service->service_padding_before!=0 )
-						{
-							//previous is not available, then we need to add padding
-							//if(!$available_previous)
-							//{
-								$minutes_to_increate = $service->service_padding_before;									
-								$increased_from = date('H:i:s', strtotime($time_from.':00')+$minutes_to_increate);
-								$increased_from = date('H:i', strtotime($increased_from));							
-								$time_from = $increased_from;
-									
-							//}
-								
-						}				
-							 
-						 
-						 if($display_only_from_hour=='yes' || $display_only_from_hour=='' )
-						 {
-							  //reduced view
-							 $time_to_display = '&nbsp;&nbsp;'.date($time_format, strtotime($time_from));
-						 }else{
-							 
-							 $time_to_display = '&nbsp;&nbsp;'.date($time_format, strtotime($time_from)).' &ndash; '.date($time_format, strtotime($time_to)).'';					 			
-						 
-						 }
-						 
-						 
-						 //check if hour is available to book, we have to use the server time		 
-						 $current_slot_time_stamp = strtotime($date_from.' '.$time_from.':00');		 
-						 $current_site_time_stamp = strtotime(date( 'Y-m-d H:i:s', current_time( 'timestamp', 0 ) ));
-						 
-						 $is_passed = false;						 
-						 if($current_site_time_stamp>$current_slot_time_stamp)
-						 {							 
-							 $is_passed = true;	 						
-						 }
-						 
-						 //min prior to booking?						 
-						 $min_hours_prior_booking = $this->check_prior_to_booking($current_slot_time_stamp);
-						 
-						 //special scheduling?						 
-						 $li_class = '';					 	
-						
-						if($staff_time_slots['available']==0 || $is_in_break || $is_passed || $staff_time_slots['busy']==true || $is_in_holiday || $is_in_special_schedule || !$min_hours_prior_booking)
-						{
-							$button_class = 'bup-button-blocked ';
-							$button_label = __('Unavailable','bookingup');
-							$li_avail_icon = '';							
-							$class_disable_price_line = ' style=" text-decoration: line-through " ';							
-							$is_slot_available = false;
-						
-						}else{
-							
-							$button_class = 'bup-button bup-btn-book-app';
-							$button_label = __('Book Appointment','bookingup');
-							$li_class = 'bup-btn-book-app-li';	
-							
-							//used in minified mode
-							$li_avail_icon = 'fa fa-check-square-o';
-							$class_disable_price_line = ' ';	
-							$is_slot_available = true;				
-						}
-						
-						//is All Day event?						
-						if($service->service_duration==86400)	
-						{
-							$time_from = '00:00';
-						    $time_to = '23:59';						
-						}	
-						
-						
-						$is_slot_outside_working_hours = false;
-						if($this->is_booking_outside_working_hours($staff_hourly, $time_to, $date_from ) && $allow_bookings_outside_b_hours=='no' )
-						{
-							$is_slot_outside_working_hours = true;							
-						}
-						
-						
-						//do we have to hide the slot in the fron-end?						
-						if($display_unavailable=='no' && !$is_slot_available)
-						{							
-							$is_slot_visible = false;
-							
-						}else{
-							
-							$is_slot_visible = true;							
-						}
-						
-						
-						
-				       if($is_slot_visible && !$is_slot_outside_working_hours)
-					   {
-						   
-						 $at_least_one_available=true;							 	 
-						
-						 $html .= '<li class="'.$li_class.' '.$class_li_divisor.'"   id="bup-time-slot-hour-range-'.$cdiv.'-'.$cdiv_range.'" bup-data-date="'.date('Y-m-d', strtotime($date_from)).'" bup-max-capacity="'.$staff_time_slots['capacity'].'" bup-max-available="'.$staff_time_slots['available'].'" bup-data-timeslot="'.$time_from .'-'.$time_to.'" bup-data-service-staff="'.$b_category.'-'.$staff_id.'" >';
-						 
-						 //
-						 
-						 if($selected_layout==2) //minified		
-						 {							 
-							$html .= ' <span class="bup-front-mini-icons">							
-							<i class="'.$li_avail_icon.'" '.$class_i_icon_bg.'></i> </span>';							
-						 }
-						 
-						 					
-						 $html .= '<div class="bup-timeslot-time" '.$class_disable_price_line.'><i class="fa fa-clock-o"></i>'.$time_to_display.'</div>';
-						 $html .= '<div class="bup-timeslot-count"><span class="spots-available">'.$staff_time_slots['label'].'</span></div>';
-						 
-						 $html .= '<span class="bup-timeslot-people" '.$class_book_button.'>';	
-						 
-						
-						 $html .= '<button class="new-appt '.$button_class.'" bup-data-date="'.date('Y-m-d', strtotime($date_from)).'" bup-max-capacity="'.$staff_time_slots['capacity'].'" bup-max-available="'.$staff_time_slots['available'].'" bup-data-timeslot="'.$time_from .'-'.$time_to.'" bup-data-service-staff="'.$b_category.'-'.$staff_id.'">'; //category-userid
-						
-						$html .= '<span class="button-timeslot"></span><span class="bup-button-text">'. $button_label.'</span></button>';
-						
-						 $html .= '</span>';						
-						 $html .= '</li>';	
-						 
-					 	} // end if						 
-						 
-						 $available_previous =$available_slot;					 
-					 
-					 }
-					  
-					  $html .='</ul>';			  			  
-					  $html .= '</div>'; //end time slots divisor
-					  
-					   //is the whole day signed off			 
-						 if(!$at_least_one_available)
-						 {
-							 $html .='<p class="bup-unavailable-slot">'.__("There are no available time slots on this day.",'bookingup').'</p>';
-							 
-						 }
-				  
-				  
-				  } //end if working			  
-				  
-				 
-				 //increase date
-				 $date_from = date ("Y-m-d", strtotime("+1 day", strtotime($date_from))); 			 
-				 
-				 
-			 }  //end while
-			 
-			 
-			
-			 
-		}else{
-			
-			
-			$html .='<p>'.__("This Provider doesn't offer this service.",'bookingup').'</p>';
-			
-			
 		
-		}  //end if
-		 		
+			    
+			    $cdiv++;
+				 
+			    $day_num_of_week = date('N', strtotime($date_from));	
+				
+				$html .= '<div class="bup-time-slots-divisor '.$class_day_divisor.'" id="bup-time-sl-div-'.$cdiv.'">';	
+			    $html .= '<ul class="bup-time-slots-available-list '.$class_ul_divisor.'">';	
+			  
+			    global $wpdb;
+				
+				$booking_date   = date ('Y-m-d',strtotime($b_date));
+				 
+			    $sql ="SELECT * FROM " . $wpdb->prefix . "bup_trainingsessions ";
+			    $sql.= "WHERE startDate >= '".$booking_date."' AND service_id =".$b_category;
 		
+			    
+    			$sql = $wpdb->prepare($sql);	
+    			$time_slots = $wpdb->get_results($sql);
+			 
+			    $cdiv_range = 0 ;
+			    $button_class = 'bup-button bup-btn-book-app';
+				$button_label = __('Book Camp','bookingup');
+				$li_class = 'bup-btn-book-app-li';	
+				
+				//used in minified mode
+				$li_avail_icon = 'fa fa-check-square-o';
+				$class_disable_price_line = ' ';	
+				$is_slot_available = true;	
+				
+			
+				if(count($time_slots) > 0){
+				   foreach($time_slots as $slot)
+    				{
+    					    
+    					$cdiv_range++;						 
+    					$time_from = $slot->startDate;
+    					$time_to = $slot->endDate;
+    					$Camp_capacity = $slot->capacity;
+    					$Camp_availableSlots = $slot->available;
+    					$training_Session_ID = $slot->trainingSession_id;
+    					$training_Session_Price = $slot->Price;
+    					$html .= '<li class="'.$li_class.' '.$class_li_divisor.'"   id="bup-time-slot-hour-range-'.$cdiv.'-'.$cdiv_range.'" bup-data-date="'.date('Y-m-d', strtotime($time_from))
+    					        .'" bup-max-capacity="'.$Camp_capacity.'" bup-max-available="'.$Camp_availableSlots.'" bup-data-timeslot="'.$time_from .'-'.$time_to.' " bup-training-session-ID = "'.$training_Session_ID.'" bup-Training-Session-Price="'.$training_Session_Price.'">';
+    				    $html .= ' <span class="bup-front-mini-icons"><i class="'.$li_avail_icon.'" '.$class_i_icon_bg.'></i> </span>';	
+    				    
+    					 
+    					//HT Customized code	 
+    					//Here is the code that generates appointments, Need to change this so that appointements would be defined by admin from the 
+    					// admin panel, which would then be displayed at the front end and user gets to select training sessions(appointments)	 from there.
+    					// Need to create a new table that stores info about training session, 
+    					// camp location, training type(eg: 3 day, 5day etc), start date, end date, starting/ending time
+    									
+    					 $html .= '<div class="bup-timeslot-time" '.$class_disable_price_line.'><i class="fa fa-clock-o"></i>'.$time_from.'</div>';
+    					 $html .= '<span class="bup-timeslot-people" '.$class_book_button.'>';
+    					 $html .= $Camp_availableSlots.' available of '. $Camp_capacity .' slots';
+    					 $html .= '<button class="new-appt '.$button_class.'" bup-data-date="'.date('Y-m-d', strtotime($time_from)).'" bup-max-capacity="'.$Camp_capacity.'" bup-max-available="'.$Camp_availableSlots.'" bup-data-timeslot="'.$time_from .'-'.$time_to.'" >'; //category-userid
+    					 $html .= '<span class="button-timeslot"></span><span class="bup-button-text">'. $button_label.'</span></button>';
+    					 $html .= '</span>';						
+    					 $html .= '</li>';	
+    				}
+		        } else {
+		            
+		                $html .= '<span>No time slots available for the camp on selected date.</span>';
+		        }	
+							
+					  
+	    $html .='</ul>';			  			  
+	    $html .= '</div>'; //end time slots divisor
+					  
 		$response = array('response' => 'OK', 'content' => $html);
 		echo json_encode($response) ;		
 		die();		
-	
-	}
-	
-	//this will check if the user is within a special schedule	
-	function is_booking_outside_working_hours($staff_hourly, $time_to, $date_from )
-	{
-		
-		global  $wpdb, $bookingultrapro, $bupcomplement;
-		
-		$is_outside_working_hours = false;
-		
-		
-		if($time_to>date('H:i',strtotime($staff_hourly->avail_to)) || $time_to<date('H:i',strtotime($staff_hourly->avail_from)))
-						{
-					//$display_unavailable = 'no';
-					$is_outside_working_hours = true;
-					
-					//echo " On Day : ". date('Y-m-d', strtotime($date_from)). " " . "Times to: " . $time_to. " Overlap :" .$time_to_overlap. " Staff available to: " .date('H:i',strtotime($staff_hourly->avail_to)). '</br></br>';
-					
-				}else{
-					
-					
-					
-					$is_outside_working_hours = false;
-					
-				}
-		
-		return $is_outside_working_hours;  
-		
-	}
-	
-	//this will check if the user is within a special schedule	
-	function is_in_special_schedule($staff_id, $day, $from_time, $to_time)
-	{
-		
-		global  $wpdb, $bookingultrapro, $bupcomplement;
-		
-		$from_time = $from_time.':00';
-		$to_time = $to_time.':00';
-		
-		$ret = false;  
-				
-		if(isset($bupcomplement))
-		{
-				
-			$sql ="SELECT * FROM " . $wpdb->prefix . "bup_staff_availability_rules  
-			WHERE special_schedule_date = '".$day."' AND special_schedule_staff_id = %d  AND  (special_schedule_time_to > '".$from_time."'  AND special_schedule_time_from < '".$to_time."'  );";
-			
-				
-			$sql = $wpdb->prepare($sql,array($staff_id));	
-			$rows = $wpdb->get_results($sql);
-			
-			if ( !empty( $rows )) 
-			{			
-				$ret = true;	
-						
-			}else{
-				
-				$ret = false;
-				
-			}
-		
-		}
-		
-		
-		return $ret;
-		
-		
 	
 	}
 	
@@ -2084,352 +1920,35 @@ class BookingUltraService
 				
 							
 			}else{ /// do not check	
-			
-			
-				return true;
-				
-			
+			    return true;
 			}	
-			
-		
 		}else{
-			
-			return true;
-			
+		    return true;
 		}
-		
-		
 	}
 	
-	public function ubp_book_step_2_hotels()
-	{
-		
-		global  $bookingultrapro;
-		
-		$business_hours = get_option('bup_business_hours');
-		$time_format = $this->get_time_format();
-		
-		$slot_length= $bookingultrapro->get_option('bup_time_slot_length');
-		$slot_length_minutes= $slot_length*60;	
-		
-		$display_only_from_hour=  $bookingultrapro->get_option('display_only_from_hour');		
-		$display_unavailable= $bookingultrapro->get_option('display_unavailable_slots_on_front');
-		$allow_bookings_outside_b_hours=  $bookingultrapro->get_option('allow_bookings_outsite_business_hours');
-		
-		$response = array();
-		
-		$time_slots = array();		
-		$b_category = $_POST['b_category'];
-		$b_date = $_POST['b_date'];		
-		$b_staff = $_POST['b_staff'];
-		$b_location = $_POST['b_location'];
-		$template_id = $_POST['template_id'];
-		
-		$date_format = $this->get_date_format_conversion();	
-		$date_f = DateTime::createFromFormat($date_format, $b_date);
-						
-		$html = '';
-		
-		//get days for this service		
-		$date_from=  $date_f->format('Y-m-d');	
-		$to_sum= $this->get_days_to_display();  
-		$end_date=  date("Y-m-d", strtotime("$date_from + $to_sum day"));			
-		
-		// Schedule.
-        $items_schedule = $bookingultrapro->userpanel->get_working_hours($staff_id);
-		
-		//staff member		
-		$staff_member = $bookingultrapro->userpanel->get_staff_member($staff_id);			
-		
-		$cdiv = 0 ;				
-		$service = $this->get_one_service($b_category);
-		
-		if($_POST['b_date']=='')
-		{		
-			$html .='<p>'.__("Please select a date.",'bookingup').'</p>';	
-			
-			$response = array('response' => 'NOOK', 'content' => $html);		
-			echo json_encode($response);
-			die();
-		
-		}
-		
-				
-		//parse content		
-		$content_text = $bookingultrapro->get_template_label("step2_texts",$template_id);		
-		$content_text = $this->ubp_parse_customizer_texts($content_text, $service, $staff_member);
-		
 
-		
-		$class_day_divisor = '';
-		$class_ul_divisor = '';
-		$class_li_divisor = '';
-		$class_h3 = '';
-		$class_book_button = '';
-				
-		
-		$wp_date_format = get_option( 'date_format' );
-		
-		//Does the user offer this service?				
-		if($bookingultrapro->userpanel->staff_offer_service( $staff_id, $b_category ))
-		{
-			$html .= '<div class="bup-selected-staff-booking-info">'; 
-			
-			$html .= $content_text;
-			
-			
-			$html .= '</div>';
-			
-			
-		    $available_previous = true;
-			while (strtotime($date_from) < strtotime($end_date)) 
-			{
-				 $cdiv++;
-				 
-				 $day_num_of_week = date('N', strtotime($date_from));	
-				 
-				 //is the staff member working on this day?			 
-				  if(isset($items_schedule[$day_num_of_week]))
-				  {			 
-					 			  
-					  $html .= '<div class="bup-time-slots-divisor '.$class_day_divisor.'" id="bup-time-sl-div-'.$cdiv.'">';	
-					  
-					  if($selected_layout==2) //minified		
-					  {					  
-					  
-					  	  $html .= '<h3 class="'.$class_h3.'">'.date($wp_date_format, strtotime($date_from)).'</h3>';					  
-					  }else{
-						  
-						  $html .= '<h3>'.$bookingultrapro->commmonmethods->formatDate($date_from).'</h3>';
-						  
-					  }
-					    
-					  $html .= '<ul class="bup-time-slots-available-list '.$class_ul_divisor.'">';	
-					  
-					 //get available slots for this date				 
-					 $time_slots = $this->get_time_slot_public_for_staff($day_num_of_week,  $staff_id, $b_category, $time_format);
-					 
-					 //check if staff member is in holiday this day					   
-					  $is_in_holiday = $this->is_in_holiday($staff_id, $date_from);	
-					  
-					   //staff hourly						 
-					  $staff_hourly = $this->get_hourly_for_staf($staff_id, $day_num_of_week);		   
-					 
-					 
-					 $cdiv_range = 0 ;
-					 
-					 foreach($time_slots as $slot)
-					 {
-						 $cdiv_range++;	
-						 
-						 
-						 $day_time_slot = date('Y-m-d', strtotime($date_from)).' '.$slot['from'].':00';
-						  
-						 
-						 $current_time_slot = $slot['from'].':00';
-						 $increased_minutes = date('H:i:s', strtotime( $current_time_slot ) +$slot_length_minutes);
-						 //$to_slot_limit = $date_from.' '. $increased_minutes;
-						 
-						 $to_slot_limit = $date_from.' '. $slot['to'].':00';						
-						 $day_time_slot_to = $to_slot_limit;
-						 
-						  //$day_time_slot_to = $to_slot_limit;
-						  	 
-						 $staff_time_slots = array();					 
-						 $staff_time_slots = $this->get_time_slots_availability_for_day($staff_id, $b_category, $day_time_slot, $day_time_slot_to);	
-					  
-					  //check if staff member is on break time for this day.						
-					   $is_in_break = $this->is_in_break($staff_id, $day_num_of_week, $slot['from'] , $slot['to']);
-					   
-					   if($staff_time_slots['available']==0 || $is_in_break || $staff_time_slots['busy']==true || $is_in_holiday )
-					   {							
-							$available_slot =false;
-							
-								
-						}else{												
-								
-							$available_slot =true;							
-						}
-							
-						$time_from = $slot['from'];
-						$time_to = $slot['to'];
-						
-						$time_from_display = $slot['from_display'];
-						$time_to_display = $slot['to_display'];
-						
-						//padding before?
-						if($service->service_padding_before!='' && $service->service_padding_before!=0 )
-						{
-							//previous is not available, then we need to add padding
-							if(!$available_previous)
-							{
-								$minutes_to_increate = $service->service_padding_before;	
-								
-								$increased_from = date('H:i:s', strtotime($time_from.':00')+$minutes_to_increate);
-								$increased_from = date('H:i', strtotime($increased_from));							
-								$time_from = $increased_from;
-									
-							}
-								
-						}			
-						
-						
-							 
-						 
-						 if($display_only_from_hour=='yes' || $display_only_from_hour=='' )
-						 {
-							  //reduced view
-							 $time_to_display = '&nbsp;&nbsp;'.date($time_format, strtotime($time_from));
-						 }else{
-							 
-							 $time_to_display = '&nbsp;&nbsp;'.date($time_format, strtotime($time_from)).' &ndash; '.date($time_format, strtotime($time_to)).'';					 			
-						 
-						 }
-						 
-						 
-						 //check if hour is available to book, we have to use the server time			 
-						 $current_slot_time_stamp = strtotime($date_from.' '.$time_from.':00');			 
-						 $current_site_time_stamp = strtotime(date( 'Y-m-d H:i:s', current_time( 'timestamp', 0 ) ));
-						 
-						 $is_passed = false;						 
-						 if($current_site_time_stamp>$current_slot_time_stamp)
-						 {							 
-							 $is_passed = true;	 						
-						 }
-						 
-						 $li_class = '';					 	
-						
-						if($staff_time_slots['available']==0 || $is_in_break || $is_passed || $staff_time_slots['busy']==true || $is_in_holiday)
-						{
-							$button_class = 'bup-button-blocked ';
-							$button_label = __('Unavailable','bookingup');
-							$li_avail_icon = '';							
-							$class_disable_price_line = ' style=" text-decoration: line-through " ';
-							
-							$is_slot_available = false;
-						
-						}else{
-							
-							$button_class = 'bup-button bup-btn-book-app';
-							$button_label = __('Book Appointment','bookingup');
-							$li_class = 'bup-btn-book-app-li';	
-							
-							//used in minified mode
-							$li_avail_icon = 'fa fa-check-square-o';
-							$class_disable_price_line = ' ';	
-							$is_slot_available = true;				
-						}
-						
-						//is All Day event?						
-						if($service->service_duration==86400)	
-						{
-							$time_from = '00:00';
-						    $time_to = '23:59';						
-						}
-						
-						
-
-						//if($time_to>$staff_hourly->avail_to || $time_to<$staff_hourly->avail_from)
-						////{
-							//$display_unavailable = 'no';
-							//$is_slot_available = false;
-						//}
-						
-						$is_slot_outside_working_hours = false;
-						if($this->is_booking_outside_working_hours($staff_hourly, $time_to, $date_from ) && $allow_bookings_outside_b_hours=='no')
-						{
-							$is_slot_outside_working_hours = true;
-							
-						}
-						
-						
-						//do we have to hide the slot in the fron-end?						
-						if($display_unavailable=='no' && !$is_slot_available)
-						{							
-							$is_slot_visible = false;
-							
-						}else{
-							
-							$is_slot_visible = true;							
-						}
-						
-				       if($is_slot_visible && !$is_slot_outside_working_hours)
-					   {			
-						 	 
-						
-						 $html .= '<li class="'.$li_class.' '.$class_li_divisor.'"   id="bup-time-slot-hour-range-'.$cdiv.'-'.$cdiv_range.'" bup-data-date="'.date('Y-m-d', strtotime($date_from)).'" bup-max-capacity="'.$staff_time_slots['capacity'].'" bup-max-available="'.$staff_time_slots['available'].'" bup-data-timeslot="'.$time_from .'-'.$time_to.'" bup-data-service-staff="'.$b_category.'-'.$staff_id.'" >';
-						 
-						 //
-						 
-						 if($selected_layout==2) //minified		
-						 {							 
-							$html .= ' <span class="bup-front-mini-icons">							
-							<i class="'.$li_avail_icon.'" '.$class_i_icon_bg.'></i> </span>';							
-						 }
-						 
-						 					
-						 $html .= '<div class="bup-timeslot-time" '.$class_disable_price_line.'><i class="fa fa-clock-o"></i>'.$time_to_display.'</div>';
-						 $html .= '<div class="bup-timeslot-count"><span class="spots-available">'.$staff_time_slots['label'].'</span></div>';
-						 
-						 $html .= '<span class="bup-timeslot-people" '.$class_book_button.'>';	
-						 
-						
-						 $html .= '<button class="new-appt '.$button_class.'" bup-data-date="'.date('Y-m-d', strtotime($date_from)).'" bup-max-capacity="'.$staff_time_slots['capacity'].'" bup-max-available="'.$staff_time_slots['available'].'" bup-data-timeslot="'.$time_from .'-'.$time_to.'" bup-data-service-staff="'.$b_category.'-'.$staff_id.'">'; //category-userid
-						
-						$html .= '<span class="button-timeslot"></span><span class="bup-button-text">'. $button_label.'</span></button>';
-						
-						 $html .= '</span>';						
-						 $html .= '</li>';	
-						 
-					 } // end if
-						 
-						 
-						 $available_previous =$available_slot;
-						 
-						 
-					 
-					  }
-					  
-					  $html .='</ul>';			  			  
-					  $html .= '</div>'; //end time slots divisor
-				  
-				  
-				  } //end if working			  
-				  
-				 
-				 //increase date
-				 $date_from = date ("Y-m-d", strtotime("+1 day", strtotime($date_from))); 			 
-				 
-				 
-			 }  //end while
-			 
-		}else{
-			
-			
-			$html .='<p>'.__("This Provider doesn't offer this service.",'bookingup').'</p>';
-			
-			
-		
-		}  //end if
-		 		
-		
-		$response = array('response' => 'OK', 'content' => $html);
-		echo json_encode($response) ;		
-		die();		
-	
-	}
-	
-	
 	function delete_category()
 	{
 		
 		global  $wpdb, $bookingultrapro;
 		
 		$category = $_POST['cate_id'];
-						
+		
+		//print_r($category);
+
+        $sqlForMetaDelete = "DELETE FROM wp_bup_categories_meta where categories_id=$category";
+        //print_r($sqlFormetaDelete);
+        $sqlForMetaDelete = $wpdb->query($sqlForMetaDelete);
+        
+        
+		
 		$sql ="DELETE FROM " . $wpdb->prefix . "bup_categories WHERE cate_id=%d ;";			
 		$sql = $wpdb->prepare($sql,array($category));	
 		$rows = $wpdb->get_results($sql);
+		
+		
+		
 		die();
 	
 	}
@@ -2448,54 +1967,7 @@ class BookingUltraService
 	}
 	
 	
-	//this will check if the user is in holiday 	
-	function is_in_holiday($staff_id, $date)
-	{
-		
-		global  $wpdb, $bookingultrapro, $bupcomplement;
-		
-		
-		if(isset($bupcomplement))
-		{
-			return $bupcomplement->dayoff->is_in_holiday($staff_id, $date);
-							
-		}else{
-			
-			return false;		
-				
-		}		
-	
-	}
-	
-	//this will check if the user is in break time 	
-	function is_in_break($staff_id, $day, $from_time, $to_time)
-	{
-		
-		global  $wpdb, $bookingultrapro;
-		
-		$from_time = $from_time.':00';
-		$to_time = $to_time.':00';
-		
-		$ret = false;
-				
-		$sql ="SELECT * FROM " . $wpdb->prefix . "bup_staff_availability_breaks  
-		WHERE break_staff_day=%d AND break_staff_id = %d  AND  (break_time_to > '".$from_time."'  AND 	break_time_from < '".$to_time."'  );";
-		
-			
-		$sql = $wpdb->prepare($sql,array($day, $staff_id));	
-		$rows = $wpdb->get_results($sql);
-		
-		if ( !empty( $rows ))
-		{			
-			$ret = true;			
-		}
-		
-		
-		return $ret;
-		
-		
-	
-	}
+
 	
 	function get_total_bookings($staff_id, $service_id, $day, $day_to)
 	{
@@ -2510,7 +1982,7 @@ class BookingUltraService
 		
 		//get total on quantity row	for this service only	
 		$sql ="SELECT SUM(booking_qty) as total FROM " . $wpdb->prefix . "bup_bookings  
-		WHERE booking_staff_id = %d  AND  booking_service_id = %d AND booking_status <> '2' AND (booking_time_to > '".$day."'  AND 	booking_time_from < '".$day_to."'  );";	
+		WHERE   booking_service_id = %d AND booking_status <> '2' AND (booking_time_to > '".$day."'  AND 	booking_time_from < '".$day_to."'  );";	
 		
 		
 			
@@ -2535,7 +2007,7 @@ class BookingUltraService
 		
 		//get total bookins individually
 		$sql ="SELECT count(*) as total FROM " . $wpdb->prefix . "bup_bookings  
-		WHERE booking_staff_id = %d  AND  booking_service_id = %d AND booking_status <> '2' AND (booking_time_to > '".$day."'  AND 	booking_time_from < '".$day_to."'  );";		
+		WHERE   booking_service_id = %d AND booking_status <> '2' AND (booking_time_to > '".$day."'  AND 	booking_time_from < '".$day_to."'  );";		
 			
 		$sql = $wpdb->prepare($sql,array($staff_id,$service_id));	
 		$rows = $wpdb->get_results($sql);
@@ -2561,36 +2033,7 @@ class BookingUltraService
 		return $res;
 	}
 	
-	function is_staff_available($staff_id, $service_id, $day, $day_to)
-	{
-		global  $wpdb, $bookingultrapro;
-		
-		//Is the staff member busy?
-		$sql ="SELECT * FROM " . $wpdb->prefix . "bup_bookings  
-		WHERE booking_staff_id = %d  AND  booking_service_id <> %d AND booking_status <> '2' AND  (booking_time_to > '".$day."'  AND 	booking_time_from < '".$day_to."'  );";	
-				
-		$sql = $wpdb->prepare($sql,array($staff_id, $service_id));	
-		$rows = $wpdb->get_results($sql);			
-		$booked = $wpdb->num_rows;	
-		
-		if ( !empty( $rows )) // the staff member is busy in this time.
-		{			
-			$busy = true;		
-				
-		}else{
-			
-			$busy = false;		
-		}
-		
-		if($busy){
-			//echo "HAS MANY Bookings: $booked  - " .$sql.'<br>.';
-			}
-		
-		return $busy;
-		
-		
-		
-	}
+
 	
 	//this will give me availability for this service 	
 	function get_time_slots_availability_for_day($staff_id, $service_id, $day, $day_to)
@@ -2959,6 +2402,11 @@ class BookingUltraService
 		if($service_padding_after==''){$service_padding_after=0;}		
 	
 		$service_postcode = $_POST['service_postcode'];	
+		$service_contactname = $_POST['service_contactname'];
+		$service_email = $_POST['service_email'];
+		$service_phonenumber = $_POST['service_phonenumber'];
+		$service_address = $_POST['service_address'];
+		$service_directionnotes = $_POST['service_directionnotes'];
 		//if($service_color==''){$service_color=0;}
 		//if($service_font_color==''){$service_font_color=0;}
 		
@@ -2976,10 +2424,13 @@ class BookingUltraService
 			service_font_color = "'.$service_font_color.'",
 			service_padding_before = "'.$service_padding_before.'",
 			service_padding_after = "'.$service_padding_after.'",			
-			service_postcode = "'.$service_postcode.'"
+			service_postcode = "'.$service_postcode.'",
+			service_email = "'.$service_email.'",
+			service_contactname = "'.$service_contactname.'",
+			service_phonenumber = "'.$service_phonenumber.'",
+			service_address = "'.$service_address.'",
+			service_directionnotes = "'.$service_directionnotes.'"
 		    		WHERE service_id="'.(int)$service_id.'" ';
-		    print_r($sql);
-		    exit;
 			$wpdb->query($sql);
 		
 		
@@ -2999,9 +2450,14 @@ class BookingUltraService
 								'service_padding_after'   => $service_padding_after,
 								'service_allow_multiple'   => $service_groups,
 								'service_postcode'   => $service_postcode,
+								'service_email'   => $service_email,
+								'service_contactname'   => $service_contactname,
+								'service_phonenumber'   => $service_phonenumber,
+								'service_address'   => $service_address,
+								'service_directionnotes'   => $service_directionnotes,
 								'service_pricing_calculation_type'   => $service_calculation);								
 									
-			$wpdb->insert( $wpdb->prefix . 'bup_services', $new_record, array( '%d', '%s', '%s', '%s', '%s', '%s', '%d', '%s', '%s', '%s', '%s' , '%s' , '%s' , '%s'));
+			$wpdb->insert( $wpdb->prefix . 'bup_services', $new_record, array( '%d', '%s', '%s', '%s', '%s', '%s', '%d', '%s', '%s', '%s', '%s' , '%s' , '%s' , '%s' , '%s' , '%s'));
 			
 		}
 		
@@ -3055,7 +2511,17 @@ class BookingUltraService
 		
 			$html .= '<div class="bup-field-separator"><label for="bup-box-postcode">'.__('Post Code','bookingup').':</label><input type="text" name="bup-postcode" id="bup-postcode" class="ubp-common-textfields" value="'.$service->service_postcode.'" /></div>';
 
-	
+			$html .= '<div class="bup-field-separator"><label for="bup-box-contactname">'.__('Contact Name','bookingup').':</label><input type="text" name="bup-contactname" id="bup-contactname" class="ubp-common-textfields" value="'.$service->service_contactname.'" /></div>';
+
+
+			$html .= '<div class="bup-field-separator"><label for="bup-box-email">'.__('Email','bookingup').':</label><input type="email" name="bup-email" id="bup-email" class="ubp-common-textfields" value="'.$service->service_email.'" /></div>';
+
+			$html .= '<div class="bup-field-separator"><label for="bup-box-phonenumber">'.__('Phone Number','bookingup').':</label><input type="text" name="bup-phonenumber" id="bup-phonenumber" class="ubp-common-textfields" value="'.$service->service_phonenumber.'" /></div>';
+
+			$html .= '<div class="bup-field-separator"><label for="bup-box-address">'.__('Address','bookingup').':</label><input type="text" name="bup-address" id="bup-address" class="ubp-common-textfields" value="'.$service->service_address.'" /></div>';
+
+			$html .= '<div class="bup-field-separator"><label for="bup-box-directionnotes">'.__('Direction Notes','bookingup').':</label><textarea name="bup-directionnotes" id="bup-directionnotes" class="ubp-common-textfields" >'.$service->service_directionnotes.'</textarea></div>';
+
 			$html .= '<div class="bup-field-separator"><label for="textfield">'.__('Background Color','bookingup').':</label><input name="bup-service-color" type="text" id="bup-service-color" value="'.$service->service_color.'" class="color-picker" data-default-color=""/></div>';
 				
 			$html .= '<div class="bup-field-separator"><label for="textfield">'.__('Font Color','bookingup').':</label><input name="bup-service-font-color" type="text" id="bup-service-font-color" value="'.$service->service_font_color.'" class="color-picker" data-default-color=""/></div>';
@@ -3164,26 +2630,129 @@ class BookingUltraService
 		$html='';	
 		
 		$category_id = $_POST['category_id'];
+		$len = strlen($category_id);
 		$category_name = $_POST['category_title'];
+		$category_email = $_POST['category_email'];
+		$category_contact = $_POST['category_contact'];                            
+		$category_address = $_POST['category_address'];
 		
-		if($category_id=='')		
+		if($category_id=='  ')		
 		{
+			
 					
-						
+		
 			$new_record = array('cate_id' => NULL,	
 								'cate_name' => $category_name);								
 			$wpdb->insert( $wpdb->prefix . 'bup_categories', $new_record, array( '%d', '%s'));					
 						
 			$html ='OK INSERT';
+	        
+	        $sqlForCateId = "SELECT cate_id from wp_bup_categories where cate_name='$category_name'";
+	        //print_r($sqlForCateId);
+	        $getResultsForId = $wpdb->get_results($sqlForCateId);
+	        $cateIdForInsertion = $getResultsForId[0]->cate_id;
+            
+            $SqlForEmailInsertion = "INSERT INTO `wp_bup_categories_meta` 
+                        (categories_id,meta_name,meta_value)
+                                    VALUES
+                                            ($cateIdForInsertion,'Email','$category_email')";
+            $SqlForContactInsertion = "INSERT INTO `wp_bup_categories_meta` 
+                        (categories_id,meta_name,meta_value)
+                                    VALUES
+                                            ($cateIdForInsertion,'contact','$category_contact')";
+            $SqlForAddressInsertion = "INSERT INTO `wp_bup_categories_meta` 
+                        (categories_id,meta_name,meta_value)
+                                    VALUES
+                                            ($cateIdForInsertion,'Address','$category_address')";
+            
+                                            
+            $InsertIntoMetaE = $wpdb->get_results($SqlForEmailInsertion);
+            $InsertIntoMetaC = $wpdb->get_results($SqlForContactInsertion);
+            $InsertIntoMetaI = $wpdb->get_results($SqlForAddressInsertion);
+            		
 		
 	    }else{
 			
 			$sql = $wpdb->prepare('UPDATE  ' . $wpdb->prefix . 'bup_categories SET cate_name =%s  WHERE cate_id = %d ;',array($category_name,$category_id));
-		
-			$results = $wpdb->query($sql);
-			$html ='OK';
+		    $results = $wpdb->query($sql);
 			
-			
+	        
+	         //$sqForUpdate = "update `wp_bup_categories_meta` set `meta_value`='$category_email' where `meta_name`='Email' and `categories_id`='$category_id'";	
+	        
+	        $sqlForId = "SELECT cate_id from wp_bup_categories where cate_name='$category_name'";
+	        //print_r($sqlForCateId);
+	        $getResultsId = $wpdb->get_results($sqlForId);
+	        $cateIdForUpdate = $getResultsId[0]->cate_id;
+	        
+	        
+	         $numRowsForE =  "select count(*) from `wp_bup_categories_meta` where categories_id = $cateIdForUpdate  and meta_name='Email'";
+	         $sqlForCountE = $wpdb->get_var($numRowsForE);
+	         
+	         
+	         if($sqlForCountE == 0){
+	            
+	             
+	             $SqlForEmailInsertion = "INSERT INTO `wp_bup_categories_meta` 
+                        (categories_id,meta_name,meta_value)
+                                    VALUES
+                                            ($cateIdForUpdate,'Email','$category_email')";
+                $InsertIntoMetaE = $wpdb->get_results($SqlForEmailInsertion);
+	         }
+	         else{
+	             
+	             $sqForUpdateMetaE = "update `wp_bup_categories_meta` set `meta_value`='$category_email' where `meta_name`='Email' and `categories_id`='$cateIdForUpdate'";
+                 $editbupcategoriesmetaE = $wpdb->query($sqForUpdateMetaE);
+	         }
+	         
+	          $numRowsForC =  "select count(*) from `wp_bup_categories_meta` where categories_id = $cateIdForUpdate  and meta_name='contact'";
+	         $sqlForCountC = $wpdb->get_var($numRowsForC);
+	         
+	        
+	         if($sqlForCountC == 0){
+	             
+	             $SqlForContactInsertion = "INSERT INTO `wp_bup_categories_meta` 
+                        (categories_id,meta_name,meta_value)
+                                    VALUES
+                                            ($cateIdForUpdate,'contact','$category_contact')";
+                $InsertIntoMetaC = $wpdb->get_results($SqlForContactInsertion);
+	         }
+	         else{
+	             
+	             $sqForUpdateMetaC = "update `wp_bup_categories_meta` set `meta_value`='$category_contact' where `meta_name`='contact' and `categories_id`='$cateIdForUpdate'";
+	             //print_r($sqForUpdateMetaC);
+	             //exit();
+                 $editbupcategoriesmetaC = $wpdb->query($sqForUpdateMetaC);
+	         }
+	         
+	          $numRowsForA =  "select count(*) from `wp_bup_categories_meta` where categories_id = $cateIdForUpdate  and meta_name='Address'";
+	         $sqlForCountA = $wpdb->get_var($numRowsForA);
+	         if($sqlForCountA == 0){
+	             
+	             $SqlForAddressInsertion = "INSERT INTO `wp_bup_categories_meta` 
+                        (categories_id,meta_name,meta_value)
+                                    VALUES
+                                            ($cateIdForUpdate,'Address','$category_address')";
+                $InsertIntoMetaA = $wpdb->get_results($SqlForAddressInsertion);
+	         }
+	         else{
+	             
+	             $sqForUpdateMetaA = "update `wp_bup_categories_meta` set `meta_value`='$category_address' where `meta_name`='Address' and `categories_id`='$cateIdForUpdate'";
+                 $editbupcategoriesmetaA = $wpdb->query($sqForUpdateMetaA);
+	         }
+	         
+	         
+	         
+	       // $sqForUpdateMetaE = "update `wp_bup_categories_meta` set `meta_value`='$category_email' where `meta_name`='Email' and `categories_id`='$cateIdForUpdate'";
+        //     $editbupcategoriesmetaE = $wpdb->query($sqForUpdateMetaE);
+        //     $sqForUpdateMetaC = "update `wp_bup_categories_meta` set `meta_value`='$category_contact' where `meta_name`='contact' and `categories_id`='$cateIdForUpdate'";
+        //     $editbupcategoriesmetaC = $wpdb->query($sqForUpdateMetaC);
+        //     $sqForUpdateMetaA = "update `wp_bup_categories_meta` set `meta_value`='$category_address' where `meta_name`='Address' and `categories_id`='$cateIdForUpdate'";
+        //     $editbupcategoriesmetaA = $wpdb->query($sqForUpdateMetaA);
+               //$sqlForUpdateMetaE = "INSERT INTO `wp_bup_categories_meta`(categories_id,meta_name,meta_value) VALUES($cateIdForUpdate,'Email','$category_email') on duplicate key update meta_value='$category_email' ";
+                //$editbupcategoriesmetaE = $wpdb->query($sqlForUpdateMetaE);
+            //print_r($sqlForUpdateMetaE);
+            //exit();
+            $html ='OK';
 		}
 		
 		echo $html;
@@ -3195,7 +2764,7 @@ class BookingUltraService
 	
 	public function get_category_add_form()
 	{		
-		
+		global $wpdb;
 		$html = '';		
 		
 		$category_id = '';
@@ -3205,6 +2774,7 @@ class BookingUltraService
 			$category_id = $_POST['category_id'];
 			
 		}
+	 
 		
 		$category_name = '';		
 				
@@ -3213,14 +2783,37 @@ class BookingUltraService
 			//get payments			
 			$category = $this->get_one_category( $category_id);
 			$category_name =	$category->cate_name;
-		}		
+			$sqlforemail = "SELECT * FROM wp_bup_categories_meta where categories_id=$category_id and meta_name='Email'";
+		    $metaValueE = $wpdb->get_results($sqlforemail);
+		    $Email = $metaValueE[0]->meta_value;
+		    $sqlforcontact = "SELECT * FROM wp_bup_categories_meta where categories_id=$category_id and meta_name='contact'";
+		    $metaValueC = $wpdb->get_results($sqlforcontact);
+		    $contact = $metaValueC[0]->meta_value;
+		    $sqlforAddress = "SELECT * FROM wp_bup_categories_meta where categories_id=$category_id and meta_name='Address'";
+		    $metaValueA = $wpdb->get_results($sqlforAddress);
+		    $Address = $metaValueA[0]->meta_value;
+		    
+		    
+		    //print_r($emailValue);
+			
+		
+		}
+		    
+		
 		
 		$html .= '<p>'.__('Name:','bookingup').'</p>' ;	
 		$html .= '<p><input type="text" id="but-category-name" value="'.$category_name.'"></p>' ;
-		$html .= '<input type="hidden" id="bup_category_id" value="'.$category_id .'" />' ;		
+		$html .= '<p>'.__('Contact:','bookingup').'</p>' ;	
+		$html .= '<p><input type="text" id="but-category-contact" value="'.$contact.'"></p>' ;
+		$html .= '<p>'.__('Email:','bookingup').'</p>' ;	
+		$html .= '<p><input type="text" id="but-category-email" value="'.$Email.' "></p>' ;
+		$html .= '<p>'.__('Adress:','bookingup').'</p>' ;	
+		$html .= '<p><input type="text" id="but-category-address" value="'.$Address.' "></p>' ;
+		$html .= '<input type="hidden" id="bup_category_id" value=" '.$category_id.' " />' ;		
 			
 		echo $html ;		
-		die();		
+		die();
+		
 	
 	}
 	
@@ -4230,11 +3823,11 @@ class BookingUltraService
 		
 		if($template_id!=''){
 			
-			$service_label =  $bookingultrapro->get_template_label("select_service_label_drop",$template_id);	
-		
+			//$service_label =  $bookingultrapro->get_template_label("select_service_label_drop",$template_id);	
+			$service_label =  __('Select Venue','bookingup');		
 		}else{
 			
-			$service_label =  __('Select Service','bookingup');		
+			$service_label =  __('Select Venue','bookingup');		
 		}
 		
 		
@@ -4305,7 +3898,7 @@ class BookingUltraService
 		
 		
 		$html .= '<select name="bup-category" id="bup-category">';
-		$html .= '<option value="" selected="selected">'.__('Select a Service','bookingup').'</option>';
+		$html .= '<option value="" selected="selected">'.__('Select Venue','bookingup').'</option>';
 		
 		foreach ( $cate_rows as $cate )
 		{		

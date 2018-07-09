@@ -1,8 +1,92 @@
 <?php
-global $bookingultrapro, $bupcomplement, $bupultimate, $bup_filter, $wp_locale;
+global $bookingultrapro, $bupcomplement, $bupultimate, $bup_filter, $wp_locale, $wpdb;
 
 $how_many_upcoming_app = 20;
+sendDailyReminderEmail_User();
 
+// Function to send weekly reminder.
+function sendWeeklyReminderEmail_User(){  
+        global $wpdb;
+        $date = new DateTime();
+        // Modify the date it contains
+        $date->modify('next monday');
+        $Mon = $date->format('Y-m-d');
+        $date->modify('next sunday');
+        $Sun = $date->format('Y-m-d');
+        
+       
+        $sql =  'SELECT Bookings.`booking_id`, TrainingSessions.trainingSession_id, TrainingSessions.startDate, BookingsMetaUserEmail.meta_booking_value AS user_email, Categories.cate_name AS Venue, Services.service_title FROM ' . $wpdb->prefix . 'bup_bookings Bookings' ;				
+    		$sql .= " LEFT JOIN ".$wpdb->prefix . "bup_bookings_meta  BookingsMeta ON  (Bookings.`booking_id` = BookingsMeta.meta_booking_id AND BookingsMeta.meta_booking_name = 'bup_training_session_id')";	
+    		$sql .= " LEFT JOIN ".$wpdb->prefix . "bup_bookings_meta BookingsMetaUserEmail ON (Bookings.`booking_id` = BookingsMetaUserEmail.meta_booking_id AND BookingsMetaUserEmail.meta_booking_name = 'user_email')";	
+    		$sql .= " LEFT JOIN ".$wpdb->prefix . "bup_trainingsessions TrainingSessions ON (TrainingSessions.trainingSession_id = BookingsMeta.meta_booking_value)";	
+    		$sql .= " LEFT JOIN ".$wpdb->prefix . "bup_services Services ON (Services.service_id = TrainingSessions.service_id)";	
+    		$sql .= " LEFT JOIN ".$wpdb->prefix . "bup_categories Categories ON (Services.service_category_id = Categories.cate_id)";	
+    		$sql .= " WHERE  TrainingSessions.startDate BETWEEN '". $Mon ."' AND '". $Sun ."'";	
+    
+    $BookingDetails = $wpdb->get_results($sql );
+    $DetailArray = json_decode(json_encode($BookingDetails),true);
+    
+    foreach ($DetailArray as $num => $data){
+        
+            $StartDate = $data['startDate'];
+            $Email = $data['user_email'];
+            $Venue = $data['Venue'];
+            $Service = $data['service_title'];
+            
+            $message = 'Hi, <br/><br/>';
+            $message .= 'You have booked a training session for the coming week.  <br/><br/>';
+            $message .= 'Details:  <br/><br/>';
+            $message .= 'Date : '.$StartDate.'<br/>' ;
+            $message .= 'Venue : '.$Venue.'<br/>' ;
+            $message .= 'Camp : '.$Service.'<br/><br/>' ;
+            
+            $message .= 'Best Regards,<br/> ' ;
+            $message .= 'Dan HouseGo Cricket Coaching' ;
+            //$bookingultrapro->messaging->send($Email,'DanHouseGO Cricket Coaching : Reminder for training Session ',$message);
+            
+    }
+}   
+
+// Function to send daily reminder
+function sendDailyReminderEmail_User(){  
+        global $wpdb;
+        $date = date('Y-m-d',strtotime("tomorrow"));
+       
+        $sql =  'SELECT Bookings.`booking_id`, TrainingSessions.trainingSession_id, TrainingSessions.startDate, BookingsMetaUserEmail.meta_booking_value AS user_email, Categories.cate_name AS Venue, Services.service_title FROM ' . $wpdb->prefix . 'bup_bookings Bookings' ;				
+    		$sql .= " LEFT JOIN ".$wpdb->prefix . "bup_bookings_meta  BookingsMeta ON  (Bookings.`booking_id` = BookingsMeta.meta_booking_id AND BookingsMeta.meta_booking_name = 'bup_training_session_id')";	
+    		$sql .= " LEFT JOIN ".$wpdb->prefix . "bup_bookings_meta BookingsMetaUserEmail ON (Bookings.`booking_id` = BookingsMetaUserEmail.meta_booking_id AND BookingsMetaUserEmail.meta_booking_name = 'user_email')";	
+    		$sql .= " LEFT JOIN ".$wpdb->prefix . "bup_trainingsessions TrainingSessions ON (TrainingSessions.trainingSession_id = BookingsMeta.meta_booking_value)";	
+    		$sql .= " LEFT JOIN ".$wpdb->prefix . "bup_services Services ON (Services.service_id = TrainingSessions.service_id)";	
+    		$sql .= " LEFT JOIN ".$wpdb->prefix . "bup_categories Categories ON (Services.service_category_id = Categories.cate_id)";	
+    		$sql .= " WHERE  TrainingSessions.startDate = '". $date ."'";	
+    //echo ($sql);
+    $BookingDetails = $wpdb->get_results($sql );
+    $DetailArray = json_decode(json_encode($BookingDetails),true);
+    //print_r($BookingDetails);
+    
+    foreach ($DetailArray as $num => $data){
+     
+            $StartDate = $data['startDate'];
+            $Email = $data['user_email'];
+            $Venue = $data['Venue'];
+            $Service = $data['service_title'];
+            
+            $message = 'Hi, <br/><br/>';
+            $message .= 'You have booked a training session for today.  <br/><br/>';
+            $message .= 'Details:  <br/><br/>';
+            $message .= 'Date : '.$StartDate.'<br/>' ;
+            $message .= 'Venue : '.$Venue.'<br/>' ;
+            $message .= 'Camp : '.$Service.'<br/><br/>' ;
+            
+            $message .= 'Best Regards,<br/> ' ;
+            $message .= 'Dan HouseGo Cricket Coaching' ;
+            //$bookingultrapro->messaging->send($Email,'DanHouseGO Cricket Coaching : Reminder for training Session ',$message);
+            
+    }
+}    
+
+//print_r($bookingultrapro->messaging->send('bguragain@himalayantechies.com','Test','Test, Line 6,tabs/main'));
+//print_r($bookingultrapro->messaging->send());// exit;
 
 $currency_symbol =  $bookingultrapro->get_option('paid_membership_symbol');
 $date_format =  $bookingultrapro->get_int_date_format();
@@ -370,6 +454,7 @@ $upcoming_appointments = $bookingultrapro->appointment->get_upcoming_appointment
     <?php
 
 $sales_val= $bookingultrapro->appointment->get_graph_total_monthly();
+
 $months_array = array_values( $wp_locale->month );
 $current_month = date("m");
 $current_month_legend = $months_array[$current_month -1];
@@ -381,7 +466,9 @@ $current_month_legend = $months_array[$current_month -1];
       google.charts.setOnLoadCallback(drawChart);
 
       function drawChart() {
-		  
+          console.log("here");
+		  console.log(<?php echo $sales_val?>);
+		  console.log("Line 471,main.php");
         var data = google.visualization.arrayToDataTable([
           ["<?php _e('Day','bookingup')?>", "<?php _e('Bookings','bookingup')?>"],
          <?php echo $sales_val?>

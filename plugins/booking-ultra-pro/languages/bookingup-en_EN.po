@@ -3192,7 +3192,7 @@ msgstr ""
 #: ../classes/bookingultra.class.php:935
 msgid ""
 "Below you can find a list of available time slots for <strong>[BUP_SERVICE]</"
-"strong> by <strong>[BUP_PROVIDER]</strong>."
+"strong> <strong>[BUP_PROVIDER]</strong>."
 msgstr ""
 
 #: ../classes/bookingultra.class.php:939
@@ -3556,7 +3556,7 @@ msgstr ""
 
 #: ../classes/bookingultra.service.php:1047
 #: ../classes/bookingultra.service.php:1353
-msgid "by "
+msgid ""
 msgstr ""
 
 #: ../classes/bookingultra.service.php:1173

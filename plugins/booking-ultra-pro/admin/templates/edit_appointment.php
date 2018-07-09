@@ -29,7 +29,7 @@ $booking_day = date('D, j F, Y', strtotime($booking_time_from));
 
     <div class="bup-adm-frm-blocks" >               
                    
-        <div class="field-header"><?php _e('Select Service','bookingup')?></div>                   
+        <div class="field-header"><?php _e('Select Venue','bookingup')?></div>                   
         <?php echo $bookingultrapro->service->get_categories_drop_down_admin($service_id);?>                            
                
    </div>

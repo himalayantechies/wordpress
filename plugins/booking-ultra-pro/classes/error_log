@@ -1,0 +1,4 @@
+[12-Jun-2018 09:04:43 UTC] PHP Fatal error:  Class 'BookingUltraUser' not found in /home/himalhackers/plugins.himalayanhackers.com/wp-content/plugins/booking-ultra-pro/classes/bookingultra.trainingsessions.php on line 2942
+[12-Jun-2018 09:04:53 UTC] PHP Fatal error:  Call to undefined function add_action() in /home/himalhackers/plugins.himalayanhackers.com/wp-content/plugins/booking-ultra-pro/classes/bookingultra.user.php on line 11
+[12-Jun-2018 09:06:08 UTC] PHP Fatal error:  Class 'BookingUltraUser' not found in /home/himalhackers/plugins.himalayanhackers.com/wp-content/plugins/booking-ultra-pro/classes/bookingultra.trainingsessions.php on line 2942
+[12-Jun-2018 09:06:53 UTC] PHP Fatal error:  Class 'BookingUltraUser' not found in /home/himalhackers/plugins.himalayanhackers.com/wp-content/plugins/booking-ultra-pro/classes/bookingultra.trainingsessions.php on line 2942

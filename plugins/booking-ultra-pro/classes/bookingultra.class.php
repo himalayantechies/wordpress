@@ -215,13 +215,6 @@ class BookingUltraPro
 		
 	}
 	
-	
-	
-	
-	
-	
-	
-	
 	public function activate_profile_module ()
 	{
 		$this->create_initial_pages();
@@ -749,7 +742,6 @@ class BookingUltraPro
 				'can_hide' => 1,
 				'help' => __('Information about your booking will be sent to you.','bookingup')
 			),
-			
 			250 => array( 
 				'icon' => 'phone', 
 				'field' => 'text', 
@@ -912,7 +904,7 @@ class BookingUltraPro
 			
 		}elseif($label=='select_service_label_drop'){
 			
-			$def_label =  __('Select Service','bookingup');
+			$def_label =  __('Select venue','bookingup');
 		
 		}elseif($label=='select_date_label'){
 			
@@ -932,7 +924,7 @@ class BookingUltraPro
 			
 		}elseif($label=='step2_texts'){
 			
-			$def_label =  __('Below you can find a list of available time slots for <strong>[BUP_SERVICE]</strong> by <strong>[BUP_PROVIDER]</strong>.','bookingup');
+			$def_label =  __('Below you can find a list of available time slots for <strong>[BUP_SERVICE]</strong> <strong>[BUP_PROVIDER]</strong>.','bookingup');
 			
 		}elseif($label=='step3_texts'){
 			
@@ -1202,7 +1194,7 @@ class BookingUltraPro
 		
 		
 	}
-	
+
 	/* Custom WP Query*/
 	public function get_results( $query ) 
 	{
@@ -1236,6 +1228,7 @@ class BookingUltraPro
 		$defaults = array(       
 			'redirect_to' => null,
 			'form_header_text' => __('Sign Up','bookingup'),
+			
 			'bup_date' => '',
 			'service_id' => '',
 			'form_id' => '',
@@ -1262,8 +1255,7 @@ class BookingUltraPro
 		
 		$display = null;
 		
-		
-		
+	
 		   $display .= '<div class="bup-user-data-registration-form">					';				
 								
 													
@@ -1286,25 +1278,39 @@ class BookingUltraPro
 	/* This is the Registration Form on booking */
 	function display_registration_form_booking( $redirect_to=null , $args)
 	{
-		global $bup_register,  $bup_captcha_loader, $bupcomplement;
+	       
+		global $bup_register,  $bup_captcha_loader, $bupcomplement, $wpdb;
 		$display = null;
 		
 						
 		extract( $args, EXTR_SKIP );
+	
+		$bup_training_session_id = $args['training_Session_ID'];
+		if($bup_training_session_id){
+		    $sql ="SELECT * FROM " . $wpdb->prefix . "bup_trainingsessions  
+			    WHERE trainingSession_id='".$bup_training_session_id."';";
+			$trainingDetails = $wpdb->get_results($sql);
+			$array = json_decode(json_encode($trainingDetails),true);
+		}
 		
+		$service_id1 = $array[0]['service_id'];
 		$require_phone = $this->get_option('phone_number_mandatory');
 		$require_last_name = $this->get_option('last_name_mandatory');
-				
-		// Optimized condition and added strict conditions
+		
+	    //$b_category = $args['bup_category'];
+        
+		
+		
+	  	// Optimized condition and added strict conditions
 		if (!isset($bup_register->registered) || $bup_register->registered != 1)
 		{
 		
 		$display .= '<form action="" method="post" id="bup-registration-form" name="bup-registration-form" enctype="multipart/form-data">';
 		
-		
+		$display .= '<input type="hidden" name="bup_training_session_id" id="bup_training_session_id" value="'.$bup_training_session_id.'">';
 		$display .= '<input type="hidden" name="bup_date" id="bup_date" value="'.$bup_date.'">';
 		$display .= '<input type="hidden" name="bup_service_cost" id="bup_service_cost" value="'.$bup_service_cost.'">';
-		$display .= '<input type="hidden" name="service_id" id="service_id" value="'.$service_id.'">';
+		$display .= '<input type="hidden" name="service_id" id="service_id" value="'.$service_id1.'">';
 		$display .= '<input type="hidden" name="staff_id" id="staff_id" value="'.$staff_id.'">';
 		$display .= '<input type="hidden" name="book_from" id="book_from" value="'.$book_from.'">';
 		$display .= '<input type="hidden" name="book_to" id="book_to" value="'.$book_to.'">';
@@ -1506,19 +1512,9 @@ class BookingUltraPro
 					$display .= '<div class="bup-field-value">';
 				
 					$display .= '<input type="text" class="'.$required_class.' bup-input " name="user_email_2" id="reg_user_email_2" value="'.$this->get_post_value('user_email_2').'" title="'.__('Re-type your email','bookingup').'"  placeholder="'.__('Re-type your email','bookingup').'" data-errormessage-value-missing="'.__(' * This input is required!','bookingup').'"/>';
-					
+					$display .= '<div class="emailNoMatch" style="display:none; color:white; background-color:red;"> No match </div>';
 					
 					$display .= '</div>';					
-		
-					$display .= '<label class="bup-field-type" for="user_email_2">';
-                                                $display .= '<i class="fa fa-envelope"></i>';
-                                                $display .= '<span>'.__('Re-type your email', 'bookingup').' '.$required_text.'</span></label>';	
-					$display .= '<div class="bup-field-value">';
-
-                                        $display .= '<input type="text" class="'.$required_class.' bup-input " name="user_testField" id="user_testField" value="'.$this->get_post_value('user_testField').'" title="'.__('Re-type your email','bookingup').'"  placeholder="'.__('Re-type your email','bookingup').'" data-errormessage-value-missing="'.__(' * This input is required!','bookingup').'"/>';
-
-
-                                        $display .= '</div>';
 	
 				}
 				
@@ -1893,16 +1889,18 @@ class BookingUltraPro
 												
 				$display .= '</div>';
 				
-						
-				
 				$display .= '<div class="bup-total-qty" >';
 				$display .= '<h4>'.__('Available:', 'bookingup').'</h4>';				
-				$display .= '<p >'.$max_available.'</p>';								
+				$display .= '<p >'.$max_available.'</p>';
+				
 				$display .= '</div>';
+				
+				
 				
 				$display .= '<div class="bup-total-detail" >';
 				$display .= '<h4>'.__('Total:', 'bookingup').'</h4>';
-				$display .= '<p id="bup-total-booking-amount">'.$currency_symbol.$service_details['price'].'</p>';
+				$display .= '<p id="bup-total-booking-amount" >£ '.$TrainingSessionPrice.'</p>';
+				$display .= '<i id="spinnerTotalAmount" class="fa fa-spinner fa-spin" style="font-size:14px;color:red;position: absolute;margin-top: -39px;margin-left: 50px; display:none;"></i>';
 				$display .= '</div>';		
 										
 				$display .= '</div>';

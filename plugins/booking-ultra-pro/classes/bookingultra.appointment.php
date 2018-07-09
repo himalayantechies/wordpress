@@ -131,9 +131,6 @@ class BookingUltraAppointment
 			
 		}
 		
-		//print_r($appointment);
-		//die(0);
-		
 		$staff_id = $appointment->booking_staff_id;	
 		$client_id = $appointment->booking_user_id;	
 		$service_id = $appointment->booking_service_id;
@@ -502,7 +499,7 @@ class BookingUltraAppointment
 							
 							if (isset($loop)) 
 							{
-								$display .= '<select class="'.$required_class.' bup-custom-field bup-input" name="'.$meta.'" id="'.$meta.'" title="'.$name.'" data-errormessage-value-missing="'.__(' * This input is required!','bookingup').'" data="Testing">';
+								$display .= '<select class="'.$required_class.' bup-custom-field bup-input" name="'.$meta.'" id="'.$meta.'" title="'.$name.'" data-errormessage-value-missing="'.__(' * This input is required!','bookingup').'">';
 								
 								foreach($loop as $option)
 								{
@@ -707,8 +704,7 @@ class BookingUltraAppointment
 		$exploded = array();
 		parse_str($bup_custom_fields, $exploded);
 		
-		//print_r($exploded);
-		
+	
 		foreach($exploded as $field => $value)
 		{
 			if (is_array($value))   // checkboxes
@@ -1059,7 +1055,7 @@ class BookingUltraAppointment
 		
 		//create transaction
 		$transaction_key = session_id()."_".time();	
-		
+		//print_r("LINE 1058,appointment.php");exit;
 		$html='';		
 				
 		//create reservation in reservation table				
@@ -1564,21 +1560,21 @@ class BookingUltraAppointment
 			
 
 			
-			$sql =  'SELECT count(*) as total, appo.*, usu.* FROM ' . $wpdb->prefix . 'bup_bookings appo  ' ;				
-			$sql .= " RIGHT JOIN ".$wpdb->users ." usu ON (usu.ID = appo.booking_staff_id)";					
-			$sql .= " WHERE DATE(appo.booking_time_from) >= '".$date_from."' AND DATE(appo.booking_time_to) <= '".$date_to."' AND usu.ID = appo.booking_staff_id AND appo.booking_status = '1' ";
+			$sql =  'SELECT count(*) as total, appo.* FROM ' . $wpdb->prefix . 'bup_bookings appo  ' ;				
+			//$sql .= " RIGHT JOIN ".$wpdb->users ." usu ON (usu.ID = appo.booking_staff_id)";					
+			$sql .= " WHERE DATE(appo.booking_time_from) >= '".$date_from."' AND DATE(appo.booking_time_to) <= '".$date_to."' AND appo.booking_status = '1' ";
 		}elseif($when=='all'){
 			
 			
-			$sql =  'SELECT count(*) as total, appo.*, usu.* FROM ' . $wpdb->prefix . 'bup_bookings appo  ' ;				
-			$sql .= " RIGHT JOIN ".$wpdb->users ." usu ON (usu.ID = appo.booking_staff_id)";					
-			$sql .= " WHERE  usu.ID = appo.booking_staff_id   ";			
+			$sql =  'SELECT count(*) as total, appo.* FROM ' . $wpdb->prefix . 'bup_bookings appo  ' ;				
+			//$sql .= " RIGHT JOIN ".$wpdb->users ." usu ON (usu.ID = appo.booking_staff_id)";					
+			//$sql .= " WHERE  usu.ID = appo.booking_staff_id   ";			
 			
 		}else{
 			
-			$sql =  'SELECT count(*) as total, appo.*, usu.* FROM ' . $wpdb->prefix . 'bup_bookings appo  ' ;				
-			$sql .= " RIGHT JOIN ".$wpdb->users ." usu ON (usu.ID = appo.booking_staff_id)";					
-			$sql .= " WHERE DATE(appo.booking_time_from) = '".$date."' AND usu.ID = appo.booking_staff_id AND  appo.booking_status = '1' ";
+			$sql =  'SELECT count(*) as total, appo.* FROM ' . $wpdb->prefix . 'bup_bookings appo  ' ;				
+			//$sql .= " RIGHT JOIN ".$wpdb->users ." usu ON (usu.ID = appo.booking_staff_id)";					
+			$sql .= " WHERE DATE(appo.booking_time_from) = '".$date."'  AND  appo.booking_status = '1' ";
 			
 		
 		}	
@@ -1645,7 +1641,7 @@ class BookingUltraAppointment
 				$vals .= ',';		
 			}
 		} 
-		
+	
 		return $vals;		
 		
 	}
@@ -2206,7 +2202,7 @@ class BookingUltraAppointment
 		
 		//get total				
 				
-		$sql =  "SELECT count(*) as total, usu.*, serv.* , appo.* 	  " ;
+		$sql =  "SELECT count(*) as total,  serv.* , appo.* 	  " ;
 		
 		if($special_filter!="" && isset($bup_filter))
 		{
@@ -2215,7 +2211,7 @@ class BookingUltraAppointment
 		
 		$sql .= " FROM " . $wpdb->prefix . "bup_bookings appo ";
 						
-		$sql .= " RIGHT JOIN ".$wpdb->users ." usu ON (usu.ID = appo.booking_staff_id)";	
+		//$sql .= " RIGHT JOIN ".$wpdb->users ." usu ON (usu.ID = appo.booking_staff_id)";	
 		$sql .= " RIGHT JOIN ". $wpdb->prefix."bup_services serv ON (serv.service_id = appo.booking_service_id)";	
 		
 		
@@ -2267,7 +2263,7 @@ class BookingUltraAppointment
 		
 		//get all	
 		
-		$sql =  "SELECT appo.*, usu.*, serv.* 	  " ;
+		$sql =  "SELECT appo.*,  serv.* 	  " ;
 		
 		if($special_filter!="" && isset($bup_filter))
 		{
@@ -2276,7 +2272,7 @@ class BookingUltraAppointment
 		
 		$sql .= " FROM " . $wpdb->prefix . "bup_bookings appo ";
 		
-		$sql .= " RIGHT JOIN ".$wpdb->users ." usu ON (usu.ID = appo.booking_staff_id)";	
+		//$sql .= " RIGHT JOIN ".$wpdb->users ." usu ON (usu.ID = appo.booking_staff_id)";	
 		$sql .= " RIGHT JOIN ". $wpdb->prefix."bup_services serv ON (serv.service_id = appo.booking_service_id)";	
 		
 		if($special_filter!="" && isset($bup_filter))

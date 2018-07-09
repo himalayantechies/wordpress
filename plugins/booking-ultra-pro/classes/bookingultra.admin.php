@@ -49,13 +49,15 @@ class BookingUltraAdmin extends BookingUltraCommon
 		
 	}
 	
+	
 	function admin_init() 
 	{
 		
 		$this->tabs = array(
 		    'main' => __('Dashboard','bookingup'),
-			'services' => __('Services','bookingup'),
-			'users' => __('Staff','bookingup'),
+			'services' => __('Camp Location','bookingup'),
+			'users' => __('Coach','bookingup'),
+			'trainingsessions' => __('Training Sessions','bookingup'),
 			'appointments' => __('Appointments','bookingup'),
 			'orders' => __('Payments','bookingup'),
 			'fields' => __('Fields','bookingup'),
@@ -63,8 +65,7 @@ class BookingUltraAdmin extends BookingUltraCommon
 			'mail' => __('Notifications','bookingup'),		
 			
 			'gateway' => __('Gateways','bookingup'),
-			'help' => __('Help','bookingup'),
-			'pro' => __('PREMIUM FEATURES!','bookingup'),
+			'help' => __('Help','bookingup')
 		);
 		
 		$this->default_tab = 'main';	
@@ -279,8 +280,8 @@ class BookingUltraAdmin extends BookingUltraCommon
 		
 		 wp_localize_script( 'bup_admin', 'bup_admin_v98', array(
             'msg_cate_delete'  => __( 'Are you totally sure that you wan to delete this category?', 'bookingup' ),
-			'msg_service_edit'  => __( 'Edit Service', 'bookingup' ),
-			'msg_service_add'  => __( 'Add Service', 'bookingup' ),
+			'msg_service_edit'  => __( 'Edit Camp Location', 'bookingup' ),
+			'msg_service_add'  => __( 'Add Camp Location', 'bookingup' ),
 			'msg_category_edit'  => __( 'Edit Category', 'bookingup' ),
 			'msg_category_add'  => __( 'Add Category', 'bookingup' ),
 			'msg_service_input_title'  => __( 'Please input a title', 'bookingup' ),

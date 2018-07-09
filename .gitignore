@@ -5,3 +5,24 @@ build.*
 .settings/*
 .buildpath
 .project
+
+exports/
+        plugins/attendance-manager/
+        plugins/booking-ultra-pro-complement/
+        plugins/booking-ultra-pro-ultimate/
+        plugins/booking-ultra-pro/templates/error_log
+        plugins/contact-form-7/
+        plugins/cs-framework/
+        plugins/exports-and-reports/
+        plugins/fusion-builder/
+        plugins/fusion-core/
+        plugins/jobhunt-indeed-jobs/
+        plugins/mailchimp-for-wp/
+        plugins/pdf-export.zip
+        plugins/updraftcentral/
+plugins/woocommerce/        
+themes/Avada/
+        themes/twentyseventeen/
+        uploads/
+
+

@@ -360,9 +360,9 @@ strong.bup-cc-strong-t{ font-weight:bold; color: #575757; font-size:14px}
 .bup-front-cont .bup-time-slots-divisor-reduced span.bup-front-mini-icons{ position:absolute; right:2px; top:2px }
 
 .bup-front-cont .bup-time-slots-divisor-reduced span.bup-front-mini-icons i{ font-size:18px }
-
+#bup-time-sl-div-1 .bup-time-slots-available-list span{ color: #fff !important; }
 .bup-time-slots-available-list li.bupreduced{ 
-
+    
 	width:100% !important;
 	vertical-align:top;
 	min-height:20px;

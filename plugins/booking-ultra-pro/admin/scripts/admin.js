@@ -4,7 +4,6 @@ var $ = jQuery;
 jQuery(document).ready(function($) {
 	
 	
-	
 	$('.uultra-tooltip').qtip();
 	jQuery("#uultra-add-new-custom-field-frm").slideUp();	 
 	jQuery( "#tabs-bupro" ).tabs({collapsible: false	});
@@ -37,7 +36,6 @@ jQuery(document).ready(function($) {
 		
 			jQuery("#ui-datepicker-div").wrap('<div class="ui-datepicker-wrapper" />');
 		});
-		
 		
 	function bup_set_auto_c()
 	{
@@ -471,7 +469,7 @@ jQuery(document).ready(function($) {
 				
 		
 	});
-	
+
 	
 	/* 	Update Details */
 	jQuery('#bup-btn-user-details-confirm').live('click',function(e)
@@ -483,9 +481,14 @@ jQuery(document).ready(function($) {
 		  var staff_id =  jQuery('#staff_id').val();
 		  var display_name =  jQuery('#reg_display_name').val();
 		  var reg_telephone =  jQuery('#reg_telephone').val();
-		  
+ 		  var reg_emergency_contact =  jQuery('#reg_emergency_contact').val();
+		  var reg_dbs_number =  jQuery('#reg_dbs_number').val();
+		  var reg_safeguarding_expiry =  jQuery('#reg_safeguarding_expiry').val();		  
+	  	  var reg_expiry_firstaid_date =  jQuery('#reg_expiry_firstaid_date').val();	
+		  var reg_rating =  jQuery('#reg_rating').val();
 		  var reg_email =  jQuery('#reg_email').val();
 		  var reg_email2 =  jQuery('#reg_email2').val();
+		  var reg_location =  jQuery('#reg_location').val();
 		  
 		  jQuery("#bup-edit-details-message").html(message_wait_availability);	 
 		
@@ -497,10 +500,16 @@ jQuery(document).ready(function($) {
 						"display_name": display_name ,
 						"reg_email": reg_email , 
 						"reg_email2": reg_email2 , 
-						"reg_telephone": reg_telephone },
+						"reg_telephone": reg_telephone,
+						"reg_emergency_contact" : reg_emergency_contact ,
+						"reg_dbs_number" : reg_dbs_number ,
+						"reg_expiry_firstaid_date" : reg_expiry_firstaid_date ,
+						"reg_rating" : reg_rating ,
+						"reg_location" : reg_location ,
+						"reg_safeguarding_expiry" : reg_safeguarding_expiry },
 						
 						success: function(data){							
-						
+						    console.log(data);
 							jQuery("#bup-edit-details-message").html(data);				
 						
 							
@@ -1683,6 +1692,7 @@ jQuery(document).ready(function($) {
     		jQuery.ajax({
 					type: 'POST',
 					url: ajaxurl,
+					async:true,
 					data: {"action": "bup_update_booking_info", "custom_fields": serial_data, "booking_id": booking_id},
 					
 					success: function(data){					
@@ -1690,11 +1700,8 @@ jQuery(document).ready(function($) {
 						jQuery("#bup-confirmation-cont" ).html( gen_message_infoupdate_conf);	 
 						jQuery("#bup-confirmation-cont" ).dialog( "open" );	
 						jQuery("#bup-spinner").hide();	
-						
-						
-												
-						
-						}
+                        window.location.reload();					
+								}
 				});
 			
 			
@@ -1836,6 +1843,11 @@ jQuery(document).ready(function($) {
 				var service_calculation =  jQuery("#bup-groups-calculation" ).val();
 				
 				var service_postcode =  jQuery("#bup-postcode" ).val();
+				var service_contactname =  jQuery("#bup-contactname" ).val();
+				var service_email =  jQuery("#bup-email" ).val();
+				var service_phonenumber =  jQuery("#bup-phonenumber" ).val();
+				var service_address =  jQuery("#bup-address" ).val();
+				var service_directionnotes =  jQuery("#bup-directionnotes" ).val();
 
 				if(service_title==''){alert(bup_admin_v98.msg_service_input_title); return;}
 				if(service_price==''){alert(bup_admin_v98.msg_service_input_price); return;}
@@ -1856,7 +1868,12 @@ jQuery(document).ready(function($) {
 							"service_padding_after": service_padding_after,
 							"service_groups": service_groups,
 							"service_calculation": service_calculation,
-							"service_postcode": service_postcode
+							"service_postcode": service_postcode,
+							"service_email": service_email,
+							"service_contactname": service_contactname,
+							"service_phonenumber": service_phonenumber,
+							"service_address": service_address,
+							"service_directionnotes": service_directionnotes
 														
 							 },
 							
@@ -1896,6 +1913,10 @@ jQuery(document).ready(function($) {
 				
 				var catetory_title=   jQuery("#but-category-name").val();
 				var category_id=   jQuery("#bup_category_id").val();
+				console.log(category_id);
+				var category_email = jQuery("#but-category-email").val();
+				var category_contact = jQuery("#but-category-contact").val();
+				var category_address = jQuery("#but-category-address").val();
 				
 				if(catetory_title==''){alert(err_message_category_name); return;}
 				
@@ -1904,7 +1925,11 @@ jQuery(document).ready(function($) {
 					url: ajaxurl,
 					data: {"action": "bup_add_category_confirm",
 					"category_title": catetory_title,
-					"category_id": category_id},
+					"category_id": category_id,
+					"category_email": category_email,
+					"category_contact":category_contact,
+					"category_address":category_address
+					},
 					
 					success: function(data){		
 								
@@ -2348,7 +2373,7 @@ jQuery(document).ready(function($) {
 	
 	
 	jQuery(document).on("click", "#ubp-add-staff-btn", function(e) {
-			
+		
 			e.preventDefault();	
 			
 			jQuery("#bup-spinner").show();		
@@ -2356,7 +2381,7 @@ jQuery(document).ready(function($) {
     		jQuery.ajax({
 					type: 'POST',
 					url: ajaxurl,
-					data: {"action": "ubp_get_new_staff" },
+					data: {"action": "ubp_get_new_trainingsession" },
 					
 					success: function(data){								
 					
@@ -3263,7 +3288,7 @@ function bup_load_staff_adm(staff_id )
 function bup_load_staff_list_adm()	
 {
 	jQuery("#bup-spinner").show();
-	
+	console.log(ajaxurl);
     jQuery.ajax({
 					type: 'POST',
 					url: ajaxurl,
@@ -3284,7 +3309,8 @@ function bup_load_staff_list_adm()
 
 function bup_load_staff_details(staff_id)	
 {
-	jQuery("#bup-spinner").show();	
+	jQuery("#bup-spinner").show();
+	console.log(ajaxurl);
     jQuery.ajax({
 					type: 'POST',
 					url: ajaxurl,
@@ -3304,9 +3330,382 @@ function bup_load_staff_details(staff_id)
 				});	
 	
 }
+/* HT Customized code*/
+
+jQuery(document).on("click", ".bup-training-session-load", function(e) {
+//   alert("hello world of the clicking the event");
+	e.preventDefault();
+	
+	var training_session_id =  jQuery(this).attr("training-session-id");			
+	bup_load_training_session(training_session_id);	
+		
+	
+	e.preventDefault();
+	 
+		
+});
+   
+//Function to allow admin to add camp types on Training Sessions tab 
+jQuery(document).on("click", "#ubp-add-camp-type-btn", function(e) {
+		
+	jQuery("#bup-spinner").show();
+	
+    jQuery.ajax({
+		type: 'POST',
+		url: ajaxurl,
+		data: {"action": "bup_get_camptype_admin"},
+		
+		success: function(data){					
+			
+			var res = data;						
+			jQuery("#bup-staff-details").html(res);					
+			jQuery( "#tabs-bupro" ).tabs({collapsible: false	});						
+			jQuery("#bup-spinner").hide();	
+			
+		//	bup_rebuild_dom_date_picker();										    
+			
+
+			}
+	});	
+				
+});
+
+//Function to allow admin to add camp types on Training Sessions tab 
+jQuery(document).on("click", "#bup-add-camp-type-btn", function(e) {
+	
+	jQuery("#bup-spinner").show();
+    var campType = jQuery("#bup-add-camp-type-input	").val();
+    jQuery.ajax({
+		type: 'POST',
+		url: ajaxurl,
+		data: {"action": "bup_add_camptype_admin",
+		        "value": campType
+		},
+		
+		success: function(data){					
+			jQuery("#bup-spinner").hide();	
+			$("#ubp-add-camp-type-btn").click();
+		
+			}
+	});	
+				
+});
+ //Function to allow admin to edit camp types on Training Sessions Tab
+jQuery(document).on("click","#bup-edit-camp-type-btn",function(){
+    jQuery(this).parent().find('input').attr('readonly',true);
+    jQuery(this).parent().find('button').css('display','none');
+    var editedValue= '';
+    var editId = '';
+    var editedValue = jQuery(this).parent().find('input').val();
+    var editId = jQuery(this).data('attr');
+    jQuery.ajax({
+       type:'POST',
+       url:ajaxurl,
+       data:{
+           "action":"bup_edit_camptype_admin",
+           "value": editedValue ,
+           "valueId": editId
+       },
+        success:function(data){
+        			jQuery("#bup-spinner").hide();	
+    }
+});
+
+});
+jQuery(document).on("click","a[title='Edit']",function(){
+    jQuery(this).parent().find('input').attr('readonly',false);
+    jQuery(this).parent().find('button').css('display','block');
+    var getEditCampId = '';
+    var getEditCampValue = '';
+    var getEditCampValue = jQuery(this).parent().find('input').val();
+    console.log(getEditCampValue);
+    var getEditCampId = jQuery(this).data('attr');
+    console.log(getEditCampId);
+});
+jQuery(document).on("focusout",".campsGenerate",function(){
+    jQuery(this).attr('readonly',true);
+});
+//Function to allow admin to delete camp type in Training Session Tab
+jQuery(document).on("click",".camp-delete",function(){
+    var getDeleteCampId = '';
+    var getDeleteCampId = jQuery(this).data('attr');
+    console.log(getDeleteCampId);
+    jQuery.ajax({
+       type:'POST',
+       url:ajaxurl,
+       data:{
+           "action":"bup_delete_camptype_admin",
+           "value": getDeleteCampId
+       },
+       success:function(){
+           jQuery("#bup-spinner").hide();
+           $("#ubp-add-camp-type-btn").click();
+       }
+    });
+    
+});
+
+	
+function bup_load_training_session(training_session_id )	
+{
+
+	setTimeout("bup_load_trainingSessions_list_adm()", 1000);
+	setTimeout("bup_load_trainingSessions_details(" + training_session_id +")", 1000);
+	
+}
+
+function bup_load_trainingSessions_details(training_session_id)	
+{
+	jQuery("#bup-spinner").show();
+	console.log(ajaxurl);
+    jQuery.ajax({
+		type: 'POST',
+		url: ajaxurl,
+		data: {"action": "bup_get_training_session_details_admin", "training_session_id": training_session_id},
+		
+		success: function(data){
+			var res = data;						
+			jQuery("#bup-staff-details").html(res);					
+			jQuery( "#tabs-bupro" ).tabs({collapsible: false	});						
+			jQuery("#bup-spinner").hide();	
+			
+		//	bup_rebuild_dom_date_picker();										    
+			
+
+			}
+	});	
+	
+}
+/*function to form of the the training sessions */
+jQuery(document).on("click", "#ubp-add-training-session-btn", function(e) {
+         
+		
+			e.preventDefault();	
+			//$(".bup-showInactive-training-session").hide();
+			//$( "#bup-staff-list" ).hide( "slow" );
+			
+			jQuery("#bup-spinner").show();		
+						
+    		jQuery.ajax({
+					type: 'POST',
+					url: ajaxurl,
+					data: {"action": "ubp_get_new_trainingsession" },
+					
+					success: function(data){
+						jQuery("#bup-staff-details" ).html( data );							
+						
+						jQuery("#bup-spinner").hide();
+					}
+				});
+			
+			
+			 // Cancel the default action
+    		e.preventDefault();
+			 
+				
+});
+
+/* function for load the inactive training sessions*/
+jQuery(document).on("click", "#ubp-add-inactive_training-session-btn", function(e) {
+    e.preventDefault();
+    if(jQuery(this).attr("data-attr") == "ShowInactive"){
+        setTimeout(function(){
+            jQuery(".trainingSessions_inactive").css("display","block");
+             jQuery(".trainingSessions_inactive").css("background-color","#ffcccc");
+            jQuery(".trainingSessions_inactive").show();
+            jQuery("#ubp-add-inactive_training-session-btn").html("Hide Inactive Sessions");
+            jQuery("#ubp-add-inactive_training-session-btn").attr("data-attr","HideInactive");
+        }, 3000);
+    }else{
+       
+        jQuery(this).attr("data-attr","ShowInactive");
+        setTimeout(function(){
+            jQuery(".trainingSessions_inactive").css("display","none");
+            jQuery(".trainingSessions_inactive").hide();
+            jQuery("#ubp-add-inactive_training-session-btn").html("Show Inactive Sessions");
+            
+        }, 3000);
+        
+    }
+    
+});
+
+jQuery(document).on("change", "#bup_venue_addForm", function(e) {
+    
+    var selectedVenue =  jQuery("#bup_venue_addForm").val();
+    console.log(selectedVenue);
+    jQuery("#camp_type_addForm").find("option").css("display","none");
+    jQuery("#camp_type_addForm").find("option[data='"+selectedVenue+"']").css("display","block");
+         
+        
+});
+		
+       
+jQuery('#bup-btn-training_session-add-confirm ').live('click',function(e)
+	{
+		  e.preventDefault();	
+		  
+		  var reg_camp_type =  jQuery('#camp_type_addForm').val();
+		  var reg_camp_start_date =  jQuery('#camp_start_date').val();		  
+	  	  var reg_camp_end_date =  jQuery('#camp_end_date').val();	
+	  	  var coach =  jQuery('#coach').val();	
+	  	  var capacity =  jQuery('#bup_capacity').val();	
+	  	  var available =  jQuery('#bup_available').val();
+	  	  var active =  jQuery('#active').val();
+		  var camplength = jQuery("#lengthCampType").val();
+		  var price = jQuery("#bup_add_price").val();
+		  
+		  jQuery("#bup-edit-details-message").html(message_wait_availability);	 
+		
+			jQuery.ajax({
+						type: 'POST',
+						url: ajaxurl,
+						data: {
+    						    "action": "bup_add_trainingsession_admin", 
+        						
+        						"reg_camp_type": reg_camp_type , 
+        						"reg_camp_start_date": reg_camp_start_date,
+        						"reg_camp_end_date" : reg_camp_end_date,
+        						"coach" : coach,
+        						"capacity" : capacity,
+        						"available" : available,
+        						"active" : active,
+        						"price":price,
+        					    "camplength":camplength
+                            },
+						
+						success: function(data){							
+						       
+				            jQuery("#bup-edit-details-message").html(data);	
+                        
+					    }
+				});
+	});
+
+function bup_load_trainingSessions_adm()	
+{
+	jQuery("#bup-spinner").show();
+	
+    jQuery.ajax({
+		type: 'POST',
+		url: ajaxurl,
+		data: {"action": "bup_get_trainingSessions_list_admin_ajax"},
+		
+		success: function(data){					
+			
+			var res = data;						
+			jQuery("#bup-staff-list").html(res);
+			jQuery("#bup-spinner").hide();					    
+			
+									
+
+			}
+	});	
+	
+}
 
 
+function bup_load_trainingSessions_list_adm()	
+{
+	jQuery("#bup-spinner").show();
+    jQuery.ajax({
+		type: 'POST',
+		url: ajaxurl,
+		data: {"action": "bup_get_trainingsessions_list_admin_ajax"},
+		
+		success: function(data){					
+			
+			var res = data;						
+			jQuery("#bup-staff-list").html(res);
+			jQuery("#bup-spinner").hide();					    
+			
+									
 
+			}
+	});	
+	
+}
+
+	jQuery('.bup-showInactive-training-session').live('click',function(e){
+	    
+	    jQuery('.trainingSessions_inactive').css("display","block");
+	    
+	});
+
+/* Training Sessions Update Details */
+	jQuery('#bup-btn-training_session-details-confirm').live('click',function(e)
+	{
+		e.preventDefault();	
+		  
+		  
+		  var training_session_id =  jQuery('#bup-action-training_session-id').attr('data');
+		  
+		  var reg_camp_type =  jQuery('#camp_type').val();
+		  
+		  var reg_camp_start_date =  jQuery('#camp_start_date').val();		  
+	  	  var reg_camp_end_date =  jQuery('#camp_end_date').val();	
+	  	  var coach =  jQuery('#coach').val();	
+	  	  var capacity =  jQuery('#bup_capacity').val();	
+	  	  var available =  jQuery('#bup_available').val();	
+	  	  var active =  jQuery('#bup_active').val();	
+	  	  var CampLength =  jQuery('#lengthOfCampType').val();	
+	  	  var Price =  jQuery('#bup_Price').val();
+	  	  
+		  
+		  jQuery("#bup-edit-details-message").html(message_wait_availability);	 
+		
+			jQuery.ajax({
+						type: 'POST',
+						url: ajaxurl,
+						data: {
+    						    "action": "bup_update_training_session_admin", 
+        						"training_session_id": training_session_id , 
+        						
+        						"reg_camp_type": reg_camp_type , 
+        						"reg_camp_start_date": reg_camp_start_date,
+        						"reg_camp_end_date" : reg_camp_end_date,
+        						"coach" : coach,
+        						"capacity" : capacity,
+        						"available" : available,
+        						"active" : active,
+        						"CampLength" : CampLength,
+        						"Price" : Price
+                            },
+						
+						success: function(data){							
+						
+							jQuery("#bup-edit-details-message").html(data);				
+					    }
+				});
+	});
+	
+    // Delete training session  
+	jQuery(document).on("click", "#ubp-training_session-delete", function(e) {
+			e.preventDefault();
+			
+			var training_session_id =  jQuery(this).attr("training_session_id");
+			//var redirect_avatar =  jQuery(this).attr("redirect-avatar");
+			var r = confirm("Are you sure you want to delete this training session?");
+            if (r == true) {
+                jQuery.ajax({
+					type: 'POST',
+					url: ajaxurl,
+					data: {"action": "bup_delete_training_session_admin", "training_session_id": training_session_id },
+					
+					success: function(data){
+						window.location.reload();						
+					
+					}
+			});
+			
+            } 
+			 // Cancel the default action
+			 return false;
+    		e.preventDefault();
+			 
+				
+        });	
+	
 function bup_edit_appointment_inline(appointment_id, conf_message, show_conf_message)	
 {
 	
@@ -3366,9 +3765,14 @@ function bup_edit_appointment_inline(appointment_id, conf_message, show_conf_mes
 	
 	
 }
-
 function hidde_noti (div_d)
 {
 		jQuery("#"+div_d).slideUp();		
 		
 }
+// function showhiideTrainingSession(){
+//     $('.trainingSessions_inactive').hide();
+//     $('.trainingSessions_active').show();
+// }
+
+

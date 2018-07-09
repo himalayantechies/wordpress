@@ -1,5 +1,6 @@
 <?php
 class BookingUltraProMessaging extends BookingUltraCommon 
+//class BookingUltraProMessaging
 {
 	var $mHeader;
 	var $mEmailPlainHTML;

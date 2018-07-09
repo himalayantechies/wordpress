@@ -1,5 +1,5 @@
 <?php
-class BookingUltraUser
+class BookingUltraTrainingsessions
 {
 	var $sys_prefix = 'bup';
 	
@@ -7,28 +7,15 @@ class BookingUltraUser
 	{
 				
 		$this->ini_module();
-		add_action( 'wp_ajax_bup_get_trainingsessions_list_admin_ajax', array( &$this, 'get_trainingsessions_list_admin_ajax' ));
-		add_action( 'wp_ajax_bup_get_trainingsessions_list_inactive_admin_ajax', array( &$this, 'get_trainingsessions_list_inactive_admin_ajax' ));
-		add_action( 'wp_ajax_bup_get_training_session_details_admin', array( &$this, 'get_training_sessions_details_admin_ajax' ));
-		add_action( 'wp_ajax_bup_update_training_session_admin', array( &$this, 'bup_update_training_session_admin' ));
-		add_action( 'wp_ajax_bup_add_trainingsession_admin', array( &$this, 'bup_add_training_session_admin' ));
-		add_action( 'wp_ajax_bup_delete_trainingsession_admin', array( &$this, 'bup_delete_training_session_admin' ));
-		add_action( 'wp_ajax_bup_get_camptype_admin', array( &$this, 'get_camptype_admin_ajax' ));
-		add_action( 'wp_ajax_bup_add_camptype_admin', array( &$this, 'add_camptype_admin_ajax' ));
-		add_action( 'wp_ajax_bup_delete_camptype_admin', array( &$this, 'delete_camptype_admin_ajax' ));
-		add_action( 'wp_ajax_bup_edit_camptype_admin', array( &$this, 'edit_camptype_admin_ajax' ));
-		
-		
-		add_action('wp_ajax_bup_insert_training_session_admin',array(&$this, 'bup_insert_training_session_admin' ));
-		add_action( 'wp_ajax_ubp_get_new_trainingsession', array( &$this, 'ubp_get_new_trainingsession' ));
-		
+		print_r("Line 10");exit;
+		add_action( 'wp_ajax_bup_get_trainingSessions_list_admin_ajax', array( &$this, 'get_trainingSessions_list_admin_ajax' ));
 		add_action( 'wp_ajax_ubp_get_new_staff', array( &$this, 'ubp_get_new_staff' ));
 		add_action( 'wp_ajax_ubp_get_staff_details_ajax', array( &$this, 'ubp_get_staff_details_ajax' ));
 		add_action( 'wp_ajax_ubp_add_staff_confirm', array( &$this, 'ubp_add_staff_confirm' ));
 		add_action( 'wp_ajax_ubp_add_client_confirm', array( &$this, 'ubp_add_client_confirm' ));
 		add_action( 'wp_ajax_ubp_update_staff_services', array( &$this, 'ubp_update_staff_services' ));		
 		add_action( 'wp_ajax_bup_autocomple_clients_tesearch', array( &$this, 'get_users_auto_complete' ));
-		add_action( 'wp_ajax_bup_get_staff_list_admin_ajax', array( &$this, 'get_staff_list_admin_ajax' ));
+		
 		add_action( 'wp_ajax_bup_get_staff_details_admin', array( &$this, 'get_staff_details_admin_ajax' ));
 		add_action( 'wp_ajax_bup_update_staff_admin', array( &$this, 'bup_update_staff_admin' ));
 		add_action( 'wp_ajax_bup_delete_staff_admin', array( &$this, 'bup_delete_staff_admin' ));
@@ -591,7 +578,6 @@ class BookingUltraUser
 	
 	}
 	
-	
 	public function bup_delete_staff_admin()
 	{
 		global $wpdb,  $bookingultrapro;
@@ -973,7 +959,7 @@ class BookingUltraUser
 		
 		$html .='<div class="bup-profile-field" >';		
 		$html .='<label class="bup-field-type" for="display_name"><span>'.__('Full Name','bookingup').'</span></label>';
-		$html .='<div class="bup-field-value" ><input type="text" class=" bup-input " name="display_name" id="reg_display_name" value="'.$user->display_name.'" title="'.__('Your Full Name','bookingup').'" ></div>';		
+	//	$html .='<div class="bup-field-value" ><input type="text" class=" bup-input " name="display_name" id="reg_display_name" value="'.$user->display_name.'" title="'.__('Your Full Name','bookingup').'" ></div>';		
 		$html .= '</div>';
 		
 		$html .='<div class="bup-profile-field" >';		
@@ -1903,18 +1889,26 @@ class BookingUltraUser
 		}
 	}
 	
-	function get_staff_list_admin_ajax()
-	{
+	function get_trainingSessions_list_admin_ajax()
+	{print_r("Line 1906"); exit;
 		global $wpdb, $bookingultrapro;
-		
+		print_r("Line 1906"); exit;
 		$html='';
-		$uultra_combined_search = '';
+		/*$uultra_combined_search = '';
 		
 		$relation = "AND";
-		$args= array('keyword' => $uultra_combined_search ,  'relation' => $relation,  'sortby' => 'ID', 'order' => 'DESC');
-		$users = $bookingultrapro->userpanel->get_staff_filtered($args);
-	
-		$total = $users['total'];
+		$args= array('keyword' => $uultra_combined_search ,  'relation' => $relation,  'sortby' => 'ID', 'order' => 'DESC');*/
+		//$users = $bookingultrapro->userpanel->get_staff_filtered($args);
+			$sql =  "SELECT  * 	" ;		
+			$sql .= " FROM " . $wpdb->trainingSessions . " ts ";				
+			$sql .= " WHERE 1= 1  ";
+			
+			$users = $wpdb->get_results($sql);		
+		print_r("Line 1906");
+	print_r($users);exit;
+		
+		
+		//$total = $users['total'];
 		
 		if (empty($users['users']))
 		{
@@ -1928,12 +1922,12 @@ class BookingUltraUser
 		$html .='<span class="bup-add-staff"><a href="#" id="ubp-add-staff-btn" title="'.__('Add New Staff Member','bookingup').'" ><i class="fa fa-plus"></i></a></span>';
 		$html .='</div>';
 		
-		if (!empty($users['users']))
+		if (!empty($users))
 		{
 			$html .='<ul>';
 			$c_c =0;
 			
-			foreach($users['users'] as $user) {
+			foreach($users as $user) {
 				
 				$user_id = $user->ID;
 				
@@ -1943,9 +1937,7 @@ class BookingUltraUser
 			
 				$html .='<li>';
 				$html .='<a href="#" id="bup-staff-load" class="bup-staff-load" staff-id="'.$user_id.'"> ';
-				
-				$html .= $bookingultrapro->userpanel->get_user_pic( $user_id, 50, 'avatar', null, null, false);
-				$html .='<h3>'.$user->display_name.'</h3>';
+				$html .='<h3>'.$user->ID.'</h3>';
 				$html .='</a>';
 				$html .='</li>';
 				
@@ -1966,677 +1958,7 @@ class BookingUltraUser
 		die();
 		
 	}
-	//HT Customized Code
-	//This needs to be moved to a new Class, Placed this here because it was throwing 400 error
-    function get_trainingsessions_list_admin_ajax()
-	{
-		global $wpdb, $bookingultrapro;
-		
-		$html='';
 	
-		
-		$sql = 'SELECT ser.service_title, cat.cate_name, tss.*  FROM wp_bup_trainingsessions tss
-                    LEFT JOIN wp_bup_services ser 
-	                        ON tss.service_id = ser.service_id 
-                    LEFT JOIN    wp_bup_categories cat 
-	                        ON cat.cate_id = ser.service_category_id ' ;		
-		
- 		$sql .= " ORDER BY tss.active DESC";
-		
-		$trainingsessions = $wpdb->get_results($sql);
-		
-		$sql1 = ' SELECT  COUNT(*) AS Count FROM  wp_bup_trainingsessions ' ;		
-		
-		$sql1 .= " WHERE 1=1 " ;					
-		
-		$trainingsessions_count = $wpdb->get_results($sql1);
-		$total = $trainingsessions_count[0]->Count; 
-		$html.=' <style>
-                     .SpanHeading{
-                        font-size: 23px;
-                        font-weight: 400;
-                        margin: 0;
-                        padding: 9px 0 4px;
-                        line-height: 29px;
-                     }
-                 </style>';	
-		$html .='<div class="bup-training-session-list-act">';
-		$html .='<span class="SpanHeading">'.__('Training Sessions','bookingup').'('.$total.')</span>';
-		$html .='<span class="bup-add-training-session"><a href="#" id="ubp-add-training-session-btn" title="'.__('Add New Training session','bookingup').'" ><i class="fa fa-plus"></i></a></span><br/>';
-		
-		$html .='<span class="bup-showInactive-training-session"><a href="#" id="ubp-add-inactive_training-session-btn" title="'.__('Show Inactive Sessions','bookingup').'" data-attr="ShowInactive">Show Inactive Sessions</i></a></span>';
-		
-		$html .='</div>';
-		
-		if (!empty($trainingsessions))
-		{
-			$html .='<ul>';
-			$c_c =0;
-			
-			foreach($trainingsessions as $trainingsession) {
-				
-				$trainingSession_id = $trainingsession->trainingSession_id;
-				
-				$c_c++;
-				
-				if($c_c==1){$html .='<input type="hidden" id="bup-first-training-session-id" value="'.	$trainingSession_id.'">';}
-				
-				if($trainingsession->active=='Y'){
-				    $html .='<li class="trainingSessions_active">';
-    				$html .='<a href="#" id="bup-training-session-load" class="bup-training-session-load" training-session-id="'.	$trainingSession_id.'"> ';
-    				
-    			
-    				$html .='<h3>'.$trainingsession->service_title.'</h3>';
-    				$html .='<h4>('.$trainingsession->cate_name.')</h4>';
-    				
-    				$html .='</a>';
-    				$html .='</li>';    
-				    
-				}else{
-				    $html .='<li class="trainingSessions_inactive" style="display:none;">';
-    				$html .='<a href="#" id="bup-training-session-load" class="bup-training-session-load" training-session-id="'.	$trainingSession_id.'"> ';
-    				$html .='<h3>'.$trainingsession->service_title.'</h3>';
-    				$html .='<h4>('.$trainingsession->cate_name.')</h4>';
-    				
-    				$html .='</a>';
-    				$html .='</li>';    
-				    
-				}
-			
-				
-				
-			}
-			
-			$html .='</ul>';
-		
-		}else{
-			
-			$html .=__('There are no training sessions.','bookingup');
-			
-		
-		}
-		
-		
-		
-		echo $html;
-		die();
-		
-	}
-	
-	
-	
-	public function get_training_sessions_details_admin_ajax()
-	{
-	    $training_session_id = $_POST['training_session_id'];
-		global $wpdb, $bookingultrapro, $bupcomplement, $bupultimate;
-		
-		$sql = 'SELECT ser.service_title, cat.cate_name, tss.*  FROM `wp_bup_trainingsessions` tss
-                    LEFT JOIN `wp_bup_services` ser
-	                        ON tss.`service_id` = ser.`service_id`
-                    LEFT JOIN    `wp_bup_categories` cat 
-	                        ON cat.cate_id = ser.service_category_id ' ;		
-		
-		$sql .= " WHERE tss.`trainingSession_id` = ".$training_session_id;
-		
-		$sqlcoach = 'SELECT wp.ID,wp.display_name FROM `wp_usermeta` wpu INNER join wp_users wp on wpu.user_id=wp.ID';
-		
-		$sqlcoach .= " WHERE wpu.`meta_value` = '1' and wpu.`meta_KEY`= 'BUP_IS_STAFF_MEMBER' ";
-		
-		$coach_details = $wpdb->get_results($sqlcoach);
-	
-		$trainingsessions_details = $wpdb->get_results($sql);
-		
-		
-		
-		
-		
-		$html = '';
-		
-		$html .= '<style>
-		            .bup-profile-field input{
-		                width: 250px !important;
-		            }
-		         </style>';
-		$html .= '<div class="bup-sect-adm-edit">';
-		$html .= '<input type="hidden" value="'.$training_session_id.'" id="training_session_id" name="training_session_id">';
-		
-		$html .= '<ul class="bup-details-training_session-sections">';
-		
-		$html .='<li class="left_widget_customizer_li">';
-			
-		$html .='<div class="bup-training_session-details-header" widget-id="1"><h3> '.__('Details','bookingup').'<h3>';
-				
-		$html .='<span class="bup-widgets-icon-close-open" id="bup-widgets-icon-close-open-id-1"  widget-id="1" style="background-position: 0px 0px;"></span>';
-		
-		$html .= '</div>';
-		
-		$html .='<div id="bup-widget-adm-cont-id-1" class="bup-training_session-details">';
-		
-		$html .='<span id="bup-action-training_session-id" data = "'.$training_session_id.'">'.__('ID: ','bookingup').' '.$training_session_id.' </span>';
-		
-		$html .='<span class="bup-action-training_session"><a href="#" id="ubp-training_session-delete"  title="'.__('Delete','bookingup').'" staff-id="'.$training_session_id.'" ><i class="fa fa-trash-o"></i></a> </span>';
-		
-		//Name of Venue
-		$html .='<div class="bup-profile-field" >';		
-		$html .='<label class="bup-field-type" for="venue_name"><span> Venue : '.$trainingsessions_details[0]->cate_name.'</span></label>';
-	    $html .= '</div>';
-		
-		//Type of camp
-		$html .='<div class="bup-profile-field" >';		
-		$html .='<label class="bup-field-type" for="Camp_name"><span>'.__('Camp type : ','bookingup').'</span></label>';
-		$html .='<div class="bup-field-value" >
-		
-		<select name="camp_type" id="camp_type">';
-	        foreach ($trainingsessions_details as $trainingsessions_detail) {
-		    $html .='<option  value='.$trainingsessions_detail->service_id.' title="'.__('Camp type','bookingup').'">'.$trainingsessions_detail->service_title.'</option>';
-		}
-		$html .='</select></div>';		
-		$html .= '</div>';
-		
-		//Start Date
-		if(isset ($trainingsessions_details[0]->startDate)){
-		    $camp_start_date = date("Y-m-d", strtotime($trainingsessions_details[0]->startDate) );
-		}
-		$html .='<div class="bup-profile-field" >';
-        $html .='<label class="bup-field-type" for="start_date"><span>'.__('Start date','bookingup').'</span></label>';
-        $html .='<div class="bup-field-value" ><input type="date" class="bupro-datepicker hasDatepicker" name="start_date" id="camp_start_date" value="'.$camp_start_date.'" title="'.__('Start date','bookingup').'" ></div>';
-        $html .= '</div>';
-        
-        //End Date
-		if(isset ($trainingsessions_details[0]->endDate)){
-		    $camp_end_date = date("Y-m-d", strtotime($trainingsessions_details[0]->endDate) );
-		}
-		$html .='<div class="bup-profile-field" >';
-        $html .='<label class="bup-field-type" for="end_date"><span>'.__('End date','bookingup').'</span></label>';
-        $html .='<div class="bup-field-value" ><input type="date" class="bupro-datepicker hasDatepicker" name="end_date" id="camp_end_date" value="'.$camp_end_date.'" title="'.__('End date','bookingup').'" ></div>';
-        $html .= '</div>';
-        
-        $html .='<div class="bup-profile-field" >';		
-		$html .='<label class="bup-field-type" for="Camp_name"><span>Coach:</span></label>';
-		$html .='<div class="bup-field-value" >
-		
-		<select name="coach" id="coach">';
-		
-        foreach ($coach_details as $coach_detail) {
-		    
-		    if($coach_detail->ID == $trainingsessions_details[0]->coach){
-		        $html .='<option  value='.$coach_detail->ID.' title="'.__('ID','Coach').'" selected = "selected" >'.$coach_detail->display_name.'</option>';
-		    }else{
-		        $html .='<option  value='.$coach_detail->ID.' title="'.__('ID','Coach').'">'.$coach_detail->display_name.'</option>';
-		    }
-		}
-		$html .='</select></div>';		
-		$html .= '</div>';
-	    
-	    //Available slots, Capacity
-		
-		$html .='<div class="bup-profile-field" >';
-        $html .='<label class="bup-field-type" for="capacity"><span>'.__('Max capacity','bookingup').'</span></label>';
-        $html .='<div class="bup-field-value" ><input type="text" name="capacity" id="bup_capacity" value="'.$trainingsessions_details[0]->capacity.'" title="'.__('Capacity','bookingup').'" ></div>';
-        $html .='<label class="bup-field-type" for="available"><span>'.__('Available slots','bookingup').'</span></label>';
-        $html .='<div class="bup-field-value" ><input type="text" name="available" id="bup_available" value="'.$trainingsessions_details[0]->available.'" title="'.__('Available slots','bookingup').'" ></div>';
-        $html .= '</div>';
-        
-        
-        $html .='<div class="bup-profile-field" >';		
-		$html .='<label class="bup-field-type" for="active"><span>Active:</span></label>';
-		$html .='<div class="bup-field-value" >    <select name="active" id="bup_active">';
-		$html .='<option value = "">Select</option>';
-        	$html .='<option value = "Y"';
-        	if($trainingsessions_details[0]->active == 'Y'){
-        	  $html .=' selected = "selected"';  
-        	}
-        	$html .=' >Y</option>';
-        	$html .='<option value = "N"';
-        	if($trainingsessions_details[0]->active == 'N'){
-        	  $html .=' selected = "selected"'; 
-        	}
-        	$html .=' >N</option>';
-        
-        
-		$html .='</select></div>';		
-		$html .= '</div>';
-        //camp length select box
-        global $wpdb;
-         $sqlforCampTypeChoose = "SELECT * FROM `wp_options` WHERE `option_name` LIKE '%bup_options_CampLength-%' ORDER by option_id Desc";
-         $sqlforCampTypeOptions = $wpdb->get_results($sqlforCampTypeChoose);
-         $html .= '<div class="bup-profile-field">';
-         $html .= '<label class="bup-field-type" for="bup-field-campType"><span>Camp Length:</span></label>';
-         $html .= '<div class="bup-field-value">
-         <select name = "lengthOfCampType" id="lengthOfCampType">';
-        
-         foreach($sqlforCampTypeOptions as $sqlforCampTypeOption){
-             if($sqlforCampTypeOption->option_id == $trainingsessions_details[0]->campLength){
-                 $html .= '<option value="'.$sqlforCampTypeOption->option_id.'" selected="selected">'.$sqlforCampTypeOption->option_value . '</option>';
-             }
-             else{
-                 $html .= '<option value="'.$sqlforCampTypeOption->option_id.'" >'.$sqlforCampTypeOption->option_value . '</option>';
-             }
-          }
-        $html .= '</select></div>';
-        $html .= '</div>';
-       
-       
-        //Price
-		
-		$html .='<div class="bup-profile-field" >';
-        $html .='<label class="bup-field-type" for="Price"><span>'.__('Price','bookingup').'</span></label>';
-        $html .='<div class="bup-field-value" ><input type="text" name="bup_Price" id="bup_Price" value="'.$trainingsessions_details[0]->Price.'" title="'.__('Price','bookingup').'" ></div>';
-        $html .= '</div>';
-        
-    
-       $html .= '<div class="bup-field ">';
-		$html .= '				<label class="bup-field-type "><button name="bup-btn-training_session-details-confirm" id="bup-btn-training_session-details-confirm" class="bup-button-submit-changes">'.__('Submit','bookingup').'	</button></label>';
-		
-	
-		$html .= '<div class="bup-field-value">
-						    <input type="hidden" name="bup-training_session-form" value="bup-training_session-form">								
-							
-							
-				   </div>';
-		$html .= '</div>';
-		
-		$html .= '<div class="bup-field "><span id="bup-edit-details-message">&nbsp;</span>';
-		$html .= '</div>';
-		
-		
-		$html .= '</div>';
-		$html .='</li>';
-		$html .= '</ul>';
-		
-		$html .= '</div>';
-		
-		print_r($html);	
-		exit;
-		//return $html ;
-		
-			
-	
-	}
-	/*insert the traing session of the bup*/
-    
-	public function ubp_get_new_trainingsession()
-	{	
-	
-		global $wpdb, $bookingultrapro;	
-
-        $sqlVenues = 'SELECT `cate_id`,`cate_name` FROM `wp_bup_categories`  ' ;		
-	
-		$venues = $wpdb->get_results($sqlVenues);
-		
-		$sqlCamps = 'SELECT `service_id`,`service_title`,`service_category_id` FROM `wp_bup_services` WHERE 1  ' ;		
-	
-		$camps = $wpdb->get_results($sqlCamps);
-		
-		$sqlcoach = 'SELECT wp.ID,wp.display_name FROM `wp_usermeta` wpu INNER join wp_users wp on wpu.user_id=wp.ID';
-		
-		$sqlcoach .= " WHERE wpu.`meta_value` = '1' and wpu.`meta_KEY`= 'BUP_IS_STAFF_MEMBER' ";
-		
-		$coach_details = $wpdb->get_results($sqlcoach);
-	    
-	    $training_session = 'select * from wp_bup_trainingsessions ';
-	     $training_session_details = $wpdb->get_results($training_session);
-        
-		$html = '';
-		
-		$html .= '<div class="bup-sect-adm-edit">';
-		
-		$html .= '<p>'.__('Here you can add new training session. Please fill in details and then click on the Add button.','bookingup').'</p>';
-		
-		$html .= '<div class="bup-edit-service-block">';
-		
-		//Name of Venue
-	    $html .='<div class="bup-profile-field" >';		
-		$html .='<label class="bup-field-type" for="Camp_name"><span>Venue:</span></label>';
-		$html .='<div class="bup-field-value" >
-		
-		<select name="venue" id="bup_venue_addForm">';
-		
-        foreach ($venues as $venue) {
-		    $html .='<option  value='.$venue->cate_id.' title="'.__('ID','Venue').'">'.$venue->cate_name.'</option>';
-		}
-		$html .='</select></div>';		
-		$html .= '</div>';
-		
-		//Type of camp
-		$html .='<div class="bup-profile-field" >';		
-		$html .='<label class="bup-field-type" for="Camp_name"><span>'.__('Camp type : ','bookingup').'</span></label>';
-		$html .='<div class="bup-field-value" >
-		
-		<select name="camp_type" id="camp_type_addForm"> <option selected="true" disabled>Select Venue</option>';
-        foreach ($camps as $camp) {
-		    $html .='<option data= '. $camp->service_category_id .' style="display:none;"  value='.$camp->service_id.' title="'.__('Camp type','bookingup').'">'.$camp->service_title.'</option>';
-		}
-		$html .='</select></div>';		
-		$html .= '</div>';
-		
-		//Start Date
-		if(isset ($trainingsessions_details[0]->startDate)){
-		    
-		    $camp_start_date = date("Y-m-d", strtotime($trainingsessions_details[0]->startDate) );
-		}
-		$html .='<div class="bup-profile-field" >';
-        $html .='<label class="bup-field-type" for="start_date"><span>'.__('Start date','bookingup').'</span></label>';
-        $html .='<div class="bup-field-value" ><input type="date" class="bupro-datepicker hasDatepicker" name="start_date" id="camp_start_date" value="'.$camp_start_date.'" title="'.__('Start date','bookingup').'" ></div>';
-        $html .= '</div>';
-        
-        //End Date
-		if(isset ($trainingsessions_details[0]->endDate)){
-		    $camp_end_date = date("Y-m-d", strtotime($trainingsessions_details[0]->endDate) );
-		}
-		$html .='<div class="bup-profile-field" >';
-        $html .='<label class="bup-field-type" for="end_date"><span>'.__('End date','bookingup').'</span></label>';
-        $html .='<div class="bup-field-value" ><input type="date" class="bupro-datepicker hasDatepicker" name="end_date" id="camp_end_date" value="'.$camp_end_date.'" title="'.__('End date','bookingup').'" ></div>';
-        $html .= '</div>';
-			
-	    
-	    $html .='<div class="bup-profile-field" >';		
-		$html .='<label class="bup-field-type" for="Camp_name"><span>Coach:</span></label>';
-		$html .='<div class="bup-field-value" >
-		
-		<select name="coach" id="coach">';
-		
-        foreach ($coach_details as $coach_detail) {
-		    $html .='<option  value='.$coach_detail->ID.' title="'.__('ID','Coach').'">'.$coach_detail->display_name.'</option>';
-		}
-		$html .='</select></div>';		
-		$html .= '</div>';
-	    
-	    //Capacity and available slots
-    	$html .='<div class="bup-profile-field" >';
-        $html .='<label class="bup-field-type" for="capacity"><span>'.__('Max capacity','bookingup').'</span></label>';
-        $html .='<div class="bup-field-value" ><input type="text" name="capacity" id="bup_capacity"  title="'.__('Capacity','bookingup').'" ></div>';
-        $html .='<label class="bup-field-type" for="available"><span>'.__('Available slots','bookingup').'</span></label>';
-        $html .='<div class="bup-field-value" ><input type="text" name="available" id="bup_available"  title="'.__('Available slots','bookingup').'" ></div>';
-        $html .= '</div>';
-        
-         // active combo box
-        $html .='<div class="bup-profile-field" >';		
-		$html .='<label class="bup-field-type" for="active"><span>Active:</span></label>';
-		$html .='<div class="bup-field-value" >    <select name="active" id="active">';
-		$html .='<option value = "">Select</option>';
-        	$html .='<option value = "Y"';
-        	if($trainingsessions_details[0]->active == 'Y'){
-        	  $html .=' selected = "selected"';  
-        	}
-        	$html .=' >Y</option>';
-        	$html .='<option value = "N"';
-        	if($trainingsessions_details[0]->active == 'N'){
-        	  $html .=' selected = "selected"'; 
-        	}
-        	$html .=' >N</option>';
-        
-        
-		$html .='</select></div>';		
-		$html .= '</div>';
-		
-		//select box for camp-type
-          global $wpdb;
-         $sqlforCampTypeChoose = "SELECT * FROM `wp_options` WHERE `option_name` LIKE '%bup_options_CampLength-%' ORDER by option_id Desc";
-         $sqlforCampTypeOptions = $wpdb->get_results($sqlforCampTypeChoose);
-         $html .= '<div class="bup-profile-field">';
-         $html .= '<label class="bup-field-type" for="bup-field-campType"><span>Camp Length:</span></label>';
-         $html .= '<div class="bup-field-value">
-         <select name = "lengthCampType" id="lengthCampType">';
-        
-         foreach($sqlforCampTypeOptions as $sqlforCampTypeOption){
-			if( $sqlforCampTypeOption->option_id == $trainingsessions_details[0]->campLength){
-				$html .='<option  value="'.$sqlforCampTypeOption->option_id.'"  selected = "selected" >'.$sqlforCampTypeOption->option_value.'</option>';
-			}
-			else{
-				$html .= '<option value="'.$sqlforCampTypeOption->option_id.'" selected = "selected">'.$sqlforCampTypeOption->option_value . '</option>';
-				}
-             
-         }
-        $html .= '</select></div>';
-        $html .= '</div>';
-        
-        //Price Selection
-        //print_r($trainingsessions_details[0]->Price); exit;
-        $html .='<div class="bup-profile-field" >';
-        $html .='<label class="bup-field-type" for="Price"><span>'.__('Price','bookingup').'</span></label>';
-        $html .='<div class="bup-field-value" ><input type="text" name="Price" id="bup_add_price"  title="'.__('Price','bookingup').'" ></div>';
-        $html .= '</div>';
-         
-         $html .= '<div class="bup-field" style="margin-top:10px !important;" >';
-		$html .= '<label class="bup-field-type "><button name="bup-btn-training_session-add-confirm" id="bup-btn-training_session-add-confirm" class="bup-button-submit-changes" >'.__('Submit','bookingup').'	</button></label>';
-		
-	
-		$html .= '<label class="bup-field-type "><button name="bup-btn-training_session-add-cancel" id="bup-btn-training_session-add-confirm" class="bup-button-submit-changes"  style="margin-left:25px !important;">'.__('Cancel','bookingup').'	</button></label>';
-    	$html .= '<div class="bup-field "><span id="bup-edit-details-message">&nbsp;</span>';
-		$html .= '<div class="bup-field-separator" id="bup-err-message"></div>';	
-			
-		$html .= '</div>';
-		
-		$html .= '</div>';
-			
-		echo $html ;		
-		die();		
-	
-	}	
-	/*END of the traing sessions*/
-	
-	public function bup_update_training_session_admin()
-	{
-		global $wpdb, $bookingultrapro;
-		
-		$training_session_id = $_POST['training_session_id']	;
-		
-		$reg_camp_type = $_POST['reg_camp_type'];
-		$reg_camp_start_date = $_POST['reg_camp_start_date'];
-		$reg_camp_end_date = $_POST['reg_camp_end_date'];
-		$coach = $_POST['coach'];
-		$capacity = $_POST['capacity'];
-		$available = $_POST['available'];
-		$active = $_POST['active'];
-		$CampLength= $_POST['CampLength'];
-		$Price= $_POST['Price'];
-		
-		
-		
-		$sql = "UPDATE `wp_bup_trainingsessions` 
-					SET 
-						startDate = '".$reg_camp_start_date."',
-						endDate = '".$reg_camp_end_date."',
-						coach = '".$coach."',
-						capacity = '".$capacity."',
-						available = '".$available."',
-						active = '".$active."',
-						campLength = '".$CampLength."',
-						Price = '".$Price."'
-					WHERE trainingSession_id = ".$training_session_id 
-				 ;		
-		
-		
-		$trainingsessions = $wpdb->query($sql);
-		
-		if($trainingsessions)
-		{			
-			echo __('<strong>Done!</strong>','bookingup');					
-		
-		}else{
-			
-			echo __('<strong>Could not update! Please try later</strong>','bookingup');		
-		
-		}
-		
-		die();
-	
-	}
-	
-	public function bup_add_training_session_admin()
-	{
-		global $wpdb, $bookingultrapro;
-		
-		$reg_camp_type = $_POST['reg_camp_type'];
-		$reg_camp_start_date = $_POST['reg_camp_start_date'];
-		$reg_camp_end_date = $_POST['reg_camp_end_date'];
-		$coach = $_POST['coach'];
-		$capacity = $_POST['capacity'];
-		$available = $_POST['available'];
-		$active = $_POST['active'];
-		$price = $_POST['price'];
-		$campLength = $_POST['camplength'];
-		
-		
-		$sql = "INSERT INTO `wp_bup_trainingsessions` 
-		        (service_id,startDate,endDate,coach,capacity,available,active,campLength,Price)
-					VALUES ( 
-					".$reg_camp_type.",
-					'".$reg_camp_start_date."',
-					'".$reg_camp_end_date."',
-					'".$coach."',
-					'".$capacity."',
-					'".$available."',
-					'".$active."',
-					'".$campLength."',
-					'".$price."'
-						) " 
-					
-				 ;		
-		
-	
-		$trainingsessions = $wpdb->query($sql);
-        //print_r($trainingsessions); exit;
-		if ($trainingsessions=='') {
-		    $error .=__('<strong>ERROR!</strong>');
-		} else {
-		    $error .=__('<strong>Done! Your data has been successfully saved.</strong>');
-		}
-		
-		echo $error;
-		die();
-	}
-	
-	/* bup start the delete the training sessions */
-    public function bup_delete_training_session_admin()
-	{
-		global $wpdb,  $bookingultrapro;
-		
-		require_once(ABSPATH. 'wp-content/plugins/booking-ultra-pro/classes/bookingultra.user.php' );
-		
-		$html = '';		
-		
-		//close
-		$training_session_to_delete = $_POST["training_session_id"];
-		print_r($training_session_to_delete);exit;
-	
-		
-		if(!is_super_admin( $training_session_to_delete ))
-		{
-			
-				//delete training session	
-				$sql = 'DELETE FROM ' . $wpdb->prefix . 'wp_bup_trainingsessions WHERE training_session_id = "'.$training_session_to_delete.'" ' ;			
-				$wpdb->query( $sql );
-				echo $html;
-		        die();	
-		}
-			
-	}
-	/* end of the deleye of the training sessions */
-	
-	public function get_camptype_admin_ajax()
-	{
-	  
-	     global $wpdb;
-	     $queryCamps = "SELECT * FROM `wp_options` WHERE `option_name` LIKE '%bup_options_CampLength%' ORDER by option_id Desc";
-		 $campsOptions = $wpdb->get_results($queryCamps);
-	        
-		 foreach($campsOptions as $campsOption){
-		    $html = '';
-    		$html .= '<style>
-    		            .bup-profile-field input{
-    		                width: 250px !important;
-    		            }
-    		            .bup-sect-adm-edit{
-    		                padding: 5px !important;
-    		            }
-    		            .bup-sect-adm-edit a{
-    		                padding: 10px !important;
-    		            }
-    		            #bup-add-camp-type-btn{
-    		                cursor: pointer;
-                            background-color: lightblue;
-                            text-align: center;
-                            padding: 5px;
-                            margin-left: 10px;
-                            position: absolute;
-                            width: 75px;
-                            border-radius: 12px;
-    		            }
-    		                
-    		         </style>';
-		   	$html .= '<div class="bup-sect-adm-edit"><Input type="text" readonly="true" class="campsGenerate" value="'.$campsOption->option_value.'"></Input>';
-		   	$html .= '<a href="#" title="Delete" class="camp-delete" data-attr = "'.$campsOption->option_id.'"><i class="fa fa-trash-o"></i></a>';
-		   	$html .= '<a href="#" title="Edit" class="camp-edit" data-attr = "'.$campsOption->option_id.'"><i class="fa fa-edit"></i></a>';
-		   	$html .= '<Button id="bup-edit-camp-type-btn" style="display:none;" data-attr = "'.$campsOption->option_id.'">Edit</Button>';
-		   	$html .= '</div>';
-    	    echo $html;	
-    	
-     	  }
-     	  
-		   $htmlforadd = '';
-		   $htmlforadd .= '<div class="add-camps" style="margin-top:25px ;">';
-		   $htmlforadd .= '<Label for="camps_add"><span style="font-size:125%;"><strong>Add Camp Type:</strong></span></Label>';
-		   $htmlforadd .= '<div class="add-camps-input">';
-		   $htmlforadd .= '<Input id="bup-add-camp-type-input" />';
-		   $htmlforadd .= '<Button  id ="bup-add-camp-type-btn" >Add</Button>';
-		   $htmlforadd .= '</div>';
-		   $htmlforadd .= '</div>';
-		   echo $htmlforadd;
-		   die();
-	}
- 	
- 	public function add_camptype_admin_ajax()
-	{
-	  
-     global $wpdb;
-     $CampType = $_POST['value'];
-     
-     $sql_getCampOption = "SELECT * FROM `wp_options` WHERE `option_name` LIKE '%bup_options_CampLength-%' ORDER by option_id Desc LIMIT 1";
-     $campsOption = $wpdb->get_results($sql_getCampOption);
-     $campsOptionName = $campsOption[0]->option_name;
-     $campsOptionNameArr = explode("-",$campsOptionName);
-    
-     $campOptionValue = $campsOptionNameArr[0].'-'.($campsOptionNameArr[1] + 1);
-     
-     $queryCamps = "INSERT INTO `wp_options` 
-                        (option_name,option_value)
-                    VALUES
-                        ('$campOptionValue','$CampType')
-                    ";
-                    
-                  
-	 $campsOptions = $wpdb->get_results($queryCamps);
-        
-	$html = '';
-	echo   $html;
-    die();
-		  
-		   
- 	}
- 
-	public function edit_camptype_admin_ajax(){
-	    global $wpdb;
-	    $editedSubmitCampValue = $_POST['value'];
-	    $editedSubmitCampId  =  $_POST['valueId'];
-	    echo $editedSubmitCampValue;
-	    echo $editedSubmitCampId;
-	    $sqlEditCampOptions = "UPDATE `wp_options` SET `option_value` = '$editedSubmitCampValue' WHERE `option_id`= $editedSubmitCampId";
-        $editCampOptions = $wpdb->query($sqlEditCampOptions);
-        die();
-	}
-	
-	public function delete_camptype_admin_ajax()
-	{
-	    global $wpdb;
-	    $deleteCampTypeId = $_POST['value'];
-	    echo $deleteCampTypeId;
-	    $sqldeleteCampOptions = "DELETE FROM `wp_options` WHERE `option_id`=$deleteCampTypeId ";
-	    $deleteCampOptions = $wpdb->get_results($sqldeleteCampOptions); 
-	    die();
-	}
-
 		/* Get picture by ID */
 	function get_user_pic( $id, $size, $pic_type=NULL, $pic_boder_type= NULL, $size_type=NULL, $with_url=true ) 
 	{

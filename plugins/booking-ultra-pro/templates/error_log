@@ -1,0 +1,1 @@
+[08-May-2018 08:36:23 UTC] PHP Fatal error:  Call to a member function get_template_label() on null in /home/himalhackers/plugins.himalayanhackers.com/wp-content/plugins/booking-ultra-pro/templates/appointment.php on line 3

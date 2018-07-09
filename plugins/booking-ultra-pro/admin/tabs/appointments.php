@@ -6,6 +6,7 @@ $time_format =  $bookingultrapro->service->get_time_format();
 
 $appointments = $bookingultrapro->appointment->get_all();
 
+
 $pending = $bookingultrapro->appointment->get_appointments_total_by_status(0);
 $cancelled = $bookingultrapro->appointment->get_appointments_total_by_status(2);
 $noshow = $bookingultrapro->appointment->get_appointments_total_by_status(3);
@@ -82,7 +83,7 @@ if(isset($_GET["bup-staff-calendar"]))
                 
                 <li class="noshow"><h3><?php _e('No-Show','bookingup')?></h3><p class="totalstats"><?php echo $noshow ?></p> </li>
                 
-                <li class="total"><h3><?php _e('Total','bookingup')?></h3><p class="totalstats"><?php echo$allappo ?></p></li>
+                <li class="total"><h3><?php _e('Total','bookingup')?></h3><p class="totalstats"><?php echo $allappo ?></p></li>
             
             </ul>
          
@@ -90,20 +91,19 @@ if(isset($_GET["bup-staff-calendar"]))
          </div>
          
          <div class="bup-appointments-module-filters">
-         
-              <select name="month" id="month">
-               <option value="" selected="selected"><?php _e('All Months','bookingup'); ?></option>
-               <?php
-			  
-			  $i = 1;
-              
-			  while($i <=12){
-			  ?>
-               <option value="<?php echo $i?>"  <?php if($i==$month) echo 'selected="selected"';?>><?php echo $i?></option>
-               <?php 
-			    $i++;
-			   }?>
-             </select>
+                
+              <select name="month" size='1'>
+                 <option value="" selected="selected"><?php _e('All Months','bookingup'); ?></option>
+                    <?php
+                    for ($i = 0; $i < 12; $i++) {
+                        $time = strtotime(sprintf('%d months', $i));   
+                        $label = date('F', $time);   
+                        $value = date('n', $time);
+                        echo "<option value='$value'>$label</option>";
+                    }
+                    ?>
+                </select>       
+
              
              <select name="day" id="day">
                <option value="" selected="selected"><?php _e('All Days','bookingup'); ?></option>
@@ -186,7 +186,7 @@ if(isset($_GET["bup-staff-calendar"]))
         
          <?php
 			
-			
+		
 				
 				if (!empty($appointments)){
 				
@@ -209,7 +209,7 @@ if(isset($_GET["bup-staff-calendar"]))
                     
                     <th width="23%"><?php _e('Client', 'bookingup'); ?></th>
                     <th width="23%"><?php _e('Phone Number', 'bookingup'); ?></th>
-                    <th width="23%"><?php _e('Provider', 'bookingup'); ?></th>
+                    <th width="23%"><?php _e('Venue', 'bookingup'); ?></th>
                      <th width="18%"><?php _e('Service', 'bookingup'); ?></th>
                     <th width="16%"><?php _e('At', 'bookingup'); ?></th>
                     

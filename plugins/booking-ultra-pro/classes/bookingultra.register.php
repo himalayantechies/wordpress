@@ -1016,7 +1016,7 @@ class BookingUltraUserRegister {
 						$staff_member = get_user_by( 'id', $staff_id );
 						$client = get_user_by( 'id', $user_id );					
 											
-						$bookingultrapro->messaging->send_payment_confirmed_bank($staff_member, $client, $service, $appointment, $rowOrder );
+						//$bookingultrapro->messaging->send_payment_confirmed_bank($staff_member, $client, $service, $appointment, $rowOrder );
 						
 						//redir
 					     $this->handle_redir_success_trans_bank($transaction_key);
