@@ -964,7 +964,7 @@ class BookingUltraTrainingsessions
 		
 		$html .='<div class="bup-profile-field" >';		
 		$html .='<label class="bup-field-type" for="display_name"><span>'.__('Phone','bookingup').'</span></label>';
-		$html .='<div class="bup-field-value" ><input type="text" class=" bup-input " name="reg_telephone" id="reg_telephone" value="'.$bookingultrapro->bup_get_user_meta($staff_id, 'reg_telephone').'" title="'.__('Your Phone Number','bookingup').'" ></div>';		
+		$html .='<div class="bup-field-value" ><input class=" bup-input " name="reg_telephone" id="reg_telephone" value="'.$bookingultrapro->bup_get_user_meta($staff_id, 'reg_telephone').'" title="'.__('Your Phone Number','bookingup').'" ></div>';		
 		$html .= '</div>';
 
 		$html .='<div class="bup-profile-field" >';

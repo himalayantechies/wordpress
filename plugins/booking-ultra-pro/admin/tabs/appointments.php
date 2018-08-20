@@ -16,13 +16,14 @@ $allappo = $bookingultrapro->appointment->get_appointments_planing_total('all');
 
 
 
-
+$venue = "";
 $howmany = "";
 $year = "";
 $month = "";
 $day = "";
 $special_filter = "";
 $bup_staff_calendar = "";
+$campName="";
 
 if(isset($_GET["howmany"]))
 {
@@ -52,7 +53,14 @@ if(isset($_GET["bup-staff-calendar"]))
 {
 	$bup_staff_calendar = $_GET["bup-staff-calendar"];		
 }
+if(isset($_GET["selectVenue"]))
+{
+	$select_venue = $_GET["selectVenue"];		
+}
 
+if(isset($_GET["selectNameCamp"])) {
+    $campName = $_GET["selectNameCamp"];
+}
 
 		
 ?>
@@ -91,14 +99,39 @@ if(isset($_GET["bup-staff-calendar"]))
          </div>
          
          <div class="bup-appointments-module-filters">
-                
-              <select name="month" size='1'>
+              
+              <select name="selectVenue" id = "selectVenue">
+                 <option value="" selected="selected"><?php _e('All Venues','bookingup'); ?></option>
+                 <?php
+                    $sqlForVenues = "SELECT * from wp_bup_categories";
+                    $Venues = $wpdb->get_results($sqlForVenues);
+                    foreach($Venues as $Venue){
+                        echo '<option value="'.$Venue->cate_id.'">'.$Venue->cate_name . '</option>';
+                    }
+                 ?>
+                 </select>
+                 
+                <select  name="selectNameCamp" id="selectCamp" >
+    		              <option selected="true"  id="defaultselectcamp" disabled><?php _e('All Camps','bookingup'); ?></option>
+    		           <?php 
+    		           $sqlForCamps = "SELECT * FROM wp_bup_services";
+                        $Camps = $wpdb->get_results($sqlForCamps);
+        		            foreach($Camps as $Camp){
+        		                
+    		                    echo '<option value="'.$Camp->service_id.'" data = "'.$Camp->service_category_id.'" style="display:none;">'.$Camp->service_title . '</option>';
+        		               
+    		                }
+    		           ?>
+    		          </select>
+            
+                 
+              <select name="month" size='1' id='selectMonth'>
                  <option value="" selected="selected"><?php _e('All Months','bookingup'); ?></option>
                     <?php
-                    for ($i = 0; $i < 12; $i++) {
-                        $time = strtotime(sprintf('%d months', $i));   
-                        $label = date('F', $time);   
-                        $value = date('n', $time);
+                    for ($i = 1; $i <= 12; $i++) {
+                           
+                        $label = date('F', mktime(0,0,0,$i,1));   
+                        $value = date('n',mktime(0,0,0,$i,1));
                         echo "<option value='$value'>$label</option>";
                     }
                     ?>
@@ -111,7 +144,7 @@ if(isset($_GET["bup-staff-calendar"]))
 			  
 			  $i = 1;
               
-			  while($i <=31){
+			  while($i <=32){
 			  ?>
                <option value="<?php echo $i?>"  <?php if($i==$day) echo 'selected="selected"';?>><?php echo $i?></option>
                <?php 
@@ -133,7 +166,7 @@ if(isset($_GET["bup-staff-calendar"]))
 			   }?>
              </select>
                 
-                        <?php if(isset($bupcomplement) && isset($bupultimate)){?>
+                        <?php /* if(isset($bupcomplement) && isset($bupultimate)){?>
             <select name="special_filter" id="special_filter">
                <option value="" selected="selected"><?php _e('All Locations','bookingup'); ?></option>
                <?php
@@ -150,7 +183,7 @@ if(isset($_GET["bup-staff-calendar"]))
              </select>
              
             <?php  }?>        
-                       <?php echo $bookingultrapro->userpanel->get_staff_list_calendar_filter();?> 
+                       <?php echo $bookingultrapro->userpanel->get_staff_list_calendar_filter();*/?> 
                        
                        <select name="howmany" id="howmany">
                <option value="20" <?php if(20==$howmany ||$howmany =="" ) echo 'selected="selected"';?>>20 <?php _e('Per Page','bookingup'); ?></option>
@@ -210,8 +243,9 @@ if(isset($_GET["bup-staff-calendar"]))
                     <th width="23%"><?php _e('Client', 'bookingup'); ?></th>
                     <th width="23%"><?php _e('Phone Number', 'bookingup'); ?></th>
                     <th width="23%"><?php _e('Venue', 'bookingup'); ?></th>
-                     <th width="18%"><?php _e('Service', 'bookingup'); ?></th>
-                    <th width="16%"><?php _e('At', 'bookingup'); ?></th>
+                     <th width="18%"><?php _e('Camp', 'bookingup'); ?></th>
+                    
+                    <th width="16%"><?php _e('Camp Length','bookingup'); ?></th>
                     
                      
                      <th width="9%"><?php _e('Status', 'bookingup'); ?></th>
@@ -224,17 +258,52 @@ if(isset($_GET["bup-staff-calendar"]))
             <?php 
 			$filter_name= '';
 			$phone= '';
-			foreach($appointments as $appointment) {
-				
-				
-				$date_from=  date("Y-m-d", strtotime($appointment->booking_time_from));
+			
+                //print"<pre>";print_r($appointments); print"</pre>";exit;
+			foreach($appointments as $appointment) { 
+			    //for taking the venue from selected service id of appointments
+			    $cate_id = $appointment->service_category_id;
+    			$sql = "SELECT * from wp_bup_categories where cate_id = '$cate_id'";
+    			$executesql = $wpdb->get_results($sql);
+    			$cate_name=$executesql[0]->cate_name;
+    			$array = array("$cate_id"=>"$cate_name");
+    			
+    			
+    							 
+				//for taking the camplength from booking id of appointments
+      			 $booking_id = $appointment->booking_id;
+    			$sqlForTrainingSessionId = "select * from `wp_bup_bookings_meta` where meta_booking_id = $booking_id AND meta_booking_name = 'bup_training_session_id' ";
+    			$executesqlForTrainingSessionId = $wpdb->get_results($sqlForTrainingSessionId);
+    			$camp_lengths = $executesqlForTrainingSessionId[0]->meta_booking_value;
+    		    $arrayID = array("$camp_lengths");
+    		    $IDS = join("','",$arrayID);
+    		    $sqlforid = "select * from wp_bup_trainingsessions where trainingSession_id IN ('$IDS')";
+    		    $getResults = $wpdb->get_results($sqlforid);
+    			$camplength =  $getResults[0]->campLength;
+    			$arryforcamplengths = array($camplength);
+    		    $arrayCampLength = join("','",$arryforcamplengths);
+    			$sqlforcamptype = "select * from wp_options where option_name like  '%bup_options_CampLength-%' AND option_id IN ('$arrayCampLength')";
+    			$executeSQL = $wpdb->get_results($sqlforcamptype);
+    			$camp_length = $executeSQL[0]->option_value;
+    			$arrayForcampType = array("$booking_id"=>"$camp_length");
+    		
+    			
+    			
+    			$date_from=  date("Y-m-d", strtotime($appointment->booking_time_from));
+    			//$date_from=  date("Y-m-d", strtotime($appointment->booking_time_to));
 				$booking_time = date($time_format, strtotime($appointment->booking_time_from ))	.' - '.date($time_format, strtotime($appointment->booking_time_to ));
 				 
 				$staff = $bookingultrapro->userpanel->get_staff_member($appointment->booking_staff_id);
 				
-				$client_id = $appointment->booking_user_id;				
+				$client_id = $appointment->booking_user_id;	
+				//print_r($appointment);
+				//exit();
+				//print_r($client_id);
+			    //print_r($client_id);
 				$client = get_user_by( 'id', $client_id );
-				
+				//print_r($client);
+				//exit();
+				//print"<pre>";print_r($client);print"</pre>";
 				if(isset($appointment->filter_name))
 				{
 					$filter_name=$appointment->filter_name;
@@ -246,7 +315,9 @@ if(isset($_GET["bup-staff-calendar"]))
 					$filter_name=$filter_n->filter_name;
 					
 				}
-				
+				//get name 
+				$clientFirstName = $bookingultrapro->appointment->get_booking_meta($appointment->booking_id, 'display_name'); 
+				 $clientLastName = $bookingultrapro->appointment->get_booking_meta($appointment->booking_id, 'last_name');
 				//get phone
 			
 				$phone = $bookingultrapro->appointment->get_booking_meta($appointment->booking_id, 'full_number');
@@ -269,11 +340,12 @@ if(isset($_GET["bup-staff-calendar"]))
                       <td><?php echo $filter_name; ?> </td>
                        <?php	} ?>
                       
-                    <td><?php echo $client->display_name; ?> (<?php echo $client->user_email; ?>)</td>
+                    <td><?php echo $clientFirstName." ".$clientLastName ; ?> (<?php echo $client->user_email; ?>)</td>
                     <td><?php echo $phone; ?></td>
-                    <td><?php echo $staff->display_name; ?></td>
+                    
+                    <td><?php echo $array[$cate_id]; ?></td>
                     <td><?php echo $appointment->service_title; ?> </td>
-                    <td><?php echo  $booking_time; ?></td>                  
+                     <td><?php echo $arrayForcampType[$booking_id]; ?></td>                
                      
                       <td><?php echo $bookingultrapro->appointment->get_status_legend($appointment->booking_status); ?></td>
                    <td> <a href="#" class="bup-appointment-edit-module" appointment-id="<?php echo $appointment->booking_id?>" title="<?php _e('Edit','bookingup'); ?>"><i class="fa fa-edit"></i></a>&nbsp;<a href="#" class="bup-appointment-delete-module" appointment-id="<?php echo $appointment->booking_id?>" title="<?php _e('Delete','bookingup'); ?>"><i class="fa fa-trash-o"></i></a></td>
@@ -295,7 +367,7 @@ if(isset($_GET["bup-staff-calendar"]))
         </div>
         
            
-    <div id="bup-spinner" class="bup-spinner" style="display:">
+    <div id="bup-spinner" class="bup-spinner">
             <span> <img src="<?php echo bookingup_url?>admin/images/loaderB16.gif" width="16" height="16" /></span>&nbsp; <?php echo __('Please wait ...','bookingup')?>
 	</div>
         
@@ -331,8 +403,63 @@ if(isset($_GET["bup-staff-calendar"]))
 			 var message_wait_availability ='<img src="<?php echo bookingup_url?>admin/images/loaderB16.gif" width="16" height="16" /></span>&nbsp; <?php echo __("Please wait ...","bookingup")?>'; 
 			 
 			 jQuery("#bup-spinner").hide();	
+			 var campName = "<?php echo $campName; ?>";
+		  $("#selectVenue").on("change", function() {
+			        var selectedVenue = $(this).val();
+                    $("#selectCamp").find("option").css("display","none");
+                    //console.log($("#selectCamp").find("option[data='"+selectedVenue+"']").attr("value"));
+                    $("#selectCamp").val("All Camps");
+                    $("#selectCamp").find("option[data='"+selectedVenue+"']").css("display","block");
+                    });
+          
+		//for taking the url of filter appointments	  
+		$(document).ready(function(){
+		     var getUrlParameter = function getUrlParameter(sParam) {
+                var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+                    sURLVariables = sPageURL.split('&'),
+                    sParameterName,
+                    i;
+            
+                    for (i = 0; i < sURLVariables.length; i++) {
+                        sParameterName = sURLVariables[i].split('=');
+                
+                        if (sParameterName[0] === sParam) {
+                            return sParameterName[1] === '' ? true : sParameterName[1];
+                        }
+                    }
+                };
+               var get_month = ''; 
+               var get_venue = '';
+               var get_camp = '';
+               get_venue = getUrlParameter('selectVenue');
+              get_camp = getUrlParameter('selectNameCamp');
+            //   console.log("get_camp",get_camp);
+                if( (typeof get_venue !== undefined) && (get_venue !== null)  ){
+                    $("#selectVenue").val(get_venue);     
+                }
+               get_month = getUrlParameter('month');
+               if( (typeof get_month !== undefined) && (get_month !== null)  ){
+                    $("#selectMonth").val(get_month);     
+                }
+                if( (typeof get_camp !== 'undefined') && (get_camp !== null) ){
+                    
+                    $("#selectCamp").val(get_camp);     
+                }
+                if(get_camp == "All+Camps"){
+                    $("#selectCamp").val("All Camps");
+                                    }
+                
+                
+                
+		});	  
+		$(window).load(function() {
+              $("#selectVenue").trigger("change");
+              if (campName) {
+                    $("#selectCamp").val(campName);
+                }
+        });
+		 
 			  
-		
 	</script>
  
         

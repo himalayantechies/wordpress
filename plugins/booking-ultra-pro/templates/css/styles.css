@@ -39,8 +39,10 @@
 	color:#666;
 }
 #bup-steps-cont-res p {
-    color: #fff;
-}
+   color: #fff;
+   
+  
+   }
 .bup-front-cont p.bup-unavailable-slot{
 	
 	text-align:center;
@@ -301,7 +303,7 @@
 .bup-front-cont .bup-book-steps-cont{position:relative; clear:both; height:80px; margin: 15px 0 0 45px }
 .bup-front-cont .bup-book-info-cont{ margin:0 auto 0 auto; text-align:center; position:relative; width:100%; text-align:left; }
 
-.bup-front-cont .bup-book-info-text { clear:both;  margin:5px 0px 5px 0px }
+.bup-front-cont .bup-book-info-text { clear:both;  margin:5px 0px 5px 0px ; font-size:14.5px;}
 .bup-front-cont .bup-book-info-cont .bup-book-info-block1 {display:inline-block; width:100%; vertical-align:top }
 
 .bup-front-cont .bup-profile-separator{ clear:both; position:relative;
@@ -387,12 +389,12 @@ strong.bup-cc-strong-t{ font-weight:bold; color: #575757; font-size:14px}
 .bup-shopping-cart-cont table td.bupcarttotal{ text-align:right; font-size:16px; font-weight:bold}
 .bup-shopping-cart-cont table td.bupcartprice{ text-align:right; }
 .bup-btn-delete-cart-item i{ font-size:14px}
-.bup-front-cont .bup-selected-staff-booking-info{ position:relative; height:auto !important; margin:15px 0px 15px 0px ; padding:10px 5px 10px 5px; text-align:left; color:#fff; }
+.bup-front-cont .bup-selected-staff-booking-info{ position:relative; height:auto !important; /*margin:15px 0px 15px 0px ;padding:10px 5px 10px 5px;*/ text-align:left; color:#fff; font-size:14.5px;}
 
-.bup-front-cont .bup-selected-staff-booking-info p{ font-size:16px; text-align:left }
-.bup-front-cont .bup-selected-staff-booking-info strong{ font-weight:bold }
+.bup-front-cont .bup-selected-staff-booking-info p{ font-size:14.5px; text-align:left }
+.bup-front-cont .bup-selected-staff-booking-info strong{ font-weight:bold;/*font-size:20px;*/ font-size:15.5px; }
 
-ul.bup-time-slots-available-list{position:relative; height:auto !important; margin:0px ; padding:0px}
+ul.bup-time-slots-available-list{position:relative; height:auto !important; margin:0px ; padding:0px; font-size:14.5px;}
 .bup-front-cont h3{ font-size:20px; margin:10px 0px 10px 0px; text-align:center; color:#333}
 .bup-time-slots-available-list li{ 
     box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
@@ -412,7 +414,7 @@ ul.bup-time-slots-available-list{position:relative; height:auto !important; marg
 	margin:5px 2px 5px 2px;
 	cursor:pointer;
 	padding:0px 0px 4px 0px;
-	
+	font-size:15px;
 	}
 	
 ul.bup-time-slots-available-list li{ transition: all 0.1s ease-out 0s;}	
@@ -2072,7 +2074,7 @@ MEDIA QUERIES
 
 	.bup-front-cont .bup-time-slots-divisor-reduced { width:48%;}
 	
-	.bup-front-cont .bup-selected-staff-booking-info{ font-size:14px;}
+	.bup-front-cont .bup-selected-staff-booking-info{ /*font-size:14px;*/ font-size:23px;}
 	.bup-front-cont h3 { font-size:16px;}
 	
 	.bup-front-cont .bup-filter-header { width:97%; padding-right:0px; padding-right:0px }

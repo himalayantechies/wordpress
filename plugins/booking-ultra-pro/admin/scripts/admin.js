@@ -33,6 +33,7 @@ jQuery(document).ready(function($) {
 			 });
 			
 			
+			
 		
 			jQuery("#ui-datepicker-div").wrap('<div class="ui-datepicker-wrapper" />');
 		});
@@ -85,10 +86,7 @@ jQuery(document).ready(function($) {
 				},
 				
 				select: function( event, ui ) {
-					
-					ui.item.ur
-					
-					jQuery( "#bup_client_id" ).val(ui.item.id);
+					jQuery("#bupclientsel").attr('data-id',ui.item.id);
 						
 				}
 			
@@ -743,6 +741,7 @@ jQuery(document).ready(function($) {
     
 	
 	jQuery(document).on("click", "#bup-adm-check-avail-btn", function(e) {
+	    
 			
 			e.preventDefault();			
 			
@@ -758,7 +757,6 @@ jQuery(document).ready(function($) {
 					data: {"action": "ubp_check_adm_availability", "b_category": b_category, "b_date": b_date , "b_staff": b_staff },
 					
 					success: function(data){
-						
 						
 						var res = data;								
 						jQuery("#bup-steps-cont-res").html(res);					    
@@ -805,36 +803,31 @@ jQuery(document).ready(function($) {
 	
 	jQuery(document).on("click", ".bup-btn-book-app", function(e) {
 			
-			e.preventDefault();			
-			
+			e.preventDefault();	
+		
 			var date_to_book =  jQuery(this).attr("bup-data-date");
-			var service_and_staff_id =  jQuery(this).attr("bup-data-service-staff");
 			var time_slot =  jQuery(this).attr("bup-data-timeslot");
+			var trainingSession_id = jQuery(this).attr("bup-training-session-id");
 			
 			jQuery("#bup_time_slot").val(time_slot);
 			jQuery("#bup_booking_date").val(date_to_book);
-			jQuery("#bup_service_staff").val(service_and_staff_id);
-			
-			jQuery.ajax({
-					type: 'POST',
-					url: ajaxurl,
-					data: {"action": "appointment_get_selected_time", 
-						   "bup_booking_date": date_to_book,
-						   "bup_service_staff": service_and_staff_id,
-						   "bup_time_slot": time_slot},
-					
-					success: function(data){						
-						
-						var res = data;							
-						jQuery("#bup-steps-cont-res").html(res);						
-
-						}
-				});				
-			
-				
-    		e.preventDefault();		 
-				
-    });
+		    
+		    jQuery.ajax({
+				type: 'POST',
+				url: ajaxurl,
+				data: {
+				       "action": "appointment_get_selected_time", 
+					   "bup_booking_date": date_to_book,
+					   "bup_time_slot": time_slot,
+				       "bup_trainingSessionID": trainingSession_id
+				},
+		        success: function(data){						
+				    var res = data;							
+					jQuery("#bup-steps-cont-res").html(res);						
+                }
+		    });				
+			e.preventDefault();		 
+	});
 	
 	jQuery(document).on("click", ".bup-btn-book-app-admin", function(e) {
 			
@@ -1098,7 +1091,7 @@ jQuery(document).ready(function($) {
 		
 	//this adds the user and loads the user's details	
 	jQuery(document).on("click", "#bup-create-new-app", function(e) {
-			
+		
 			e.preventDefault();	
 			
 			jQuery("#bup-spinner").show();		
@@ -1482,7 +1475,7 @@ jQuery(document).ready(function($) {
 												
 						jQuery("#bup-new-payment-cont" ).html( data );	
 						jQuery("#bup-new-payment-cont" ).dialog( "open" );	
-						jQuery("#bup-spinner").hide();	
+							
 						
 						
 						var uultra_date_format =  jQuery('#uultra_date_format').val();
@@ -1507,7 +1500,7 @@ jQuery(document).ready(function($) {
 						jQuery("#ui-datepicker-div").wrap('<div class="ui-datepicker-wrapper" />');				
 						
 									     
-						
+						jQuery("#bup-spinner").hide();
 						
 						}
 				});
@@ -1664,36 +1657,49 @@ jQuery(document).ready(function($) {
 			modal: true,
 			buttons: {			
 			
-			"Close": function() {				
-				jQuery("#bup-appointment-edit-box" ).html('');
-				jQuery( this ).dialog( "close" );
-			}			
-			
+			"Close": function() {	
+			       $("#bup-adm-update-info").click();
+			       
 			},
-			close: function() {
-				
-				jQuery("#bup-appointment-edit-box" ).html('');
-			
+			Close:function(){
+			    
+			    $("#bup-adm-update-info").click();    
+			   jQuery(this).dialog("close");
+			    //$("#bup-adm-update-info").click();
+			}
 			
 			}
-	});
-	
-	
-	
+			
+			});
 	jQuery(document).on("click", "#bup-adm-update-info", function(e) {
+	   
 			
 			e.preventDefault();	
 			jQuery("#bup-spinner").show();
 			
 			
-			var booking_id =  jQuery("#bup_appointment_id").val();	
-			var serial_data = $('.bup-custom-field').serialize();
+			  var booking_id =  jQuery("#bup_appointment_id").val();
+			  var reg_display_name =  jQuery('#reg_display_name').val();
+    		  var last_name =  jQuery('#last_name').val();
+    		  var reg_user_email =  jQuery('#reg_user_email').val();
+    	  	  var reg_user_email_2 =  jQuery('#reg_user_email_2').val();
+    	  	  var reg_telephone =  jQuery('#reg_telephone').val();
+			  var serial_data = $('.bup-custom-field').serialize();
+			 
+		
 			
     		jQuery.ajax({
 					type: 'POST',
 					url: ajaxurl,
 					async:true,
-					data: {"action": "bup_update_booking_info", "custom_fields": serial_data, "booking_id": booking_id},
+					data: {"action": "bup_update_booking_info", 
+					            "custom_fields": serial_data, 
+					            "booking_id": booking_id,
+					            "display_name": reg_display_name ,
+							    "last_name" :  last_name,
+        						"user_email" : reg_user_email,
+        						"user_email_2" : reg_user_email_2,
+        						"full_number" : reg_telephone},
 					
 					success: function(data){					
 												
@@ -1709,6 +1715,45 @@ jQuery(document).ready(function($) {
 			 
 				
     });
+    
+    // saving the booking_info
+    
+    jQuery(document).on("click", "#bup-btn-book-app-confirm", function(e) {
+			
+		/*	e.preventDefault();	
+			jQuery("#bup-spinner").show();
+			
+			
+			var booking_id =  jQuery("#bup_appointment_id").val();	
+			var serial_data = $('.bup-custom-field').serialize();
+			
+			
+    		jQuery.ajax({
+					type: 'POST',
+					url: ajaxurl,
+					async:true,
+					data: {"action": "bup_update_booking_info", "custom_fields": serial_data, "booking_id": booking_id},
+					
+					success: function(data){					
+												
+				// 		jQuery("#bup-confirmation-cont" ).html( gen_message_infoupdate_conf);	 
+				// 		jQuery("#bup-confirmation-cont" ).dialog( "open" );	
+				// 		jQuery("#bup-spinner").hide();	
+                         window.location.reload();					
+								}
+				});
+			
+			
+    		e.preventDefault();*/
+			 
+				
+    });
+    
+    
+    
+    
+    
+    
 	
 	jQuery(document).on("click", "#bup-add-category-btn", function(e) {
 			
@@ -1824,69 +1869,69 @@ jQuery(document).ready(function($) {
 			width: 550,
 			modal: true,
 			buttons: {
-			"Update": function() {				
+			"Update":function() {				
 				
-				var service_id=   jQuery("#bup-service-id").val();
-				var service_title=   jQuery("#bup-title").val();
-				var service_duration=   jQuery("#bup-duration").val();
-				var service_price=   jQuery("#bup-price" ).val();
-				var service_price_2=   jQuery("#bup-price-2" ).val();
-				var service_capacity =  jQuery("#bup-capacity" ).val();
-				var service_category =  jQuery("#bup-category" ).val();
-				var service_color =  jQuery("#bup-service-color" ).val();
-				var service_font_color =  jQuery("#bup-service-font-color" ).val();
-				
-				var service_padding_before =  jQuery("#bup-padding-before" ).val();
-				var service_padding_after =  jQuery("#bup-padding-after" ).val();
-				
-				var service_groups =  jQuery("#bup-groups" ).val();
-				var service_calculation =  jQuery("#bup-groups-calculation" ).val();
-				
-				var service_postcode =  jQuery("#bup-postcode" ).val();
-				var service_contactname =  jQuery("#bup-contactname" ).val();
-				var service_email =  jQuery("#bup-email" ).val();
-				var service_phonenumber =  jQuery("#bup-phonenumber" ).val();
-				var service_address =  jQuery("#bup-address" ).val();
-				var service_directionnotes =  jQuery("#bup-directionnotes" ).val();
-
-				if(service_title==''){alert(bup_admin_v98.msg_service_input_title); return;}
-				if(service_price==''){alert(bup_admin_v98.msg_service_input_price); return;}
-				
-				jQuery.ajax({
-							type: 'POST',
-							url: ajaxurl,
-							data: {"action": "ubp_update_service",  "service_id": service_id ,
-							"service_title": service_title,
-							"service_duration": service_duration,
-							"service_price": service_price,
-							"service_price_2": service_price_2,
-							"service_capacity": service_capacity,
-							"service_category": service_category,
-							"service_color": service_color,
-							"service_font_color": service_font_color,
-							"service_padding_before": service_padding_before,
-							"service_padding_after": service_padding_after,
-							"service_groups": service_groups,
-							"service_calculation": service_calculation,
-							"service_postcode": service_postcode,
-							"service_email": service_email,
-							"service_contactname": service_contactname,
-							"service_phonenumber": service_phonenumber,
-							"service_address": service_address,
-							"service_directionnotes": service_directionnotes
-														
-							 },
-							
-							success: function(data){	
-							
-								jQuery("#bup-service-editor-box" ).dialog( "close" );				
-								bup_load_services();
-							
-								
-								
-								}
-						});
-			
+    				var service_id=   jQuery("#bup-service-id").val();
+    				var service_title=   jQuery("#bup-title").val();
+    				var service_duration=   jQuery("#bup-duration").val();
+    				var service_price=   jQuery("#bup-price" ).val();
+    				var service_price_2=   jQuery("#bup-price-2" ).val();
+    				var service_capacity =  jQuery("#bup-capacity" ).val();
+    				var service_category =  jQuery("#bup-category" ).val();
+    				var service_color =  jQuery("#bup-service-color" ).val();
+    				var service_font_color =  jQuery("#bup-service-font-color" ).val();
+    				
+    				var service_padding_before =  jQuery("#bup-padding-before" ).val();
+    				var service_padding_after =  jQuery("#bup-padding-after" ).val();
+    				
+    				var service_groups =  jQuery("#bup-groups" ).val();
+    				var service_calculation =  jQuery("#bup-groups-calculation" ).val();
+    				
+    				var service_postcode =  jQuery("#bup-postcode" ).val();
+    				var service_contactname =  jQuery("#bup-contactname" ).val();
+    				var service_email =  jQuery("#bup-email" ).val();
+    				var service_phonenumber =  jQuery("#bup-phonenumber" ).val();
+    				var service_address =  jQuery("#bup-address" ).val();
+    				var service_directionnotes =  jQuery("#bup-directionnotes" ).val();
+    
+    				if(service_title==''){alert(bup_admin_v98.msg_service_input_title); return;}
+    				if(service_price==''){alert(bup_admin_v98.msg_service_input_price); return;}
+    				
+    				jQuery.ajax({
+    							type: 'POST',
+    							url: ajaxurl,
+    							data: {"action": "ubp_update_service",  "service_id": service_id ,
+    							"service_title": service_title,
+    							"service_duration": service_duration,
+    							"service_price": service_price,
+    							"service_price_2": service_price_2,
+    							"service_capacity": service_capacity,
+    							"service_category": service_category,
+    							"service_color": service_color,
+    							"service_font_color": service_font_color,
+    							"service_padding_before": service_padding_before,
+    							"service_padding_after": service_padding_after,
+    							"service_groups": service_groups,
+    							"service_calculation": service_calculation,
+    							"service_postcode": service_postcode,
+    							"service_email": service_email,
+    							"service_contactname": service_contactname,
+    							"service_phonenumber": service_phonenumber,
+    							"service_address": service_address,
+    							"service_directionnotes": service_directionnotes
+    														
+    							 },
+    							
+    							success: function(data){	
+    							
+    								jQuery("#bup-service-editor-box" ).dialog( "close" );				
+    								bup_load_services();
+    							
+    								
+    								
+    								}
+    						});
+    			
 			},
 			
 			"Cancel": function() {
@@ -1898,7 +1943,7 @@ jQuery(document).ready(function($) {
 			
 			},
 			close: function() {
-			
+			    //$("#bup-adm-update-info").click();
 			
 			}
 	});
@@ -1956,7 +2001,7 @@ jQuery(document).ready(function($) {
 			
 			},
 			close: function() {
-			
+			//$("#bup-adm-update-info").click();
 			
 			}
 	});
@@ -2381,7 +2426,7 @@ jQuery(document).ready(function($) {
     		jQuery.ajax({
 					type: 'POST',
 					url: ajaxurl,
-					data: {"action": "ubp_get_new_trainingsession" },
+					data: {"action": "ubp_get_new_staff" },
 					
 					success: function(data){								
 					
@@ -2573,9 +2618,9 @@ jQuery(document).ready(function($) {
 	jQuery(document).on("click", "#bup-add-service-btn", function(e) {
 			
 			e.preventDefault();
-			
-			var service_id =  jQuery(this).attr("service-id");
-			var cate_id =  jQuery("#cate_id" ).val();
+			//the service id and cate id are unnecessarily taken here...no use
+			//var service_id =  jQuery(this).attr("service-id");
+			//var cate_id =  jQuery("#cate_id" ).val();
 			
 			jQuery('#bup-service-editor-box').dialog('option', 'title', bup_admin_v98.msg_service_add);			
 			jQuery("#bup-spinner").show();
@@ -2583,15 +2628,17 @@ jQuery(document).ready(function($) {
     		jQuery.ajax({
 					type: 'POST',
 					url: ajaxurl,
-					data: {"action": "ubp_get_service",  "service_id": service_id ,  "cate_id": cate_id },
+					data: {"action": "ubp_get_service"}, //, "service_id": service_id ,  "cate_id": cate_id },
 					
 					success: function(data){		
 					
 					
-						jQuery("#bup-service-editor-box" ).html( data );							
+						jQuery("#bup-service-editor-box" ).html( data );	
+						console.log(data);
 						jQuery("#bup-service-editor-box" ).dialog( "open" );
-						jQuery('.color-picker').wpColorPicker();
 						
+						jQuery('.color-picker').wpColorPicker();
+						jQuery('.ui-dialog .ui-button-text:contains(Update)').text('Create');
 						jQuery("#bup-spinner").hide();	
 						
 						
@@ -2627,6 +2674,7 @@ jQuery(document).ready(function($) {
 					
 						jQuery("#bup-service-editor-box" ).html( data );							
 						jQuery("#bup-service-editor-box" ).dialog( "open" );
+						jQuery('.ui-dialog .ui-button-text:contains(Create)').text('Update');
 						jQuery('.color-picker').wpColorPicker();					
 						jQuery("#bup-spinner").hide();	
 						
@@ -3032,7 +3080,8 @@ function bup_load_categories ()
 									
 							}, function (response){									
 																
-							jQuery("#bup-categories-list").html(response);							
+							jQuery("#bup-categories-list").html(response);	
+							
 							jQuery("#bup-spinner").hide();
 							
 		 });
@@ -3048,7 +3097,8 @@ function bup_load_services (category_id)
 									
 							}, function (response){									
 																
-							jQuery("#bup-services-list").html(response);							
+							jQuery("#bup-services-list").html(response);
+						
 							jQuery("#bup-spinner").hide();
 							
 		 });
@@ -3063,7 +3113,8 @@ function bup_load_staff_member (staff_id)
 									
 							}, function (response){									
 																
-							jQuery("#bup-staff-details" ).html( response );							
+							jQuery("#bup-staff-details" ).html( response );		
+							console.log(response);
 							bup_rebuild_dom_date_picker();													
 							jQuery("#bup-spinner").hide();
 							
@@ -3322,10 +3373,8 @@ function bup_load_staff_details(staff_id)
 						jQuery("#bup-staff-details").html(res);					
 						jQuery( "#tabs-bupro" ).tabs({collapsible: false	});						
 						jQuery("#bup-spinner").hide();	
-						
-						bup_rebuild_dom_date_picker();										    
-						
-
+					    //bup_rebuild_dom_date_picker();										    
+					
 						}
 				});	
 	
@@ -3422,8 +3471,10 @@ jQuery(document).on("click","a[title='Edit']",function(){
     var getEditCampId = jQuery(this).data('attr');
     console.log(getEditCampId);
 });
-jQuery(document).on("focusout",".campsGenerate",function(){
+jQuery(document).on("blur",".campsGenerate",function(){
     jQuery(this).attr('readonly',true);
+    
+    
 });
 //Function to allow admin to delete camp type in Training Session Tab
 jQuery(document).on("click",".camp-delete",function(){
@@ -3465,17 +3516,102 @@ function bup_load_trainingSessions_details(training_session_id)
 		
 		success: function(data){
 			var res = data;						
-			jQuery("#bup-staff-details").html(res);					
-			jQuery( "#tabs-bupro" ).tabs({collapsible: false	});						
+			jQuery("#bup-staff-details").html(res);	
+			jQuery( "#tabs-bupro" ).tabs({collapsible: false	});	
 			jQuery("#bup-spinner").hide();	
 			
-		//	bup_rebuild_dom_date_picker();										    
-			
-
 			}
+		
 	});	
 	
 }
+
+
+//Date Validations
+var getStartDate;
+var getEndDate;
+//for start date validations
+jQuery(document).on("focus","#camp_start_date",function(e){
+    getStartDate = $("#camp_start_date").val(); 
+
+}).on("change", "#camp_start_date", function(e) {
+    var start_date = jQuery("#camp_start_date").val();
+    var end_date = jQuery("#camp_end_date").val();
+     if( (jQuery.trim(start_date) != "") && (jQuery.trim(end_date) != "") )  {
+         var endDateObject = new Date();
+         var explodeEndDate = end_date.split('-');
+         var endDateYearSelected = jQuery.trim(explodeEndDate[0]);
+        var endDateMonthSelected = jQuery.trim(explodeEndDate[1]);
+        var endDateDaySelected = jQuery.trim(explodeEndDate[2]);
+        
+        endDateObject.setMonth(endDateMonthSelected-1);
+        endDateObject.setDate(endDateDaySelected);
+        endDateObject.setFullYear(endDateYearSelected);
+         var startDateObject = new Date();
+        var explodedStartDate = start_date.split('-');
+        // format is YYYY-MM-DD
+        var startDateYearSelected = jQuery.trim(explodedStartDate[0]);
+        var startDateMonthSelected = jQuery.trim(explodedStartDate[1]);
+        var startDateDaySelected = jQuery.trim(explodedStartDate[2]);
+
+        startDateObject.setMonth(startDateMonthSelected-1);
+        startDateObject.setDate(startDateDaySelected);
+        startDateObject.setFullYear(startDateYearSelected);
+        
+         if (startDateObject > endDateObject) {
+            $("#camp_start_date").attr("value",getStartDate);
+            //$('#ErrorMsg').html('start date should be less than enddate.');
+            alert("start date should be less than enddate");
+             }
+        else {
+            
+            rtnValue = true;
+        }
+     }
+});
+//for end date validations
+jQuery(document).on("focus","#camp_end_date",function(e){
+    getEndDate = $("#camp_end_date").val(); 
+
+}).on("change", "#camp_end_date", function(e) {
+    var start_date = jQuery("#camp_start_date").val();
+    var end_date = jQuery("#camp_end_date").val();
+     
+    console.log("start_date "+ start_date);
+    console.log("end_date "+ end_date);
+     if( (jQuery.trim(start_date) != "") && (jQuery.trim(end_date) != "") )  {
+         var endDateObject = new Date();
+         var explodeEndDate = end_date.split('-');
+         var endDateYearSelected = jQuery.trim(explodeEndDate[0]);
+        var endDateMonthSelected = jQuery.trim(explodeEndDate[1]);
+        var endDateDaySelected = jQuery.trim(explodeEndDate[2]);
+        
+        endDateObject.setMonth(endDateMonthSelected-1);
+        endDateObject.setDate(endDateDaySelected);
+        endDateObject.setFullYear(endDateYearSelected);
+         var startDateObject = new Date();
+        var explodedStartDate = start_date.split('-');
+        // format is YYYY-MM-DD
+        var startDateYearSelected = jQuery.trim(explodedStartDate[0]);
+        var startDateMonthSelected = jQuery.trim(explodedStartDate[1]);
+        var startDateDaySelected = jQuery.trim(explodedStartDate[2]);
+
+        startDateObject.setMonth(startDateMonthSelected-1);
+        startDateObject.setDate(startDateDaySelected);
+        startDateObject.setFullYear(startDateYearSelected);
+        
+         if (endDateObject < startDateObject) {
+            // $('#ErrorMsg1').html('End date should be greater than startDate.');
+            alert("End date should be greater than startDate");
+            $("#camp_end_date").attr("value",getEndDate);
+        }
+        else {
+            $('#ErrorMsg1').html('');
+        }
+     }
+});
+
+
 /*function to form of the the training sessions */
 jQuery(document).on("click", "#ubp-add-training-session-btn", function(e) {
          
@@ -3577,6 +3713,8 @@ jQuery('#bup-btn-training_session-add-confirm ').live('click',function(e)
 						success: function(data){							
 						       
 				            jQuery("#bup-edit-details-message").html(data);	
+				            location.reload();
+				            window.open('http://plugins.himalayanhackers.com/wp-admin/admin.php?page=bookingultra&tab=trainingsessions');
                         
 					    }
 				});
@@ -3681,29 +3819,25 @@ function bup_load_trainingSessions_list_adm()
 	
     // Delete training session  
 	jQuery(document).on("click", "#ubp-training_session-delete", function(e) {
-			e.preventDefault();
-			
-			var training_session_id =  jQuery(this).attr("training_session_id");
-			//var redirect_avatar =  jQuery(this).attr("redirect-avatar");
-			var r = confirm("Are you sure you want to delete this training session?");
-            if (r == true) {
-                jQuery.ajax({
-					type: 'POST',
-					url: ajaxurl,
-					data: {"action": "bup_delete_training_session_admin", "training_session_id": training_session_id },
-					
-					success: function(data){
-						window.location.reload();						
-					
-					}
-			});
-			
-            } 
-			 // Cancel the default action
-			 return false;
-    		e.preventDefault();
-			 
-				
+	             e.preventDefault();
+				var training_session_id = jQuery(this).attr("staff-id");
+				var redirect_avatar = jQuery(this).attr("redirect-avatar");
+				var r= confirm("Are you sure you want to delete this training session?");
+				if(r==true){
+				    jQuery.ajax({
+				       type:'POST',
+				       url:ajaxurl,
+				       data:{
+				           "action":"bup_delete_trainingsession_admin",
+				           "training_session_id":training_session_id
+				       },
+				       success:function(data){
+				           window.location.reload();
+				       }
+				    });
+				}
+				return false;
+				e.preventDefault;
         });	
 	
 function bup_edit_appointment_inline(appointment_id, conf_message, show_conf_message)	
@@ -3770,9 +3904,188 @@ function hidde_noti (div_d)
 		jQuery("#"+div_d).slideUp();		
 		
 }
-// function showhiideTrainingSession(){
-//     $('.trainingSessions_inactive').hide();
-//     $('.trainingSessions_active').show();
-// }
+
+jQuery(document).on('keypress',"#bup-phonenumber", function(event) {
+    var keycode = event.which;
+    if (!(event.shiftKey == false && (keycode == 46 || keycode == 8 || keycode == 37 || keycode == 39 || (keycode >= 48 && keycode <= 57)))) {
+        event.preventDefault();
+    }
+});
+
+jQuery(document).ready(function($){
+    jQuery("#bup-phonenumber").attr("maxlength", "10");
+    
+    
+});
+
+jQuery(document).on('keypress',"#bup-contactname", function(event) {
+    
+    var inputValue = event.charCode;
+        if(!(inputValue >= 65 && inputValue <= 132) && (inputValue != 32 && inputValue != 0)){
+            event.preventDefault();
+        }
+   
+    // var regex = new RegExp("^[a-zA-Z\. ]+$");
+    // var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+    // if (!regex.test(key)) {
+    //     event.preventDefault();
+    //     return false;
+    // }
+});
+
+jQuery(document).on('change',"#bup-phonenumber", function(event) {
+    var minLength = 9;
+    var maxLength = 13;
+  
+    var char = $(this).val();
+    var charLength = $(this).val().length;
+    if(charLength < minLength){
+       
+        $('#ErrorMsg').html('Minimum length is: '+minLength);
+           
+        }else if(charLength > 13){
+             $('#ErrorMsg').html('Maximum length is: '+maxLength);
+        }else{
+            
+        }
+});
 
 
+jQuery(document).on('keydown',"#CL_Age", function(event) {
+    var keycode = event.which;
+    if (!(event.shiftKey == false && (keycode == 46 || keycode == 8 || keycode == 37 || keycode == 39 || (keycode >= 48 && keycode <= 57)))) {
+        event.preventDefault();
+    }
+});
+
+
+
+        
+        // saving the bup_appintment of the data 
+        jQuery(document).on("click", "#bup-btn-book-app-confirm", function(e) {
+			 alert("here");
+    		  e.preventDefault();	
+    		  jQuery("#bup-spinner").show();
+    		
+    		  var trainingSession_id = jQuery("#trainingSessionID").val();
+    		  alert(trainingSession_id);
+    		  var booking_id =  jQuery("#bup_appointment_id").val();
+    		  alert("booking id is"+booking_id);
+    		  var serial_data = $('.bup-custom-field').serialize();
+			
+			
+			  var bup_category = jQuery('#bup-category').val();
+			  console.log("Bup Category is"+bup_category);
+			  
+			  var bup_client_id = jQuery('#bupclientsel').val(); 
+			  console.log(bup_client_id);
+			  
+    		  var reg_display_name =  jQuery('#reg_display_name').val();
+    		  console.log("reg_display_name"+reg_display_name)
+    		  var CL_Name =  jQuery('#CL_Name').val();
+    		  console.log("First name"+CL_Name)
+    		  var reg_user_email =  jQuery('#reg_user_email').val();
+    		  console.log("reg_user_email"+reg_user_email)
+    	  	  var reg_user_email_2 =  jQuery('#reg_user_email_2').val();
+    	  	  console.log("reg_user_email_2"+reg_user_email_2)
+    	  	  var reg_telephone =  jQuery('#reg_telephone').val();
+    	  	  console.log("reg_telephone"+reg_telephone)
+    	  	  var uultra_multi_radio_Discount_0 =  jQuery('#uultra_multi_radio_Discount_0').val();
+    	  	  console.log("uultra_multi_radio_Discount_0"+uultra_multi_radio_Discount_0)
+    	  	  
+    	  	  var CF_Name =jQuery('#CF_Name').val();
+    	  	  console.log("CF_Name"+CF_Name)
+    	  	  var CL_Age = jQuery('#CL_Age').val();
+    	  	  console.log("CL_Age"+CL_Age);
+    	  	  var CL_Des = jQuery('#CL_Des').val();
+    	  	  console.log("CL_Des"+CL_Des)
+    	  	  var uultra_multi_radio_mail_notes_0 = jQuery("#uultra_multi_radio_mail_notes_0").val();
+    	  	  console.log("uultra_multi_radio_mail_notes_0"+uultra_multi_radio_mail_notes_0)
+    	  	  var special_notes =jQuery("#special_notes").val();
+    	  	  console.log("special_notes"+special_notes);
+    	  	  var bup_payment_method_bank = jQuery("#bup_payment_method_bank").val();
+    	  	  console.log("bup_payment_method_bank"+bup_payment_method_bank);
+			
+			
+    		jQuery.ajax({
+					type: 'POST',
+					url: ajaxurl,
+					async:true,
+					data: {"action": "bup_insert_booking_info", "custom_fields": serial_data, "booking_id": booking_id,
+					            "bup_category" : bup_category,
+					            "bup_client_id" : bup_client_id,
+					            "reg_display_name": reg_display_name , 
+        						"CL_Name": CL_Name,
+        						"reg_user_email" : reg_user_email,
+        						"reg_user_email_2" : reg_user_email_2,
+        						"reg_telephone" : reg_telephone,
+        						"uultra_multi_radio_Discount_0" : uultra_multi_radio_Discount_0,
+        						"CF_Name" : CF_Name,
+        						"CL_Age" : CL_Age,
+        						"CL_Des" : CL_Des,
+        						"uultra_multi_radio_mail_notes_0" : uultra_multi_radio_mail_notes_0,
+        						"special_notes" : special_notes,
+        						"bup_payment_method_bank" : bup_payment_method_bank
+					},
+					
+					success: function(data){
+					    alert(data);
+												
+				// 		jQuery("#bup-confirmation-cont" ).html( gen_message_infoupdate_conf);	 
+				// 		jQuery("#bup-confirmation-cont" ).dialog( "open" );	
+				// 		jQuery("#bup-spinner").hide();	
+    //                     window.location.reload();					
+								}
+				});
+			
+			
+    		e.preventDefault();
+			 
+				
+    });
+
+    jQuery(document).on("change","#camp_start_date",function(e){
+        e.preventDefault();
+       var selectedText = document.getElementById('camp_start_date').value;
+       var selectedDate = new Date(selectedText);
+       var seletedNewDate =selectedDate.getDate();
+       var now = new Date();
+       var now_day = now.getUTCDate();
+       if (seletedNewDate < now_day) {
+        alert("Date must be in the future");
+         $('#camp_start_date').val("");
+        
+       }
+    });
+        
+        
+        
+        
+        
+        
+        
+
+//for appointment filters
+// jQuery(document).on("click","#bup-btn-calendar-filter-appo",function(){
+//     console.log("filter is clicked");
+//   var selectVenue = $("#selectVenue").val();
+//   var selectCamp = $("#selectCamp").val();
+//   var selectMonth = $("#selectmonth").val();
+//   var selectDay = $("#day").val();
+//   console.log(selectVenue);
+//   console.log(selectCamp);
+//   console.log(selectMonth);
+//   console.log(selectDay);
+//   jQuery.ajax({
+//       	type: 'POST',
+// 		url: ajaxurl,
+// 		data: {
+// 		    "action":"bup_filter_appointments",
+// 		    "selectCamp":selectCamp,
+// 		    "selectVenue":selectVenue,
+// 		},
+// 		success:function(data){
+// 		    console.log(data);
+// 		}
+//   });
+// });

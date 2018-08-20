@@ -1101,7 +1101,7 @@ class BookingUltraPro
 			'message_wait_staff_box'     => __("Please wait ...","bookingup"),
 			'bb_date_picker_format'     => $date_picker_format,
 			'country_util_url'     => $var_util_countries,
-			'message_wait_availability'     => '<p><img src="'.bookingup_url.'admin/images/loaderB16.gif" width="16" height="16" /></span>&nbsp; '.__("Please wait ...","bookingup").'</p>'
+			'message_wait_availability'     => '<p><img  class="SpinnerBlue" style="color:white;background-color:#00BFFF; " src="'.bookingup_url.'admin/images/Spinner1.gif" width="24" height="24" /><span style="color:white; ">&nbsp; '.__("Please wait ...","bookingup").'</span></p>'
             
             
         ) );

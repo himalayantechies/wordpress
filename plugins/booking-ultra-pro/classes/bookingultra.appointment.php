@@ -7,6 +7,7 @@ class BookingUltraAppointment
 				
 	
 		add_action( 'wp_ajax_get_all_staff_appointments', array( &$this, 'get_all_staff_appointments' ));
+		add_action( 'wp_ajax_bup_add_appointment_admin', array( &$this, 'bup_add_appointment_admin' ));
 		add_action( 'init', array($this, 'bup_handle_post') );		
 		add_action( 'wp_ajax_bup_admin_new_appointment', array( &$this, 'bup_admin_new_appointment' ));
 		add_action( 'wp_ajax_bup_admin_new_appointment_confirm', array( &$this, 'create_new_appointment' ));
@@ -17,6 +18,8 @@ class BookingUltraAppointment
 		add_action( 'wp_ajax_bup_admin_payment_confirm', array( &$this, 'bup_admin_payment_confirm' ));
 		add_action( 'wp_ajax_bup_appointment_confirm_reschedule', array( &$this, 're_schedule_confirm' ));
 		add_action( 'wp_ajax_bup_update_booking_info', array( &$this, 'bup_update_booking_info' ));
+		add_action( 'wp_ajax_bup_insert_booking_info', array( &$this, 'bup_insert_booking_info' ));
+		
 		add_action( 'wp_ajax_bup_delete_payment', array( &$this, 'bup_delete_payment' ));
 		add_action( 'wp_ajax_bup_get_appointments_quick', array( &$this, 'get_appointments_quick' ));
 		add_action( 'wp_ajax_bup_update_appointment_status', array( &$this, 'update_appointment_status_inline' ));
@@ -25,6 +28,8 @@ class BookingUltraAppointment
 		add_action( 'wp_ajax_bup_appointment_status_options', array( &$this, 'get_appointment_status_options' ));
 		add_action( 'wp_ajax_bup_update_appo_status_ed', array( &$this, 'update_appointment_status_ed' ));
 		add_action( 'wp_ajax_bup_delete_appointment', array( &$this, 'delete_appointment_ajax' ));
+		add_action( 'wp_ajax_bup_delete_appointment', array( &$this, 'delete_appointment_ajax' ));
+		add_action( 'wp_ajax_bup_filter_appointments', array( &$this, 'filter_appointments' ));
 		
 		add_action( 'wp_head', array(&$this, 'bup_add_template_css_style'),114,1);	
 		
@@ -269,7 +274,7 @@ class BookingUltraAppointment
 	{		
 		//turn on output buffering to capture script output
         ob_start();		
-		include(bookingup_path."admin/templates/new_appointment.php");
+		include(bookingup_path."admin/tabs/templates/new_appointment.php");
         $content = ob_get_clean();		
 		echo $content ;			
 		die();
@@ -278,13 +283,23 @@ class BookingUltraAppointment
 	function edit_appointment () 
 	{
 		$appointment_id = $_POST['appointment_id'];
+		//print_r("called into edit_appointment");
 		
 		//turn on output buffering to capture script output
         ob_start();		
-		include(bookingup_path."admin/templates/edit_appointment.php");
+		//include(bookingup_path."admin/templates/edit_appointment.php");
+		include(bookingup_path."admin/tabs/templates/edit_appointment.php");
         $content = ob_get_clean();		
 		echo $content ;			
 		die();
+	}
+	//function for appointment filters
+	function filter_appointments(){
+	    global $wpdb;
+	   $venueName = $_POST['selectVenue'];
+	   $campName = $_POST['selectCamp'];
+	   echo $venueName;
+	   exit();
 	}
 	
 	function delete_appointment_ajax () 
@@ -698,20 +713,32 @@ class BookingUltraAppointment
 		
 		$html='';	
 			
-		$bup_custom_fields = $_POST['custom_fields'];
-		$booking_id = $_POST['booking_id'];	
+        $bup_custom_fields = $_POST['custom_fields'];
+        
+	
+        $booking_id = $_POST['booking_id'];	
+		
+// 		$display_name = $_POST['display_name'];	
+// 		$last_name = $_POST['last_name'];
+//         $user_email = $_POST['user_email'];	
+//         $user_email_2 = $_POST['user_email_2'];	
+//         $full_number = $_POST['full_number'];
+
+    
+		
 		
 		$exploded = array();
 		parse_str($bup_custom_fields, $exploded);
-		
-	
+	    unset($_POST['action']);
+	    unset($_POST['custom_fields']);
+	    $exploded += $_POST;
 		foreach($exploded as $field => $value)
 		{
+		    
 			if (is_array($value))   // checkboxes
 			{
 				$value = implode(',', $value);
 			}	
-						
 			$this->update_booking_meta($booking_id, $field, $value);
 		
 		}	
@@ -911,25 +938,26 @@ class BookingUltraAppointment
 		//create reservation in reservation table				
 		$day_id = $_POST['bup_booking_date'];
 		$service_and_staff_id = $_POST['bup_service_staff'];
-		$time_slot = $_POST['bup_time_slot'];		
-		$bup_notify_client = $_POST['bup_notify_client'];			
+		$time_slot = $_POST['bup_time_slot'];
+		//echo $time_slot;
+		$bup_notify_client = $_POST['bup_notify_client'];
+		$trainingSession_ID = $_POST['bup_trainingSessionID'];
 		
-		$arr_ser = explode("-", $service_and_staff_id);			
+		$get_traininigSession_Details = "SELECT * FROM wp_bup_trainingsessions WHERE trainingSession_id = ". $trainingSession_ID;
+		$trainingSessionDetails = $wpdb->get_results($get_traininigSession_Details);
+	
+	    $arr_ser = explode("-", $service_and_staff_id);			
 		$service_id = $arr_ser[0]; 
 		$staff_id = $arr_ser[1];
 		
 		$arr_time_slot = explode("-", $time_slot);			
 		$book_from = $arr_time_slot[0]; 
-		$book_to = $arr_time_slot[1];	
+		$book_to = $arr_time_slot[1];
 		
 		$service_details = $bookingultrapro->userpanel->get_staff_service_rate( $staff_id, $service_id ); 
-		$amount= $service_details['price'];
-		
-		$booking_time_from = $day_id .' '.$book_from.':00';
-		
-				
-		//service			
-		$service = $bookingultrapro->service->get_one_service($service_id);		
+		$amount= $trainingSessionDetails[0]->Price;
+		$booking_time_from = $trainingSessionDetails[0]->startDate;
+			
 		
 		$currency = $bookingultrapro->get_option('currency_symbol');		
 		$time_format = $bookingultrapro->service->get_time_format();		
@@ -940,12 +968,9 @@ class BookingUltraAppointment
 		$staff_member = get_user_by( 'id', $staff_id );						
 				
 		$html .= '<p><strong>'.__('Appointment Details.','bookingup').'</strong></p>';
-		
-		$html .= '<p>'.__('Service: ','bookingup').$service->service_title.'</p>' ;	
+		$html .= '<input id ="trainingSessionID" value="'.$trainingSession_ID.'"/>' ;
 		$html .= '<p>'.__('Date: ','bookingup').$booking_day.'</p>' ;
-		$html .= '<p>'.__('Time: ','bookingup').$booking_time.'</p>' ;
-		$html .= '<p>'.__('With: ','bookingup').$staff_member->display_name.'</p>' ;
-		$html .= '<p>'.__('Cost: ','bookingup').$currency.$amount.'</p>';
+	    $html .= '<p>'.__('Cost: ','bookingup').$currency.$amount.'</p>';
 				
 		echo $html;		
 		die();
@@ -1049,36 +1074,43 @@ class BookingUltraAppointment
 	}
 	
 	public function create_new_appointment () 
-	{
+	{ 
 		global $wpdb, $bookingultrapro, $bupcomplement;
 		session_start();
 		
 		//create transaction
 		$transaction_key = session_id()."_".time();	
-		//print_r("LINE 1058,appointment.php");exit;
+		print_r($_POST); exit;
 		$html='';		
-				
 		//create reservation in reservation table				
 		$day_id = $_POST['bup_booking_date'];
 		$service_and_staff_id = $_POST['bup_service_staff'];
 		$time_slot = $_POST['bup_time_slot'];
-		$client_id = $_POST['bup_client_id'];
-		$bup_notify_client = $_POST['bup_notify_client'];			
+	
+		$user_id = $_POST['bup_client_id'];
 		
-		$arr_ser = explode("-", $service_and_staff_id);			
-		$service_id = $arr_ser[0]; 
+		$bup_notify_client = $_POST['bup_notify_client'];
+		$trainingSession_id = $_POST['bup_training_session_id'];
+		
+		$save_data = $_POST;
+		
+
+		
+		$arr_ser = explode("-", $service_and_staff_id);	
+		
+		
+		$service_id = '1';
 		$staff_id = $arr_ser[1];
 		
 		$arr_time_slot = explode("-", $time_slot);			
 		$book_from = $arr_time_slot[0]; 
 		$book_to = $arr_time_slot[1];	
-		
-		$service_details = $bookingultrapro->userpanel->get_staff_service_rate( $staff_id, $service_id ); 
-		$amount= $service_details['price'];	
+	    
+	    $amount= 0;	
 		
 		$order_data = array(
 		
-				'user_id' => $client_id,	
+				'user_id' => $user_id,	
 				 'transaction_key' => $transaction_key,					 
 				 'amount' => $amount,
 				 'service_id' => $service_id ,
@@ -1086,14 +1118,15 @@ class BookingUltraAppointment
 				 'product_name' => $p_name ,						 
 				 'day' => $day_id,
 				 'time_from' => $book_from,
-				 'time_to' => $book_to
+				 'time_to' => $book_to,
+				 'training_session_id' => $trainingSession_id
 				 
 				 ); 
-		
-		$booking_id =  $bookingultrapro->order->create_reservation($order_data);	
+		$booking_id =  $bookingultrapro->order->create_reservation($order_data);
+		// insert into the bup 
 		
 		//service			
-		$service = $bookingultrapro->service->get_one_service($service_id);
+		$service = '1';
 		
 		//create order					  
 		$order_data_tran = array('user_id' => $user_id,
@@ -1107,9 +1140,13 @@ class BookingUltraAppointment
 						 'method' => $payment_method,
 						 ); 						 
 						 
+						 
 						
 		$order_id = $bookingultrapro->order->create_order($order_data_tran);	
 		
+	
+	    //$this->insert_booking_meta($booking_id, 'bup_training_session_id', $trainingSession_id);
+	    $this->insert_booking_meta($booking_id,$save_data);
 		// Get Order
 		$rowOrder = $bookingultrapro->order->get_order_pending($transaction_key);								
 	
@@ -1155,7 +1192,10 @@ class BookingUltraAppointment
 		
 		$response = array('booking_id' => $booking_id, 'content' => $html);
 		echo json_encode($response) ;			
-		
+		//print_r($book_from);
+		//print_r("$book_from");
+		//print_r($book_to);
+		//print_r("$book_to");
 		die();
 	
 	}
@@ -1818,7 +1858,6 @@ class BookingUltraAppointment
 		$sql .= " WHERE serv.service_id = appo.booking_service_id  AND  appo.booking_status = '".$status."'  ORDER BY appo.booking_time_from   asc ";	
 			
 		$appointments = $wpdb->get_results($sql );		
-		
 		$html = '';
 		
 		$html .= '<div class="bup-quick-list-appointments">';
@@ -1890,7 +1929,6 @@ class BookingUltraAppointment
 		
 			
 		$appointments = $wpdb->get_results($sql );		
-		
 		$html = '';
 		
 		$html .= '<div class="bup-quick-list-appointments">';
@@ -1958,7 +1996,6 @@ class BookingUltraAppointment
 		$sql .= " WHERE DATE(appo.booking_time_from) >= '".date('Y-m-d')."' AND serv.service_id = appo.booking_service_id  ORDER BY appo.booking_time_from asc ";	
 			
 		$appointments = $wpdb->get_results($sql );		
-		
 		return $appointments;
 	
 	
@@ -1976,7 +2013,6 @@ class BookingUltraAppointment
 		$sql .= " WHERE  appo.booking_key = '".$key."'  AND appo.booking_status = '0' AND usu.ID = appo.booking_staff_id AND serv.service_id = appo.booking_service_id ";	
 			
 		$appointments = $wpdb->get_results($sql );	
-		
 		if ( !empty( $appointments ) )
 		{
 			
@@ -2176,7 +2212,12 @@ class BookingUltraAppointment
 			$bup_staff_calendar = $_GET["bup-staff-calendar"];		
 		}
 		
-		
+		if(isset($_GET["selectVenue"])){
+		    $selectVenue = $_GET["selectVenue"];
+		}
+			if(isset($_GET["selectNameCamp"])){
+		    $selectNameCamp = $_GET["selectNameCamp"];
+		}
 		
 		
 				
@@ -2297,19 +2338,26 @@ class BookingUltraAppointment
 			$sql .= " AND  appo.booking_staff_id = '".$bup_staff_calendar."'";
 			
 		}
+		//have commented out the booking_time_from portion because we dont have dates of booking from in this portion.once we get that we can use it accordingly.
 		
-		if($day!=""){$sql .= " AND DAY(appo.booking_time_from) = '$day'  ";	}
-		if($month!=""){	$sql .= " AND MONTH(appo.booking_time_from) = '$month'  ";	}		
-		if($year!=""){$sql .= " AND YEAR(appo.booking_time_from) = '$year'";}	
-		
+		//if($day!=""){$sql .= " AND DAY(appo.booking_time_from) = '$day'  ";	}
+		if($day!=""){$sql .= " AND DAY(appo.booking_time_to) = '$day'  ";	}
+		//if($month!=""){	$sql .= " AND MONTH(appo.booking_time_from) = '$month'  ";	}		
+		if($month!=""){	$sql .= " AND MONTH(appo.booking_time_to) = '$month'  ";	}		
+		//if($year!=""){$sql .= " AND YEAR(appo.booking_time_from) = '$year'";}	
+		if($year!=""){$sql .= " AND YEAR(appo.booking_time_to) = '$year'";}	
+		if($selectVenue!=""){$sql .= " AND service_category_id = '$selectVenue'";}
+		if($selectNameCamp!=""){$sql .= " AND service_id = '$selectNameCamp'";}
 		$sql .= " ORDER BY appo.booking_id DESC";		
 		
 	    if($from != "" && $to != ""){	$sql .= " LIMIT $from,$to"; }
 	 	if($from == 0 && $to != ""){	$sql .= " LIMIT $from,$to"; }
 		
-					
+		//print_r($sql);
+		//exit();
 		$orders = $wpdb->get_results($sql );
-		
+		//print_r($orders);
+		//exit();
 		return $orders ;
 		
 	
@@ -2355,6 +2403,204 @@ class BookingUltraAppointment
 		
 		
 	}
+
+	/*Create Appointment*/
+// 	public function create_reservation ($orderdata)
+// 	{
+// 		global $wpdb,  $bookingultrapro;
+		
+// 		$start = $day.' '.$time_from.':00';
+// 		$ends = $day.' '.$time_to.':00';
+// 		print_r('ok');exit;
+// 		extract($orderdata);
+// 		print_r($orderdata);
+// 		echo '<pre>';exit;
+// 		//update database
+// 		$query = "INSERT INTO " . $wpdb->prefix ."bup_bookings (`booking_user_id`,`booking_service_id`, `booking_staff_id`, `booking_date` ,`booking_time_from` ,`booking_time_to`  , `booking_amount`, `booking_key`, `booking_qty`,  `booking_template_id`,  `booking_cart_id`) 
+// 		            VALUES ('".$orderdata['user_id']."','$service_id','$staff_id','".date('Y-m-d')."','$start', '$ends', '$amount', '$transaction_key',  '$quantity', '$template_id' , '$cart_id')";
+		
+								
+// 		$wpdb->query( $query );		
+// 		return $wpdb->insert_id;
+						
+// 	}
+
+
+ function bup_add_appointment_admin()
+	{
+		global $wpdb, $bookingultrapro,$bupcomplement;
+		session_start();
+		
+		//create transaction
+		$transaction_key = session_id()."_".time();	
+		
+		$html='';		
+				
+		//create reservation in reservation table				
+		$day_id = $_POST['bup_booking_date'];
+		print_r($day_id);
+		
+		$service_and_staff_id = $_POST['bup_service_staff'];
+		$time_slot = $_POST['bup_time_slot'];
+		$client_id = $_POST['bup_client_id'];
+		$bup_notify_client = $_POST['bup_notify_client'];			
+		
+		$arr_ser = explode("-", $service_and_staff_id);			
+		$service_id = $arr_ser[0]; 
+		$staff_id = $arr_ser[1];
+		
+		$arr_time_slot = explode("-", $time_slot);			
+		$book_from = $arr_time_slot[0]; 
+		$book_to = $arr_time_slot[1];
+		
+		$reg_display_name = $_POST['reg_display_name'];
+		$CL_Name = $_POST['CL_Name'];
+		$reg_user_email = $_POST['reg_user_email'];
+		$reg_user_email_2 = $_POST['reg_user_email_2'];
+		$reg_telephone = $_POST['reg_telephone'];
+		$uultra_multi_radio_Discount_0 = $_POST['uultra_multi_radio_Discount_0'];
+		
+		$CF_Name = $_POST('CF_Name');
+		$CL_Age = $_POST['CL_Age'];
+		$CL_Des = $_POST['CL_Des'];
+		$uultra_multi_radio_mail_notes_0 = $_POST['uultra_multi_radio_mail_notes_0'];
+		$special_notes = $_POST['special_notes']; 
+		$bup_payment_method_bank = $_POST['bup_payment_method_bank'];
+		
+		
+		
+		$sql = "INSERT INTO `wp_bup_bookings_meta`
+		        (meta_booking_id,meta_booking_name,meta_booking_value)
+		         VALUES
+		         
+		        (service_id,startDate,endDate,coach,capacity,available,active,campLength,Price)
+					VALUES ( 
+					".$reg_camp_type.",
+					'".$reg_camp_start_date."',
+					'".$reg_camp_end_date."',
+					'".$coach."',
+					'".$capacity."',
+					'".$available."',
+					'".$active."',
+					'".$campLength."',
+					'".$price."'
+						) " 
+					
+				 ;		
+		
+	
+		$trainingsessions = $wpdb->query($sql);
+        //print_r($trainingsessions); exit;
+		if ($trainingsessions=='') {
+		    $error .=__('<strong>ERROR!</strong>');
+		} else {
+		    $error .=__('<strong>Done! Your data has been successfully saved.</strong>');
+		}
+		
+		echo $error;
+		die();
+	}
+	
+	
+	
+// 	public function bup_insert_booking_info()
+// 	{
+		
+// 		global $wpdb, $bookingultrapro;	
+		
+// 		$html='';	
+			
+// 		$bup_custom_fields = $_POST['custom_fields'];
+	    
+// 	    $trainingSession_ID  = $_POST['trainingSession_id'];	
+// 		$booking_id = $_POST['booking_id'];	
+		
+// 	    $bup_category = $_POST['bup_category'];
+// 		$bup_client_id = $_POST['bup_client_id'];
+// 		$reg_display_name = $_POST['reg_display_name'];
+// 		print_r($reg_display_name);
+// 		$CL_Name = $_POST['CL_Name'];
+// 		print_r($CL_Name);
+// 		$reg_user_email = $_POST['reg_user_email'];
+// 		$reg_user_email_2 = $_POST['reg_user_email_2'];
+// 		$reg_telephone = $_POST['reg_telephone'];
+// 		print_r($reg_telephone);
+// 		$uultra_multi_radio_Discount_0 = $_POST['uultra_multi_radio_Discount_0'];
+		
+// 		$CF_Name = $_POST('CF_Name');
+// 		$CL_Age = $_POST['CL_Age'];
+// 		$CL_Des = $_POST['CL_Des'];
+// 		$uultra_multi_radio_mail_notes_0 = $_POST['uultra_multi_radio_mail_notes_0'];
+// 		$special_notes = $_POST['special_notes']; 
+// 		$bup_payment_method_bank = $_POST['bup_payment_method_bank'];
+		
+		
+// 		$exploded = array();
+// 		parse_str($bup_custom_fields, $exploded);
+		
+	
+// 		foreach($exploded as $field => $value)
+// 		{
+// 			if (is_array($value))   // checkboxes
+// 			{
+// 				$value = implode(',', $value);
+// 			}	
+			
+		
+// 			$this->insert_booking_meta($booking_id, $field, $value);
+		
+// 		}	
+		
+		
+// 		echo $html;
+// 		die();
+		
+				
+	
+// 	}
+	
+// 	public function insert_booking_meta($booking_id, $key, $value)
+// 	{
+		
+// 		global $wpdb, $bookingultrapro;
+		
+	
+		
+// 		$sql = ' SELECT * FROM ' . $wpdb->prefix . 'bup_bookings_meta  WHERE meta_booking_id = "'.$booking_id.'"  AND meta_booking_name= "'.$key.'" ' ;				
+// 		$rows = $wpdb->get_results($sql);	
+	
+// 			$query = "INSERT INTO " . $wpdb->prefix ."bup_bookings_meta ( meta_booking_value, meta_booking_name ,meta_booking_id ) VALUES('".$value."' , '".$key."', '".$booking_id."') ";
+// 			$wpdb->query( $query );
+		
+	
+		
+	
+// 	}
+	
+	public function insert_booking_meta($booking_id,$save_data)
+	{
+		
+		global $wpdb, $bookingultrapro;
+		
+	
+		//print_r($save_data);exit;
+		$sql = ' SELECT * FROM ' . $wpdb->prefix . 'bup_bookings_meta  WHERE meta_booking_id = "'.$booking_id.'"  AND meta_booking_name= "'.$key.'" ' ;				
+		$rows = $wpdb->get_results($sql);	
+	    $cnt = 0;
+    	foreach ($save_data as $key=>$value) {
+    	    if ($cnt != 0) {
+    	        $query = "INSERT INTO " . $wpdb->prefix ."bup_bookings_meta ( meta_booking_value, meta_booking_name ,meta_booking_id ) VALUES('".$value."' , '".$key."', '".$booking_id."') ";
+			    $wpdb->query( $query );
+    	    }
+    	    $cnt++;
+    	}
+			
+		
+	
+		
+	
+	}
+
 
 	
 }

@@ -105,7 +105,7 @@ class BookingUltraUser
 		
 		$html .= '<div class="bup-edit-service-block">';
 		
-		
+	$display = true;	
 		
 		if($display){
 			
@@ -2136,10 +2136,11 @@ class BookingUltraUser
 		//Start Date
 		if(isset ($trainingsessions_details[0]->startDate)){
 		    $camp_start_date = date("Y-m-d", strtotime($trainingsessions_details[0]->startDate) );
+		    //$camp_start_date = date($bookingultrapro->get_date_picker_date(), strtotime($trainingsessions_details[0]->startDate) );
 		}
 		$html .='<div class="bup-profile-field" >';
         $html .='<label class="bup-field-type" for="start_date"><span>'.__('Start date','bookingup').'</span></label>';
-        $html .='<div class="bup-field-value" ><input type="date" class="bupro-datepicker hasDatepicker" name="start_date" id="camp_start_date" value="'.$camp_start_date.'" title="'.__('Start date','bookingup').'" ></div>';
+        $html .='<div class="bup-field-value" ><input type="date" class="bupro-datepicker hasDatepicker" name="start_date" id="camp_start_date" value="'.$camp_start_date.'" title="'.__('Start date','bookingup').'" ><span id="ErrorMsg" style="color:red;"></span</div>';
         $html .= '</div>';
         
         //End Date
@@ -2148,7 +2149,7 @@ class BookingUltraUser
 		}
 		$html .='<div class="bup-profile-field" >';
         $html .='<label class="bup-field-type" for="end_date"><span>'.__('End date','bookingup').'</span></label>';
-        $html .='<div class="bup-field-value" ><input type="date" class="bupro-datepicker hasDatepicker" name="end_date" id="camp_end_date" value="'.$camp_end_date.'" title="'.__('End date','bookingup').'" ></div>';
+        $html .='<div class="bup-field-value" ><input type="date" class="bupro-datepicker hasDatepicker" name="end_date" id="camp_end_date" value="'.$camp_end_date.'" title="'.__('End date','bookingup').'" ><span id="ErrorMsg1" style="color:red;"></span</div>';
         $html .= '</div>';
         
         $html .='<div class="bup-profile-field" >';		
@@ -2303,7 +2304,7 @@ class BookingUltraUser
 		$html .='<label class="bup-field-type" for="Camp_name"><span>'.__('Camp type : ','bookingup').'</span></label>';
 		$html .='<div class="bup-field-value" >
 		
-		<select name="camp_type" id="camp_type_addForm"> <option selected="true" disabled>Select Venue</option>';
+		<select name="camp_type" id="camp_type_addForm"> <option selected="true" disabled>Select Camp</option>';
         foreach ($camps as $camp) {
 		    $html .='<option data= '. $camp->service_category_id .' style="display:none;"  value='.$camp->service_id.' title="'.__('Camp type','bookingup').'">'.$camp->service_title.'</option>';
 		}
@@ -2519,18 +2520,14 @@ class BookingUltraUser
 		
 		//close
 		$training_session_to_delete = $_POST["training_session_id"];
-		print_r($training_session_to_delete);exit;
-	
+		echo $training_session_to_delete;
 		
-		if(!is_super_admin( $training_session_to_delete ))
-		{
-			
 				//delete training session	
-				$sql = 'DELETE FROM ' . $wpdb->prefix . 'wp_bup_trainingsessions WHERE training_session_id = "'.$training_session_to_delete.'" ' ;			
-				$wpdb->query( $sql );
-				echo $html;
-		        die();	
-		}
+		$sql = "DELETE FROM  `wp_bup_trainingsessions` WHERE `trainingSession_id` = $training_session_to_delete" ;	
+	    $sqldelete = $wpdb->get_results( $sql );
+		echo $html;
+        die();	
+		
 			
 	}
 	/* end of the deleye of the training sessions */

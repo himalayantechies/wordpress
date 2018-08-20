@@ -788,7 +788,8 @@ class BookingUltraUserRegister {
 				$staff_id = $_POST['staff_id'];								
 				$book_from = $_POST['book_from'];
 				$book_to = $_POST['book_to'];
-				
+				$useremail = $_POST['user_email'];
+				$training_session_id = $_POST['bup_training_session_id'];
 				
 				$service_details = $bookingultrapro->userpanel->get_staff_service_rate( $staff_id, $service_id ); 
 				$amount= $service_details['price']*$quantity;				
@@ -805,9 +806,9 @@ class BookingUltraUserRegister {
 						 'day' => $day_id,
 						 'time_from' => $book_from,
 						 'time_to' => $book_to,
-						 'quantity' => $quantity
-						 
-						 
+						 'quantity' => $quantity,
+						 'user_email'=> $useremail,
+						 'training_session_id'=>$training_session_id
 						 
 						 ); 
 						 

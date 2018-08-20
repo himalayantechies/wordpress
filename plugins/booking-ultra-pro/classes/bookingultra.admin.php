@@ -180,10 +180,6 @@ class BookingUltraAdmin extends BookingUltraCommon
 				/*google graph*/		
 			wp_register_script('bupro_jsgooglapli', 'https://www.gstatic.com/charts/loader.js');
 			wp_enqueue_script('bupro_jsgooglapli');						
-				
-			
-			
-				
 			//color picker		
 			 wp_enqueue_style( 'wp-color-picker' );			 	 
 			 wp_register_script( 'bup_color_picker', bookingup_url.'admin/scripts/color-picker-js.js', array( 
@@ -279,14 +275,14 @@ class BookingUltraAdmin extends BookingUltraCommon
 		$date_picker_format = $bookingultrapro->get_date_picker_format();
 		
 		 wp_localize_script( 'bup_admin', 'bup_admin_v98', array(
-            'msg_cate_delete'  => __( 'Are you totally sure that you wan to delete this category?', 'bookingup' ),
-			'msg_service_edit'  => __( 'Edit Camp Location', 'bookingup' ),
-			'msg_service_add'  => __( 'Add Camp Location', 'bookingup' ),
-			'msg_category_edit'  => __( 'Edit Category', 'bookingup' ),
-			'msg_category_add'  => __( 'Add Category', 'bookingup' ),
+            'msg_cate_delete'  => __( 'Are you totally sure that you wan to delete this Venue?', 'bookingup' ),
+			'msg_service_edit'  => __( 'Edit Camp', 'bookingup' ),
+			'msg_service_add'  => __( 'Add Camp', 'bookingup' ),
+			'msg_category_edit'  => __( 'Edit Venue', 'bookingup' ),
+			'msg_category_add'  => __( 'Add Venue', 'bookingup' ),
 			'msg_service_input_title'  => __( 'Please input a title', 'bookingup' ),
 			'msg_service_input_price'  => __( 'Please input a price', 'bookingup' ),
-			'msg_service_delete'  => __( 'Are you totally sure that you wan to delete this service?', 'bookingup' ),
+			'msg_service_delete'  => __( 'Are you totally sure that you wan to delete this Camp?', 'bookingup' ),
 			'msg_user_delete'  => __( 'Are you totally sure that you wan to delete this user?', 'bookingup' ),
 			'message_wait_staff_box'     => __("Please wait ...","bookingup"),
 			'msg_wait'  => __( '<img src="'.bookingup_url.'templates/img/loaderB16.gif" width="16" height="16" /> &nbsp; Please wait ... ', 'bookingup' ) ,

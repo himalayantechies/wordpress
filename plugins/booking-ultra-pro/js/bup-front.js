@@ -7,6 +7,7 @@ if(typeof $ == 'undefined'){
 	   "use strict";
 	   
 	  $("#reg_telephone").intlTelInput({
+	    
 		  // allowDropdown: false,
 		  // autoHideDialCode: false,
 		  // autoPlaceholder: "off",
@@ -161,8 +162,6 @@ if(typeof $ == 'undefined'){
 		
 	//this loads step 2	
 	jQuery(document).on("click", "#bup-btn-next-step1", function(e) {
-			alert("Hello world of the turning the spinner");
-						
 			var b_category=   jQuery("#bup-category").val();
 			console.log("yes");
 			var b_date=   jQuery("#bup-start-date").val();
@@ -844,6 +843,10 @@ jQuery(document).on("change", "#reg_user_email", function(e) {
         }
 });
 
+
+
+
+
 jQuery(document).on("change", "#reg_user_email_2", function(e) {
     var email_id = jQuery('#reg_user_email').val();
     var confirm_email_id = jQuery('#reg_user_email_2').val();
@@ -870,6 +873,64 @@ jQuery(document).on("change", "#reg_user_email_2", function(e) {
     
      
 });
+
+
+
+// validaton for phone number for text 
+jQuery(document).on('keydown',"#reg_telephone", function(event) {
+    if (event.shiftKey == true) {
+                event.preventDefault();
+            }
+            if ((event.keyCode >= 48 && event.keyCode <= 57) || (event.keyCode >= 96 && event.keyCode <= 105) || event.keyCode == 8 || event.keyCode == 9 || event.keyCode == 37 || event.keyCode == 39 || event.keyCode == 46 || event.keyCode == 190 || event.keyCode == 110) {
+            } else {
+                event.preventDefault();
+            }
+            if (($(this).val().indexOf('.') !== -1 && event.keyCode == 190) || $(this).val().indexOf('.') !== -1 && event.keyCode == 110)//Allow only one time decimal to input
+                event.preventDefault();
+});
+// validaton for Age of the child
+jQuery(document).on('keydown',"#CL_Age", function(event) {
+    if (event.shiftKey == true) {
+                event.preventDefault();
+            }
+            if ((event.keyCode >= 48 && event.keyCode <= 57) || (event.keyCode >= 96 && event.keyCode <= 105) || event.keyCode == 8 || event.keyCode == 9 || event.keyCode == 37 || event.keyCode == 39 || event.keyCode == 46 || event.keyCode == 190 || event.keyCode == 110) {
+            } else {
+                event.preventDefault();
+            }
+            if (($(this).val().indexOf('.') !== -1 && event.keyCode == 190) || $(this).val().indexOf('.') !== -1 && event.keyCode == 110)//Allow only one time decimal to input
+                event.preventDefault();
+});
+
+$( document ).ready(function() {
+     $("#reg_telephone").keydown(function (event) {
+            if (event.shiftKey == true) {
+                event.preventDefault();
+            }
+            if ((event.keyCode >= 48 && event.keyCode <= 57) || (event.keyCode >= 96 && event.keyCode <= 105) || event.keyCode == 8 || event.keyCode == 9 || event.keyCode == 37 || event.keyCode == 39 || event.keyCode == 46 || event.keyCode == 190 || event.keyCode == 110) {
+            } else {
+                event.preventDefault();
+            }
+            if (($(this).val().indexOf('.') !== -1 && event.keyCode == 190) || $(this).val().indexOf('.') !== -1 && event.keyCode == 110)//Allow only one time decimal to input
+                event.preventDefault();
+        });
+});
+jQuery(document).on('keydown',"#bup-phonenumber", function(event) {
+    
+    if (event.shiftKey == true) {
+                event.preventDefault();
+            }
+            if ((event.keyCode >= 48 && event.keyCode <= 57) || (event.keyCode >= 96 && event.keyCode <= 105) || event.keyCode == 8 || event.keyCode == 9 || event.keyCode == 37 || event.keyCode == 39 || event.keyCode == 46 || event.keyCode == 190 || event.keyCode == 110) {
+            } else {
+                event.preventDefault();
+            }
+            if (($(this).val().indexOf('.') !== -1 && event.keyCode == 190) || $(this).val().indexOf('.') !== -1 && event.keyCode == 110)//Allow only one time decimal to input
+                event.preventDefault();
+    
+});
+
+
+
+        
 
 
 

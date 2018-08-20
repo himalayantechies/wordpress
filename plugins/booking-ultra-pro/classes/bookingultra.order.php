@@ -180,21 +180,46 @@ class BookingUltraOrder
 	public function create_reservation ($orderdata)
 	{
 		global $wpdb,  $bookingultrapro;
-		
-		extract($orderdata);
-		
-		$start = $day.' '.$time_from.':00';
+		$start = $orderdata['day'];
 		$ends = $day.' '.$time_to.':00';
-		
 		//update database
 		$query = "INSERT INTO " . $wpdb->prefix ."bup_bookings (`booking_user_id`,`booking_service_id`, `booking_staff_id`, `booking_date` ,`booking_time_from` ,`booking_time_to`  , `booking_amount`, `booking_key`, `booking_qty`,  `booking_template_id`,  `booking_cart_id`) 
-		            VALUES ('$user_id','$service_id','$staff_id','".date('Y-m-d')."','$start', '$ends', '$amount', '$transaction_key',  '$quantity', '$template_id' , '$cart_id')";
+		            VALUES ('".$orderdata['user_id']."','".$orderdata['service_id']."','$staff_id','".date('Y-m-d')."','$start', '$ends', '$amount', '$transaction_key',  '$quantity', '$template_id' , '$cart_id')";
 		
-								
-		$wpdb->query( $query );		
-		return $wpdb->insert_id;
 						
-	}
+		$wpdb->query( $query );	
+		return $wpdb->insert_id;
+	
+	   }
+	
+	public function sendConfirmationEmail_User($orderdata){
+        global $wpdb,$bookingultrapro;
+        $date = new DateTime();
+        // Modify the date it contains
+        $date->modify('next monday');
+        $Mon = $date->format('Y-m-d');
+        $date->modify('next sunday');
+        $Sun = $date->format('Y-m-d');
+            
+            $trainingsession = $orderdata['training_session_id'];
+            $StartDate = $orderdata['day'];
+            $Email = $orderdata['user_email'];
+            $Venue = $orderdata['service_id'];
+            $Service = $data['service_title'];
+
+            $message = 'Hi, <br/><br/>';
+            $message .= 'You have booked a training session for the coming week.  <br/><br/>';
+            $message .= 'Details:  <br/><br/>';
+            $message .= 'Date : '.$StartDate.'<br/>' ;
+            $message .= 'Venue : '.$Venue.'<br/>' ;
+            $message .= 'Camp : '.$Service.'<br/><br/>' ;
+
+            $message .= 'Best Regards,<br/> ' ;
+            $message .= 'Dan HouseGo Cricket Coaching' ;
+            $bookingultrapro->messaging->send($Email,'DanHouseGO Cricket Coaching : Reminder for training Session ',$message);
+ 
+}
+	
 	
 	public function update_appointment ($orderdata)
 	{

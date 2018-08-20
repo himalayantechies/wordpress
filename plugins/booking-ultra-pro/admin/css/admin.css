@@ -23,7 +23,9 @@
     color:white; border:solid 1px #df4a2f  
 
 }
-
+select {
+  font-family: 'FontAwesome', 'Second Font name'
+}
 .bup-pro-tab-bubble:hover { 
     background-color: #E55237;
     color:white;  border:solid 1px #df4a2f 
@@ -39,7 +41,7 @@
 	font-size:16px;
 	
 }
-
+/*for select tag*/
 
 
 #bup-loading-animation-business-hours{ display:none; }
@@ -388,8 +390,12 @@ ul.bup-time-slots-available-list .bup-button{
  text-decoration:none;
  cursor:pointer;
  text-align:center;
+ display:inline;
  
 
+}
+ul.bup-time-slots-available-list{
+    display:inline;
 }
 
 ul.bup-time-slots-available-list .bup-button:hover{ 
@@ -401,6 +407,7 @@ ul.bup-time-slots-available-list .bup-button:hover{
     height: auto;
     text-shadow: none;
 }
+
 
 ul.bup-time-slots-available-list .bup-button{ transition: all 0.1s ease-out 0s;}
 
@@ -483,7 +490,7 @@ ul.bup-time-slots-available-list .bup-button-blocked{
 .bup-appointments-module-filters {
 	
 	width:99%;
-	display:inline-block;	
+    display:inline-block;	
 	padding:5px;
 	margin:10px 0px 10px 0px;
 	vertical-align:top;
@@ -495,7 +502,8 @@ ul.bup-time-slots-available-list .bup-button-blocked{
 	
 	height:33px;
 	margin:0 5px 0 5px;
-	padding:0px; 
+	padding:0px;
+	width:120px;
 	
 	    
 }
@@ -769,7 +777,7 @@ border-radius:.5em;
 .bup-adm-availa-box .bup-nav-search-options-bar { position:relative; height:auto !important; margin:10px 0px 5px 0px ; padding:5px; text-align:right}
 
 .bup-adm-availa-box .bup-selected-staff-booking-info{ position:relative; height:auto !important; margin:5px 0px 10px 0px ; padding:2px; }
-.bup-adm-availa-box .bup-selected-staff-booking-info p{ font-size:14px }
+.bup-adm-availa-box .bup-selected-staff-booking-info p{ font-size:14.5px }
 .bup-adm-availa-box .bup-selected-staff-booking-info strong{ font-weight:bold }
 
 ul.bup-time-slots-available-list{position:relative; height:auto !important; margin:0px ; padding:0px}
@@ -797,7 +805,7 @@ ul.bup-time-slots-available-list li div.bup-timeslot-time{
 	padding: 2px;
 	margin: 0px;
 	color: #555;
-    font-size: 15px;
+    font-size: 14.5px;
     font-weight: 600;
     width: 100%;
 	float:none;

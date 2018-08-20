@@ -42,7 +42,7 @@ function sendWeeklyReminderEmail_User(){
             
             $message .= 'Best Regards,<br/> ' ;
             $message .= 'Dan HouseGo Cricket Coaching' ;
-            //$bookingultrapro->messaging->send($Email,'DanHouseGO Cricket Coaching : Reminder for training Session ',$message);
+            $bookingultrapro->messaging->send($Email,'DanHouseGO Cricket Coaching : Reminder for training Session ',$message);
             
     }
 }   
@@ -59,11 +59,10 @@ function sendDailyReminderEmail_User(){
     		$sql .= " LEFT JOIN ".$wpdb->prefix . "bup_services Services ON (Services.service_id = TrainingSessions.service_id)";	
     		$sql .= " LEFT JOIN ".$wpdb->prefix . "bup_categories Categories ON (Services.service_category_id = Categories.cate_id)";	
     		$sql .= " WHERE  TrainingSessions.startDate = '". $date ."'";	
-    //echo ($sql);
+    
     $BookingDetails = $wpdb->get_results($sql );
     $DetailArray = json_decode(json_encode($BookingDetails),true);
-    //print_r($BookingDetails);
-    
+   
     foreach ($DetailArray as $num => $data){
      
             $StartDate = $data['startDate'];
@@ -80,13 +79,10 @@ function sendDailyReminderEmail_User(){
             
             $message .= 'Best Regards,<br/> ' ;
             $message .= 'Dan HouseGo Cricket Coaching' ;
-            //$bookingultrapro->messaging->send($Email,'DanHouseGO Cricket Coaching : Reminder for training Session ',$message);
+            $bookingultrapro->messaging->send($Email,'DanHouseGO Cricket Coaching : Reminder for training Session ',$message);
             
     }
 }    
-
-//print_r($bookingultrapro->messaging->send('bguragain@himalayantechies.com','Test','Test, Line 6,tabs/main'));
-//print_r($bookingultrapro->messaging->send());// exit;
 
 $currency_symbol =  $bookingultrapro->get_option('paid_membership_symbol');
 $date_format =  $bookingultrapro->get_int_date_format();
